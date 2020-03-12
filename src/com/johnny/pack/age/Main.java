@@ -66,7 +66,6 @@ public class Main {
                     }
                 }
             }
-//            String direction = getDirectionFromUserInput();
 
 
             if(exits.containsKey(direction)){
@@ -88,20 +87,4 @@ public class Main {
 //            System.out.println(i);
 //        }
     }
-
-//    private static String getDirectionFromUserInput() {
-//        Scanner scanner = new Scanner(System.in);
-//        String phrase = scanner.nextLine().toUpperCase();
-//        String[] direction = phrase.split(" ");
-//        for(String i : direction){
-//            if(i.equals("WEST") ||
-//                    i.equals("EAST") ||
-//                    i.equals("NORTH") ||
-//                    i.equals("SOUTH") ||
-//                    i.equals("QUIT")){
-//                return i.substring(0,1);
-//            }
-//        }
-//        return "X";
-//    }
 }
