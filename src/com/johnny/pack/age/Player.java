@@ -3,7 +3,6 @@ package com.johnny.pack.age;
 import java.util.ArrayList;
 import java.util.List;
 
-// DID this work?
 public class Player implements ISaveable {
     private String name;
     private int hitpoints;
