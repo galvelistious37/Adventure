@@ -3,20 +3,24 @@ package com.johnny.pack.age;
 import java.util.*;
 
 public class Main {
-    private static Map<Integer, Location> locations = new HashMap<Integer, Location>();
+    private static final int NEW = 1;
+    private static final int LOAD = 2;
+    private static final int QUIT = 3;
+    private static final int LOW_CHECK = 0;
+    private static final int HIGH_CHECK = 3;
+    private static Map<Integer, Location> locations = new HashMap<>();
 
     public static void main(String[] args) {
-	// write your code here
+	    play();
         List<String> details;
         Scanner scanner = new Scanner(System.in);
         generateLocations();
-        Player player = getPlayer();
-        loadObject(player);
-        details = scenario(player);
-        System.out.println(details.get(0));
-        System.out.println(details.get(1));
-        System.out.println(details.get(2));
-
+//        Player player = getPlayer();
+//        loadObject(player);
+//        details = scenario(player);
+//        System.out.println(details.get(0));
+//        System.out.println(details.get(1));
+//        System.out.println(details.get(2));
 
         Map<String, String> vocabulary = new HashMap<String, String>();
         vocabulary.put("QUIT", "Q");
@@ -30,7 +34,7 @@ public class Main {
         while(true){
             System.out.println(locations.get(loc).getDescription());
             if(loc == 0){
-                saveObject(player);
+//                saveObject(player);
                 break;
             }
 
@@ -55,7 +59,7 @@ public class Main {
 
             if(exits.containsKey(direction)){
                 loc = exits.get(direction);
-                player.setLocation(loc);
+//                player.setLocation(loc);
             } else {
                 System.out.println("You cannot go in that direction");
             }
@@ -74,13 +78,91 @@ public class Main {
 //        }
     }
 
+    private static void play() {
+        System.out.println(greet());
+        System.out.println(playOptions());
+        GamePlay gamePlay = new GamePlay();
+        Player player = fateChosen(continuePlay());
+        System.out.println(player.getName());
+        List<String> details = scenario(player);
+        System.out.println(details.get(0));
+        System.out.println(details.get(1));
+        System.out.println(details.get(2));
+
+    }
+
+    /**
+     * Deteremine play option from value param
+     * @param value
+     */
+    private static Player fateChosen(int value) {
+        if(value == NEW){
+            return getPlayer();
+        } else {
+            System.out.println("Check");
+            return loadObject(getPlayerLoad());
+        }
+    }
+
+    private static Player getPlayerLoad() {
+        return new Player("Jekk Baerr", 50, 10);
+    }
+
+    /**
+     * Print a greeting
+     * @return a String greeting
+     */
+    private static String greet() {
+        return "Hello, would you like to play a game?";
+    }
+
+    /**
+     * Display the opening menu options
+     * @return a String of options
+     */
+    private static String playOptions() {
+        return "1 - Yes \n2 - Load Saved Game \n3 - No";
+    }
+
+    /**
+     * Take player input selection for opening menu options
+     * @return an int value of the selection option
+     */
+    private static int continuePlay() {
+        Scanner scanner = new Scanner(System.in);
+        while(true){
+            if(scanner.hasNextInt()){
+                int value = scanner.nextInt();
+                if(value > LOW_CHECK && value < HIGH_CHECK){
+                    return value;
+                } else if (value == QUIT){
+                    quit();
+                } else {
+                    System.out.println("Select a valid option");
+                }
+            } else {
+                System.out.println("Select a valid option");
+            }
+            scanner.nextLine();
+        }
+    }
+
+    /**
+     * Quit the game
+     */
+    private static void quit() {
+        System.out.println("Shutting down...");
+        System.exit(0);
+    }
+
+
     private static void saveObject(ISaveable objectToSave) {
         for(int i = 0; i < objectToSave.write().size(); i++){
             System.out.println("Saving " + objectToSave.write().get(i));
         }
     }
 
-    private static void loadObject(ISaveable objectToLoad){
+    private static Player loadObject(ISaveable objectToLoad){
         System.out.println("Loading...");
 //        ArrayList<String> values = readValues();
         ArrayList<String> values = new ArrayList<>();
@@ -90,6 +172,7 @@ public class Main {
         values.add(((Player) objectToLoad).getWeapon());
         values.add(String.valueOf(((Player) objectToLoad).getLocation()));
         objectToLoad.read(values);
+        return (Player) objectToLoad;
     }
 
     private static void generateLocations() {
