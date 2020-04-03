@@ -1,0 +1,7 @@
+Jekk Baerr,50,10,Sword,1,
+Johnny,100,10,Sword,2,
+asdf,100,10,Sword,1,
+f,100,10,Sword,1,
+a,100,10,Sword,2,
+Jekk Baerr,50,10,Sword,1,
+Jimmy,100,10,Sword,1,

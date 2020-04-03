@@ -1,5 +1,6 @@
 package com.johnny.pack.age;
 
+import java.io.*;
 import java.util.*;
 
 public class Main {
@@ -81,13 +82,15 @@ public class Main {
     private static void play() {
         System.out.println(greet());
         System.out.println(playOptions());
-        GamePlay gamePlay = new GamePlay();
         Player player = fateChosen(continuePlay());
-        System.out.println(player.getName());
-        List<String> details = scenario(player);
-        System.out.println(details.get(0));
-        System.out.println(details.get(1));
-        System.out.println(details.get(2));
+        GamePlay gamePlay = new GamePlay(player);
+        gamePlay.playTheGame();
+        gamePlay.saveGame(player);
+        loadObject();
+//        List<String> details = scenario(player);
+//        System.out.println(details.get(0));
+//        System.out.println(details.get(1));
+//        System.out.println(details.get(2));
 
     }
 
@@ -96,11 +99,12 @@ public class Main {
      * @param value
      */
     private static Player fateChosen(int value) {
+        Player player;
         if(value == NEW){
             return getPlayer();
         } else {
             System.out.println("Check");
-            return loadObject(getPlayerLoad());
+            return  loadObject();
         }
     }
 
@@ -113,7 +117,7 @@ public class Main {
      * @return a String greeting
      */
     private static String greet() {
-        return "Hello, would you like to play a game?";
+        return "Make your selection:";
     }
 
     /**
@@ -121,7 +125,7 @@ public class Main {
      * @return a String of options
      */
     private static String playOptions() {
-        return "1 - Yes \n2 - Load Saved Game \n3 - No";
+        return "1 - New Game \n2 - Load Saved Game \n3 - Quit";
     }
 
     /**
@@ -156,23 +160,53 @@ public class Main {
     }
 
 
-    private static void saveObject(ISaveable objectToSave) {
-        for(int i = 0; i < objectToSave.write().size(); i++){
-            System.out.println("Saving " + objectToSave.write().get(i));
-        }
-    }
+//    private static void saveObject(ISaveable objectToSave) {
+//        for(int i = 0; i < objectToSave.write().size(); i++){
+//            System.out.println("Saving " + objectToSave.write().get(i));
+//        }
+//    }
 
-    private static Player loadObject(ISaveable objectToLoad){
-        System.out.println("Loading...");
-//        ArrayList<String> values = readValues();
-        ArrayList<String> values = new ArrayList<>();
-        values.add(((Player) objectToLoad).getName());
-        values.add(String.valueOf(((Player) objectToLoad).getHitpoints()));
-        values.add(String.valueOf(((Player) objectToLoad).getStrength()));
-        values.add(((Player) objectToLoad).getWeapon());
-        values.add(String.valueOf(((Player) objectToLoad).getLocation()));
-        objectToLoad.read(values);
-        return (Player) objectToLoad;
+    private static Player loadObject(){
+        String directory = ("./Files/");
+        String fileName = ("save_file.txt");
+        String absolutePath = directory + fileName;
+        Scanner scanner = new Scanner(System.in);
+        String enterName = scanner.nextLine();
+        BufferedReader reader;
+
+        try{
+            reader = new BufferedReader(new FileReader(absolutePath));
+            String line = reader.readLine();
+            String[] splitLine = line.split(",");
+            while(line != null){
+                if(enterName.trim().equals(splitLine[0].trim())){
+                    String name = splitLine[0];
+                    int hitpoints = Integer.parseInt(splitLine[1]);
+                    int strength = Integer.parseInt(splitLine[2]);
+                    String weapon = splitLine[3];
+                    int location = Integer.parseInt(splitLine[4]);
+                    return new Player(name, hitpoints, strength, weapon, location);
+                }
+                line = reader.readLine();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+
+
+// read the content from file
+
+//        System.out.println("Loading...");
+////        ArrayList<String> values = readValues();
+//        ArrayList<String> values = new ArrayList<>();
+//        values.add(((Player) objectToLoad).getName());
+//        values.add(String.valueOf(((Player) objectToLoad).getHitpoints()));
+//        values.add(String.valueOf(((Player) objectToLoad).getStrength()));
+//        values.add(((Player) objectToLoad).getWeapon());
+//        values.add(String.valueOf(((Player) objectToLoad).getLocation()));
+//        objectToLoad.read(values);
+//        return (Player) objectToLoad;
     }
 
     private static void generateLocations() {
@@ -212,6 +246,11 @@ public class Main {
         locations.put(5, new Location(5, "You are in the forest", tempExit));
     }
 
+    /**
+     * Print scenario details
+     * @param player object
+     * @return a list of strings detailing the scenario
+     */
     private static List<String> scenario(Player player) {
         List<String> playerDetails = new ArrayList<String>();
         playerDetails.add("Your name is " + player.getName());
@@ -221,7 +260,33 @@ public class Main {
         return playerDetails;
     }
 
+    /**
+     * Generate a new player
+     * @return a new player object
+     */
     private static Player getPlayer() {
-        return new Player("John Snow", 20, 10);
+        String name = getNewPlayerName();
+        return new Player(name, 100, 10);
+    }
+
+    /**
+     * Take user input for a new player's name and return
+     * a string value.
+     * @return user input as a string.
+     */
+    private static String getNewPlayerName() {
+        System.out.println("Enter your player's name:");
+        Scanner scanner = new Scanner(System.in);
+        String name = "";
+        boolean quit = false;
+        while(!quit){
+            name = scanner.nextLine();
+            if(name.equals("")){
+                System.out.println("Enter a name:");
+            } else {
+                quit = true;
+            }
+        }
+        return name;
     }
 }
