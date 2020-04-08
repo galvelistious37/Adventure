@@ -1,25 +1,163 @@
 package com.johnny.pack.age;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.sql.SQLOutput;
+import java.util.*;
 
 public class GamePlay {
+    // Constants
+    private static final int PLAY = 1;
+    private static final int QUIT = 2;
+    private static final String NEW_GAME = "Play";
+    private static final String QUIT_GAME = "Quit";
+
+    // Global Variables
+    Scanner scanner;
     Player player;
     Map<String, Player> playerMap;
     Map<String, Monster> monsterMap;
-    private static Map<Integer, Location> locations;
+    private static Map<Integer, Location> locationMap;
 
     public GamePlay() {
-        playerMap = new HashMap<>();
-        monsterMap = new HashMap<>();
-        locations = generateLocations();
+        scanner = new Scanner(System.in);
+        playerMap = populatePlayerMap();
+        monsterMap = populateMonsterMap();
+        locationMap = generateLocations();
     }
 
-//    public GamePlay (Player player){
-//        this.player = player;
+    /**
+     * Main play method to run the game
+     */
+    public void play() {
+        displayGreeting();
+        displayStartMenu();
+        if(!getStartMenuInput()){
+            shutdown();
+        }
+        player = setPlayer();
+        playTheGame();
+    }
+
+    private Player setPlayer() {
+        System.out.println("What is your player's name?");
+        String userInput = scanner.nextLine();
+        if(playerMap.containsKey(userInput)){
+            return playerMap.get(userInput);
+        } else {
+            System.out.println("Creating new player");
+            return new Player(userInput);
+        }
+    }
+
+    /**
+     * Print a greeting to the screen
+     */
+    private void displayGreeting() {
+        String message = "Hello! " +
+                "Select an option from below:";
+        System.out.println(message);
+    }
+
+    /**
+     * Call a method to generate options.
+     * Display those options on the screen
+     */
+    private void displayStartMenu() {
+        List<String> options = createOptions();
+        for(String option : options){
+            System.out.println(option);
+        }
+    }
+
+    /**
+     * Create the options for the Start Menu.
+     * @return List of String options.
+     */
+    private List<String> createOptions() {
+        List<String> generateOptions = new ArrayList<>();
+        generateOptions.add(PLAY + ": " + NEW_GAME);
+        generateOptions.add(QUIT + ": " + QUIT_GAME);
+        return generateOptions;
+    }
+
+    /**
+     * Take user input and determine whether to
+     * play or quit.
+     * @return a boolean value
+     */
+    private boolean getStartMenuInput() {
+        while(true){
+            if(scanner.hasNextInt()){
+                int startMenuInput = scanner.nextInt();
+                scanner.nextLine();
+                if(startMenuInput == PLAY){
+                    return true;
+                } else if (startMenuInput == QUIT){
+                    return false;
+                } else {
+                    System.out.println("Select a valid option");
+                }
+            } else {
+                System.out.println("Select a valid option");
+            }
+            scanner.nextLine();
+        }
+    }
+
+    /**
+     * Procees, Sir.
+     */
+    private void proceed() {
+        for(String key : playerMap.keySet()){
+            System.out.println(playerMap.get(key).toString());
+        }
+    }
+
+    private void populateLocationMap() {
+
+    }
+
+    private Map<String, Player> populatePlayerMap() {
+        Map<String, Player> tempMap = new HashMap<>();
+        FilePath path = new FilePath();
+        BufferedReader reader;
+
+        try{
+            reader = new BufferedReader(new FileReader(path.getAbsolutePath()));
+            String line = reader.readLine();
+            while(line != null){
+                String[] splitLine = line.split(",");
+                String name = splitLine[0];
+                int hitpoints = Integer.parseInt(splitLine[1]);
+                int strength = Integer.parseInt(splitLine[2]);
+                String weapon = splitLine[3];
+                int location = Integer.parseInt(splitLine[4]);
+
+                Player tempPlayer = new Player(name, hitpoints, strength, weapon, location);
+                tempMap.put(name, tempPlayer);
+                line = reader.readLine();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return tempMap;
+    }
+
+
+
+
+
+//    private Map<String, Player> populatePlayerMap() {
+//
+//        return null;
 //    }
+
+    private Map<String, Monster> populateMonsterMap() {
+
+        return null;
+    }
+
+
 
     public void playTheGame(){
         System.out.println("Your player deetz");
@@ -42,13 +180,13 @@ public class GamePlay {
 
         int loc = player.getLocation();
         while(true){
-            System.out.println(locations.get(loc).getDescription() + " first call");
+            System.out.println(locationMap.get(loc).getDescription());
             if(loc == 0){
 //                saveObject(player);
                 break;
             }
 
-            Map<String, Integer> exits = locations.get(loc).getExits();
+            Map<String, Integer> exits = locationMap.get(loc).getExits();
             System.out.println("Available exits are ");
             for(String exit : exits.keySet()){
                 System.out.print(exit + ", ");
@@ -69,7 +207,7 @@ public class GamePlay {
 
             if(exits.containsKey(direction)){
                 if(direction.equals("Q")){
-                    saveGame();
+                    quit();
                 }
                 loc = exits.get(direction);
                 player.setLocation(loc);
@@ -83,91 +221,59 @@ public class GamePlay {
     public void saveGame(){
         System.out.println("Saving your game...");
         FilePath path = new FilePath();
-        System.out.println(playerMap.size());
-//        System.out.println(playerMap.get(player.getName()).getName());
-        if(playerMap.containsKey(player.getName())){
-            playerMap.replace(player.getName(), player);
-        } else {
+
+        if(!playerMap.containsKey(player.getName())){
             playerMap.put(player.getName(), player);
         }
 
-        try(FileWriter fw = new FileWriter(path.getAbsolutePath(), true);
+        try(FileWriter fw = new FileWriter(path.getAbsolutePath());
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter out = new PrintWriter(bw))
         {
-            String saveString = "";
             for(String key : playerMap.keySet()){
-                for(int i = 0; i < playerMap.get(key).write().size(); i++){
-                    saveString = saveString + (playerMap.get(key).write().get(i)) + ",";
-                 }
+                String saveString;
+                String separator = ",";
+                saveString = playerMap.get(key).getName() + separator +
+                        playerMap.get(key).getHitpoints() + separator +
+                        playerMap.get(key).getStrength() + separator +
+                        playerMap.get(key).getWeapon() + separator +
+                        playerMap.get(key).getLocation();
+
                 out.println(saveString);
             }
-
         } catch (IOException e) {
+            System.out.println("Exception???");
             //exception handling left as an exercise for the reader
         }
-
     }
 
     public void playNewGame() {
         Scanner scanner = new Scanner(System.in);
         String enterName = scanner.nextLine();
-        player = new Player(enterName, 100, 10);
+        player = new Player(enterName);
         playTheGame();
     }
+//
+//    public void loadGame() {
+//        System.out.println("What is your player's name?");
+//        Scanner scanner = new Scanner(System.in);
+//        String enterName = scanner.nextLine();
+//        Map<String, Player> playerMap = loadPlayerMap();
+//        player = playerMap.get(enterName);
+//        Map<String, Monster> monsterMap = loadMonsterMap(enterName);
+//
+//        playTheGame();
+//    }
 
-    public void loadGame() {
-        System.out.println("What is your player's name?");
-        Scanner scanner = new Scanner(System.in);
-        String enterName = scanner.nextLine();
-        Map<String, Player> playerMap = loadPlayerMap();
-        player = playerMap.get(enterName);
-        Map<String, Monster> monsterMap = loadMonsterMap(enterName);
-
-        playTheGame();
-    }
-
-    private Map<String, Player> loadPlayerMap() {
-        Map<String, Player> tempMap = new HashMap<>();
-        FilePath path = new FilePath();
-        BufferedReader reader;
-
-        try{
-            reader = new BufferedReader(new FileReader(path.getAbsolutePath()));
-            String line = reader.readLine();
-            while(line != null){
-                String[] splitLine = line.split(",", -1);
-                String name = splitLine[0];
-                int hitpoints = Integer.parseInt(splitLine[1]);
-                int strength = Integer.parseInt(splitLine[2]);
-                String weapon = splitLine[3];
-                int location = Integer.parseInt(splitLine[4]);
-
-                Player tempPlayer = new Player(name, hitpoints, strength, weapon, location);
-                tempMap.put(name, tempPlayer);
-                line = reader.readLine();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return tempMap;
-    }
 
     private Map<String, Monster> loadMonsterMap(String enterName) {
         Map<String, Monster> monsterMap = new HashMap<>();
         return monsterMap;
     }
 
-    public void quit() {
-        saveGame();
-        System.out.println("Shutting down...");
-        System.exit(0);
-    }
-
     private Map<Integer, Location> generateLocations() {
         Map<Integer, Location> tempLocationMap = new HashMap<>();
-        Map<String, Integer> tempExit;
-        tempLocationMap.put(0, new Location(0, "You are sitting in front of a computer", null));
+        Map<String, Integer> tempExit;tempLocationMap.put(0, new Location(0, "You are sitting in front of a computer", null));
 
         tempExit = new HashMap<>();
         tempExit.put("N", 101);
@@ -204,4 +310,14 @@ public class GamePlay {
         return tempLocationMap;
     }
 
+    public void quit() {
+        saveGame();
+        shutdown();
+    }
+
+    private void shutdown(){
+        scanner.close();
+        System.out.println("Shutting down...");
+        System.exit(0);
+    }
 }

@@ -10,10 +10,10 @@ public class Player implements ISaveable {
     private String weapon;
     private int location;
 
-    public Player(String name, int hitpoints, int strength) {
+    public Player(String name) {
         this.name = name;
-        this.hitpoints = hitpoints;
-        this.strength = strength;
+        this.hitpoints = 100;
+        this.strength = 10;
         this.weapon = "Sword";
         this.location = 1;
     }
