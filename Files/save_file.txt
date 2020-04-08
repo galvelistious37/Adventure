@@ -1,0 +1,4 @@
+Johnny,100,10,Sword,5
+Jerky,150,30,Axe,1
+Groot,100,10,Sword,2
+Jekk Baerr,100,10,Sword,3
