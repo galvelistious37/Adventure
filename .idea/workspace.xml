@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="86b438eb-af59-4c9d-8c68-d46e48f6f51d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Files/save_file.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Files/save_file.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/Location.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Location.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Main.java" afterDir="false" />
     </list>
     <list id="bafe07dc-95b0-4ea9-89d0-9866661caecd" name="adding new files to make this a game" comment="adding new files to make this a game" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -24,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="189">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -33,11 +30,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3108">
-              <caret line="185" column="43" selection-start-line="185" selection-start-column="43" selection-end-line="185" selection-end-column="43" />
+            <state relative-caret-position="210">
+              <caret line="10" column="51" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2947#2948#0" expanded="true" />
+                <element signature="e#2989#2990#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="21">
+              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -145,6 +153,7 @@
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Player.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Main.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Location.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" />
       </list>
     </option>
@@ -169,6 +178,11 @@
             <path>
               <item name="Adventure" type="b2602c69:ProjectViewProjectNode" />
               <item name="Adventure" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Adventure" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Adventure" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Adventure" type="b2602c69:ProjectViewProjectNode" />
@@ -284,7 +298,21 @@
       <option name="project" value="LOCAL" />
       <updated>1586327631840</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="WIP: Location generation refactor works but still needs more details.">
+      <created>1586408872298</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1586408872298</updated>
+    </task>
+    <task id="LOCAL-00008" summary="WIP: Trying to ignore workspace.xml">
+      <created>1586409058036</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1586409058036</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -298,7 +326,7 @@
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.19731544" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Version Control" order="0" sideWeight="0.49395972" weight="0.3186969" />
+      <window_info anchor="bottom" id="Version Control" order="0" sideWeight="0.49328858" weight="0.3186969" />
       <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.49395972" weight="0.3611898" />
       <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50064266" side_tool="true" weight="0.32974428" />
       <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49530202" weight="0.3286119" />
@@ -308,7 +336,7 @@
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.5060403" side_tool="true" visible="true" weight="0.3186969" />
+      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.5067114" side_tool="true" visible="true" weight="0.3186969" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Maven" order="2" />
@@ -394,16 +422,11 @@
     <MESSAGE value="WIP: Trying to save and load player" />
     <MESSAGE value="WIP: Trying to save and load player... Getting there" />
     <MESSAGE value="WIP: Can create, load, save player and quit" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: Can create, load, save player and quit" />
+    <MESSAGE value="WIP: Location generation refactor works but still needs more details." />
+    <MESSAGE value="WIP: Trying to ignore workspace.xml" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP: Trying to ignore workspace.xml" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="19" lean-forward="true" selection-start-column="19" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/FilePath.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="273">
@@ -442,13 +465,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Location.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="265">
@@ -463,12 +479,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="189">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3108">
-          <caret line="185" column="43" selection-start-line="185" selection-start-column="43" selection-end-line="185" selection-end-column="43" />
+        <state relative-caret-position="210">
+          <caret line="10" column="51" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#2947#2948#0" expanded="true" />
+            <element signature="e#2989#2990#0" expanded="true" />
           </folding>
         </state>
       </provider>

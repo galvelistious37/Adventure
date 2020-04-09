@@ -3,7 +3,7 @@ package com.johnny.pack.age;
 import java.io.*;
 import java.util.*;
 
-public class GamePlay {
+class GamePlay {
     // Constants
     private static final int PLAY = 1;
     private static final int QUIT = 2;
@@ -17,7 +17,7 @@ public class GamePlay {
     private Map<String, Monster> monsterMap;
     private Map<Integer, Location> locationMap;
 
-    public GamePlay() {
+    GamePlay() {
         scanner = new Scanner(System.in);
         playerMap = populatePlayerMap();
         monsterMap = populateMonsterMap();
@@ -104,35 +104,7 @@ public class GamePlay {
     }
 
     private Map<Integer, Location> populateLocationMap() {
-        Map<Integer, Location> tempLocationMap = generateLocations();
-
-//        tempLocationMap.put(0, new Location(0, "You are sitting in front of a computer", null));
-//
-//        tempExit = new HashMap<>();
-//        tempExit.put("N", 101);
-//        tempExit.put("E", 2);
-//        tempExit.put("S", -101);
-//        tempExit.put("W", 3);
-//
-//        tempExit = new HashMap<>();
-//        tempExit.put("N", 102);
-//        tempExit.put("E", 4);
-//        tempExit.put("S", -102);
-//        tempExit.put("W", 1);
-//
-//        tempExit = new HashMap<>();
-//        tempExit.put("N", 104);
-//        tempExit.put("S", -104);
-//        tempExit.put("W", 2);
-//
-//        tempExit = new HashMap<>();
-//        tempExit.put("W", 1);
-//
-//        tempExit = new HashMap<>();
-//        tempExit.put("S", 1);
-//        tempExit.put("W", 2);
-
-        return tempLocationMap;
+        return generateLocations();
     }
 
     private Map<Integer, Location> generateLocations() {
@@ -143,31 +115,7 @@ public class GamePlay {
         for(Integer locNumber : locationNumbers){
             tempLocationMap.put(locNumber, new Location(locNumber, String.valueOf(locNumber), getExits(locNumber, locationNumbers))) ;
         }
-//
-//        tempLocationMap.put(2, new Location(2, "snow-covered forest at the edge of a cliff", null));
-//        tempLocationMap.put(3, new Location(3, "You are inside a building, a well house for a small spring", null));
-//        tempLocationMap.put(4, new Location(4, "Snow-covered forest", null));
-//        tempLocationMap.put(5, new Location(5, "snow-covered forest", null));
-//        tempLocationMap.put(11, new Location(11, "snow-covered forest", null));
-//        tempLocationMap.put(12, new Location(12, "snow-covered forest", null));
-//        tempLocationMap.put(13, new Location(13, "Snow-covered forest", null));
-//        tempLocationMap.put(14, new Location(14, "You are inside a building, a well house for a small spring", null));
-//        tempLocationMap.put(15, new Location(15, "snow-covered forest at the edge of a cliff", null));
-//        tempLocationMap.put(21, new Location(21, "You are in the forest", null));
-//        tempLocationMap.put(22, new Location(22, "snow-covered forest at the edge of a cliff", null));
-//        tempLocationMap.put(23, new Location(23, "snow-covered forest at the edge of a cliff", null));
-//        tempLocationMap.put(24, new Location(24, "You are inside a building, a well house for a small spring", null));
-//        tempLocationMap.put(25, new Location(25, "Snow-covered forest", null));
-//        tempLocationMap.put(31, new Location(31, "snow-covered forest", null));
-//        tempLocationMap.put(32, new Location(32, "snow-covered forest", null));
-//        tempLocationMap.put(33, new Location(33, "snow-covered forest", null));
-//        tempLocationMap.put(34, new Location(34, "Snow-covered forest", null));
-//        tempLocationMap.put(35, new Location(35, "You are inside a building, a well house for a small spring", null));
-//        tempLocationMap.put(41, new Location(41, "snow-covered forest at the edge of a cliff", null));
-//        tempLocationMap.put(42, new Location(42, "You are in the forest", null));
-//        tempLocationMap.put(43, new Location(43, "snow-covered forest at the edge of a cliff", null));
-//        tempLocationMap.put(44, new Location(44, "You are inside a building, a well house for a small spring", null));
-//        tempLocationMap.put(45, new Location(45, "Snow-covered forest", null));
+
         return tempLocationMap;
     }
 
@@ -191,7 +139,6 @@ public class GamePlay {
     private List<Integer> getLocationNumbers() {
         List<Integer> locNums = new ArrayList<>();
         for(int i = 1; i <= 45; i++){
-            System.out.println("location numbers: " + i);
             locNums.add(i);
             if(i % 5 == 0){
                 i += 5;
@@ -227,13 +174,10 @@ public class GamePlay {
     }
 
     private Map<String, Monster> populateMonsterMap() {
-
-        return null;
+        return new HashMap<>();
     }
 
-
-
-    public void playTheGame(){
+    private void playTheGame(){
         System.out.println("Your player deetz");
         System.out.println("Name: " + player.getName());
         System.out.println("Hit Points: " + player.getHitpoints());
@@ -241,7 +185,7 @@ public class GamePlay {
         System.out.println("Weapon: " + player.getWeapon());
         System.out.println("Location: " + player.getLocation());
 
-        Map<String, String> vocabulary = new HashMap<String, String>();
+        Map<String, String> vocabulary = new HashMap<>();
         vocabulary.put("QUIT", "Q");
         vocabulary.put("NORTH", "N");
         vocabulary.put("SOUTH", "S");
@@ -289,7 +233,7 @@ public class GamePlay {
 //        saveGame(player);
     }
 
-    public void saveGame(){
+    private void saveGame(){
         System.out.println("Saving your game...");
         FilePath path = new FilePath();
 
@@ -318,12 +262,7 @@ public class GamePlay {
         }
     }
 
-    private Map<String, Monster> loadMonsterMap(String enterName) {
-        Map<String, Monster> monsterMap = new HashMap<>();
-        return monsterMap;
-    }
-
-    public void quit() {
+    private void quit() {
         saveGame();
         shutdown();
     }
