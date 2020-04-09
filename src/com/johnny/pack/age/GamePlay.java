@@ -1,7 +1,6 @@
 package com.johnny.pack.age;
 
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class GamePlay {
@@ -12,23 +11,23 @@ public class GamePlay {
     private static final String QUIT_GAME = "Quit";
 
     // Global Variables
-    Scanner scanner;
-    Player player;
-    Map<String, Player> playerMap;
-    Map<String, Monster> monsterMap;
-    private static Map<Integer, Location> locationMap;
+    private Scanner scanner;
+    private Player player;
+    private Map<String, Player> playerMap;
+    private Map<String, Monster> monsterMap;
+    private Map<Integer, Location> locationMap;
 
     public GamePlay() {
         scanner = new Scanner(System.in);
         playerMap = populatePlayerMap();
         monsterMap = populateMonsterMap();
-        locationMap = generateLocations();
+        locationMap = populateLocationMap();
     }
 
     /**
      * Main play method to run the game
      */
-    public void play() {
+    void play() {
         displayGreeting();
         displayStartMenu();
         if(!getStartMenuInput()){
@@ -104,17 +103,101 @@ public class GamePlay {
         }
     }
 
-    /**
-     * Procees, Sir.
-     */
-    private void proceed() {
-        for(String key : playerMap.keySet()){
-            System.out.println(playerMap.get(key).toString());
-        }
+    private Map<Integer, Location> populateLocationMap() {
+        Map<Integer, Location> tempLocationMap = generateLocations();
+
+//        tempLocationMap.put(0, new Location(0, "You are sitting in front of a computer", null));
+//
+//        tempExit = new HashMap<>();
+//        tempExit.put("N", 101);
+//        tempExit.put("E", 2);
+//        tempExit.put("S", -101);
+//        tempExit.put("W", 3);
+//
+//        tempExit = new HashMap<>();
+//        tempExit.put("N", 102);
+//        tempExit.put("E", 4);
+//        tempExit.put("S", -102);
+//        tempExit.put("W", 1);
+//
+//        tempExit = new HashMap<>();
+//        tempExit.put("N", 104);
+//        tempExit.put("S", -104);
+//        tempExit.put("W", 2);
+//
+//        tempExit = new HashMap<>();
+//        tempExit.put("W", 1);
+//
+//        tempExit = new HashMap<>();
+//        tempExit.put("S", 1);
+//        tempExit.put("W", 2);
+
+        return tempLocationMap;
     }
 
-    private void populateLocationMap() {
+    private Map<Integer, Location> generateLocations() {
+        Map<Integer, Location> tempLocationMap = new HashMap<>();
+        List<Integer> locationNumbers = getLocationNumbers();
 
+
+        for(Integer locNumber : locationNumbers){
+            tempLocationMap.put(locNumber, new Location(locNumber, String.valueOf(locNumber), getExits(locNumber, locationNumbers))) ;
+        }
+//
+//        tempLocationMap.put(2, new Location(2, "snow-covered forest at the edge of a cliff", null));
+//        tempLocationMap.put(3, new Location(3, "You are inside a building, a well house for a small spring", null));
+//        tempLocationMap.put(4, new Location(4, "Snow-covered forest", null));
+//        tempLocationMap.put(5, new Location(5, "snow-covered forest", null));
+//        tempLocationMap.put(11, new Location(11, "snow-covered forest", null));
+//        tempLocationMap.put(12, new Location(12, "snow-covered forest", null));
+//        tempLocationMap.put(13, new Location(13, "Snow-covered forest", null));
+//        tempLocationMap.put(14, new Location(14, "You are inside a building, a well house for a small spring", null));
+//        tempLocationMap.put(15, new Location(15, "snow-covered forest at the edge of a cliff", null));
+//        tempLocationMap.put(21, new Location(21, "You are in the forest", null));
+//        tempLocationMap.put(22, new Location(22, "snow-covered forest at the edge of a cliff", null));
+//        tempLocationMap.put(23, new Location(23, "snow-covered forest at the edge of a cliff", null));
+//        tempLocationMap.put(24, new Location(24, "You are inside a building, a well house for a small spring", null));
+//        tempLocationMap.put(25, new Location(25, "Snow-covered forest", null));
+//        tempLocationMap.put(31, new Location(31, "snow-covered forest", null));
+//        tempLocationMap.put(32, new Location(32, "snow-covered forest", null));
+//        tempLocationMap.put(33, new Location(33, "snow-covered forest", null));
+//        tempLocationMap.put(34, new Location(34, "Snow-covered forest", null));
+//        tempLocationMap.put(35, new Location(35, "You are inside a building, a well house for a small spring", null));
+//        tempLocationMap.put(41, new Location(41, "snow-covered forest at the edge of a cliff", null));
+//        tempLocationMap.put(42, new Location(42, "You are in the forest", null));
+//        tempLocationMap.put(43, new Location(43, "snow-covered forest at the edge of a cliff", null));
+//        tempLocationMap.put(44, new Location(44, "You are inside a building, a well house for a small spring", null));
+//        tempLocationMap.put(45, new Location(45, "Snow-covered forest", null));
+        return tempLocationMap;
+    }
+
+    private Map<String, Integer> getExits(Integer locNumber, List<Integer> locationNumbers) {
+        Map<String, Integer> tempExit = new HashMap<>();
+            if(locationNumbers.contains(locNumber + 10)){
+                tempExit.put("N", locNumber + 10);
+            }
+            if(locationNumbers.contains(locNumber + 1)){
+                tempExit.put("E", locNumber + 1);
+            }
+            if(locationNumbers.contains(locNumber - 10)){
+                tempExit.put("S", locNumber - 10);
+            }
+            if(locationNumbers.contains(locNumber - 1)){
+                tempExit.put("W", locNumber - 1);
+            }
+        return tempExit;
+    }
+
+    private List<Integer> getLocationNumbers() {
+        List<Integer> locNums = new ArrayList<>();
+        for(int i = 1; i <= 45; i++){
+            System.out.println("location numbers: " + i);
+            locNums.add(i);
+            if(i % 5 == 0){
+                i += 5;
+            }
+        }
+        return locNums;
     }
 
     private Map<String, Player> populatePlayerMap() {
@@ -143,15 +226,6 @@ public class GamePlay {
         return tempMap;
     }
 
-
-
-
-
-//    private Map<String, Player> populatePlayerMap() {
-//
-//        return null;
-//    }
-
     private Map<String, Monster> populateMonsterMap() {
 
         return null;
@@ -166,9 +240,6 @@ public class GamePlay {
         System.out.println("Strength: " + player.getStrength());
         System.out.println("Weapon: " + player.getWeapon());
         System.out.println("Location: " + player.getLocation());
-
-
-        Scanner scanner = new Scanner(System.in);
 
         Map<String, String> vocabulary = new HashMap<String, String>();
         vocabulary.put("QUIT", "Q");
@@ -247,67 +318,9 @@ public class GamePlay {
         }
     }
 
-    public void playNewGame() {
-        Scanner scanner = new Scanner(System.in);
-        String enterName = scanner.nextLine();
-        player = new Player(enterName);
-        playTheGame();
-    }
-//
-//    public void loadGame() {
-//        System.out.println("What is your player's name?");
-//        Scanner scanner = new Scanner(System.in);
-//        String enterName = scanner.nextLine();
-//        Map<String, Player> playerMap = loadPlayerMap();
-//        player = playerMap.get(enterName);
-//        Map<String, Monster> monsterMap = loadMonsterMap(enterName);
-//
-//        playTheGame();
-//    }
-
-
     private Map<String, Monster> loadMonsterMap(String enterName) {
         Map<String, Monster> monsterMap = new HashMap<>();
         return monsterMap;
-    }
-
-    private Map<Integer, Location> generateLocations() {
-        Map<Integer, Location> tempLocationMap = new HashMap<>();
-        Map<String, Integer> tempExit;tempLocationMap.put(0, new Location(0, "You are sitting in front of a computer", null));
-
-        tempExit = new HashMap<>();
-        tempExit.put("N", 101);
-        tempExit.put("E", 2);
-        tempExit.put("S", -101);
-        tempExit.put("W", 3);
-        tempLocationMap.put(1, new Location(1, "You have woken up in the middle of a cold, snow-covered forest", tempExit));
-
-        tempExit = new HashMap<>();
-        tempExit.put("W", 2);
-        tempExit.put("E", 3);
-        tempExit.put("S", 4);
-        tempExit.put("N", 5);
-
-
-        tempExit = new HashMap<>();
-        tempExit.put("N", 5);
-        tempLocationMap.put(2, new Location(2, "You are at top of a hill", tempExit));
-
-        tempExit = new HashMap<>();
-        tempExit.put("W", 1);
-        tempLocationMap.put(3, new Location(3, "You are inside a building, a well house for a small spring", tempExit));
-
-        tempExit = new HashMap<>();
-        tempExit.put("N", 1);
-        tempExit.put("W", 2);
-        tempLocationMap.put(4, new Location(4, "You are in a valley beside a stream", tempExit));
-
-        tempExit = new HashMap<>();
-        tempExit.put("S", 1);
-        tempExit.put("W", 2);
-        tempLocationMap.put(5, new Location(5, "You are in the forest", tempExit));
-
-        return tempLocationMap;
     }
 
     public void quit() {
