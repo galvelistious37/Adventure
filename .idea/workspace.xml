@@ -2,8 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="86b438eb-af59-4c9d-8c68-d46e48f6f51d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Bite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Cut.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Enemy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Hack.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/IAttackable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/IBerserkable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Impale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Maul.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Ogre.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Pummel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Punch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Stab.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Sting.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Files/save_file.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Files/save_file.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/GamePlay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/GamePlay.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/ISaveable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Monster.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/ISaveable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/Monster.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Player.java" afterDir="false" />
     </list>
     <list id="bafe07dc-95b0-4ea9-89d0-9866661caecd" name="adding new files to make this a game" comment="adding new files to make this a game" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -19,10 +40,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Main.java">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/IBerserkable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="105">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
             </state>
           </provider>
         </entry>
@@ -30,53 +51,102 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="10" column="51" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
+            <state relative-caret-position="273">
+              <caret line="221" column="49" selection-start-line="221" selection-start-column="49" selection-end-line="221" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2947#2948#0" expanded="true" />
-                <element signature="e#2989#2990#0" expanded="true" />
+                <element signature="e#2945#2946#0" expanded="true" />
+                <element signature="e#2987#2988#0" expanded="true" />
+                <element signature="e#6017#6018#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Maul.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/FilePath.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
+            <state relative-caret-position="105">
+              <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
               <folding>
-                <element signature="e#350#351#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Monster.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="20" />
-              <folding>
+                <element signature="e#117#118#0" expanded="true" />
                 <element signature="e#144#145#0" expanded="true" />
-                <element signature="e#171#172#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Files/save_file.txt">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Hack.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+              <folding>
+                <element signature="e#117#118#0" expanded="true" />
+                <element signature="e#144#145#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Pummel.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
+              <folding>
+                <element signature="e#119#120#0" expanded="true" />
+                <element signature="e#146#147#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Impale.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+              <folding>
+                <element signature="e#119#120#0" expanded="true" />
+                <element signature="e#146#147#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Ogre.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="196">
+              <caret line="11" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+              <folding>
+                <element signature="e#111#112#0" expanded="true" />
+                <element signature="e#138#139#0" expanded="true" />
+                <element signature="e#360#361#0" expanded="true" />
+                <element signature="e#396#397#0" expanded="true" />
+                <element signature="e#468#469#0" expanded="true" />
+                <element signature="e#526#527#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Enemy.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="147">
+              <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+              <folding>
+                <element signature="e#278#279#0" expanded="true" />
+                <element signature="e#334#335#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/IAttackable.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
               <caret line="5" selection-start-line="5" selection-end-line="5" />
@@ -85,31 +155,14 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/ISaveable.java">
+        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Cut.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="3" selection-start-line="3" selection-end-line="3" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Player.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+            <state relative-caret-position="168">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#113#114#0" expanded="true" />
+                <element signature="e#140#141#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Location.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -147,22 +200,35 @@
       <list>
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/ISavable.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/ISaveable.java" />
-        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Monster.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/FilePath.java" />
         <option value="$PROJECT_DIR$/Files/save_file.txt" />
-        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Player.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Main.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Location.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Monster.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Player.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/IAttackable.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Bite.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Punch.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Sting.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Stab.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Cut.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/IBerserkable.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Maul.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Hack.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Pummel.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Impale.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Enemy.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Ogre.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
-    <option name="width" value="1620" />
-    <option name="height" value="880" />
+    <option name="x" value="100" />
+    <option name="y" value="20" />
+    <option name="width" value="1400" />
+    <option name="height" value="820" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -170,7 +236,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -178,11 +243,6 @@
             <path>
               <item name="Adventure" type="b2602c69:ProjectViewProjectNode" />
               <item name="Adventure" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Adventure" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Adventure" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Adventure" type="b2602c69:ProjectViewProjectNode" />
@@ -204,6 +264,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -213,6 +274,11 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.johnny.pack.age" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -312,7 +378,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586409058036</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Removing suggested IntelliJ warnings">
+      <created>1586410110107</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1586410110107</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -324,19 +397,19 @@
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.19731544" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.2" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="0" sideWeight="0.49328858" weight="0.3186969" />
       <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.49395972" weight="0.3611898" />
       <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50064266" side_tool="true" weight="0.32974428" />
-      <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49530202" weight="0.3286119" />
+      <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49463087" weight="0.3286119" />
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49731544" weight="0.3286119" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.5067114" side_tool="true" visible="true" weight="0.3186969" />
+      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.5053691" side_tool="true" visible="true" weight="0.3186969" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Maven" order="2" />
@@ -424,51 +497,21 @@
     <MESSAGE value="WIP: Can create, load, save player and quit" />
     <MESSAGE value="WIP: Location generation refactor works but still needs more details." />
     <MESSAGE value="WIP: Trying to ignore workspace.xml" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: Trying to ignore workspace.xml" />
+    <MESSAGE value="Removing suggested IntelliJ warnings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removing suggested IntelliJ warnings" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/FilePath.java">
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
-          <folding>
-            <element signature="e#350#351#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="189">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Monster.java">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="20" />
-          <folding>
-            <element signature="e#144#145#0" expanded="true" />
-            <element signature="e#171#172#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/ISaveable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Player.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Location.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+        <state relative-caret-position="21">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -479,28 +522,192 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/ISaveable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="63">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Location.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="504">
+          <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Player.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="28" selection-start-column="28" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Monster.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/FilePath.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="13" column="37" selection-start-line="13" selection-start-column="37" selection-end-line="13" selection-end-column="37" />
+          <folding>
+            <element signature="e#350#351#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Bite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding>
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#141#142#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Punch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding>
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#142#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Sting.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="24" lean-forward="true" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding>
+            <element signature="e#115#116#0" expanded="true" />
+            <element signature="e#142#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Stab.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="21" selection-start-line="5" selection-start-column="21" selection-end-line="5" selection-end-column="21" />
+          <folding>
+            <element signature="e#114#115#0" expanded="true" />
+            <element signature="e#141#142#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Cut.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#113#114#0" expanded="true" />
+            <element signature="e#140#141#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/IAttackable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/IBerserkable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Maul.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+          <folding>
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Hack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="23" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+          <folding>
+            <element signature="e#117#118#0" expanded="true" />
+            <element signature="e#144#145#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Pummel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="5" column="25" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
+          <folding>
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#146#147#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Impale.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#119#120#0" expanded="true" />
+            <element signature="e#146#147#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Ogre.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="11" column="8" selection-start-line="5" selection-start-column="8" selection-end-line="11" selection-end-column="8" />
+          <folding>
+            <element signature="e#111#112#0" expanded="true" />
+            <element signature="e#138#139#0" expanded="true" />
+            <element signature="e#360#361#0" expanded="true" />
+            <element signature="e#396#397#0" expanded="true" />
+            <element signature="e#468#469#0" expanded="true" />
+            <element signature="e#526#527#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Enemy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="9" column="20" selection-start-line="9" selection-start-column="20" selection-end-line="9" selection-end-column="20" />
+          <folding>
+            <element signature="e#278#279#0" expanded="true" />
+            <element signature="e#334#335#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="51" lean-forward="true" selection-start-line="10" selection-start-column="51" selection-end-line="10" selection-end-column="51" />
+        <state relative-caret-position="273">
+          <caret line="221" column="49" selection-start-line="221" selection-start-column="49" selection-end-line="221" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2947#2948#0" expanded="true" />
-            <element signature="e#2989#2990#0" expanded="true" />
+            <element signature="e#2945#2946#0" expanded="true" />
+            <element signature="e#2987#2988#0" expanded="true" />
+            <element signature="e#6017#6018#0" expanded="true" />
           </folding>
         </state>
       </provider>

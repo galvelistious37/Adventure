@@ -14,13 +14,13 @@ class GamePlay {
     private Scanner scanner;
     private Player player;
     private Map<String, Player> playerMap;
-    private Map<String, Monster> monsterMap;
+    private Map<Integer, List<Enemy>> enemyMap;
     private Map<Integer, Location> locationMap;
 
     GamePlay() {
         scanner = new Scanner(System.in);
         playerMap = populatePlayerMap();
-        monsterMap = populateMonsterMap();
+        enemyMap = populateEnemyMap();
         locationMap = populateLocationMap();
     }
 
@@ -173,8 +173,27 @@ class GamePlay {
         return tempMap;
     }
 
-    private Map<String, Monster> populateMonsterMap() {
-        return new HashMap<>();
+    private Map<Integer, List<Enemy>> populateEnemyMap() {
+        Map<Integer, List<Enemy>> tempEnemyMap = new HashMap<>();
+        List<Enemy> enemyList = populateEnemyList();
+        List<Enemy> tempList = new ArrayList<>();
+        for(Enemy enemy : enemyList){
+            if(enemy.location == 3){
+                tempList.add(enemy);
+            }
+        }
+        tempEnemyMap.put(3, tempList);
+        return tempEnemyMap;
+    }
+
+    private List<Enemy> populateEnemyList(){
+        List<Enemy> enemyList = new ArrayList<>();
+        enemyList.add(createOgre());
+        return enemyList;
+    }
+
+    private Enemy createOgre() {
+        return new Ogre();
     }
 
     private void playTheGame(){
@@ -196,6 +215,12 @@ class GamePlay {
         int loc = player.getLocation();
         while(true){
             System.out.println(locationMap.get(loc).getDescription());
+            if(enemyMap.containsKey(loc)){
+                System.out.println("Uh-oh... looks like trouble");
+                System.out.println(enemyMap.get(loc).get(0).displayEnemy());
+                enemyMap.get(loc).get(0).performBersekable();
+                System.out.println("you to death!");
+            }
             if(loc == 0){
 //                saveObject(player);
                 break;
