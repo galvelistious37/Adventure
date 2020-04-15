@@ -12,11 +12,14 @@ class GamePlay {
 
     // Global Variables
     private Scanner scanner;
+    private Map<Integer, Location> locationMap;
     private Player player;
     private Map<String, Player> playerMap;
     private Map<Integer, List<Enemy>> enemyMap;
-    private Map<Integer, Location> locationMap;
 
+    /**
+     * GamePlay Constructor instantiates global variables
+     */
     GamePlay() {
         scanner = new Scanner(System.in);
         playerMap = populatePlayerMap();
@@ -37,6 +40,10 @@ class GamePlay {
         playTheGame();
     }
 
+    /**
+     * Accept user input for player name
+     * @return a player object with the name from user input
+     */
     private Player setPlayer() {
         System.out.println("What is your player's name?");
         String userInput = scanner.nextLine();
@@ -58,8 +65,7 @@ class GamePlay {
     }
 
     /**
-     * Call a method to generate options.
-     * Display those options on the screen
+     * Calls a method to generate options. Display options
      */
     private void displayStartMenu() {
         List<String> options = createOptions();
@@ -103,97 +109,23 @@ class GamePlay {
         }
     }
 
+    /**
+     * Return a list of locations
+     * @return list of locations
+     */
     private Map<Integer, Location> populateLocationMap() {
-        return generateLocations();
-    }
-
-    private Map<Integer, Location> generateLocations() {
-        Map<Integer, Location> tempLocationMap = new HashMap<>();
-        List<Integer> locationNumbers = getLocationNumbers();
-
-
-        for(Integer locNumber : locationNumbers){
-            tempLocationMap.put(locNumber, new Location(locNumber, String.valueOf(locNumber), getExits(locNumber, locationNumbers))) ;
-        }
-
-        return tempLocationMap;
-    }
-
-    private Map<String, Integer> getExits(Integer locNumber, List<Integer> locationNumbers) {
-        Map<String, Integer> tempExit = new HashMap<>();
-            if(locationNumbers.contains(locNumber + 10)){
-                tempExit.put("N", locNumber + 10);
-            }
-            if(locationNumbers.contains(locNumber + 1)){
-                tempExit.put("E", locNumber + 1);
-            }
-            if(locationNumbers.contains(locNumber - 10)){
-                tempExit.put("S", locNumber - 10);
-            }
-            if(locationNumbers.contains(locNumber - 1)){
-                tempExit.put("W", locNumber - 1);
-            }
-        return tempExit;
-    }
-
-    private List<Integer> getLocationNumbers() {
-        List<Integer> locNums = new ArrayList<>();
-        for(int i = 1; i <= 45; i++){
-            locNums.add(i);
-            if(i % 5 == 0){
-                i += 5;
-            }
-        }
-        return locNums;
+        LocationBuilder locationBuilder = new LocationBuilder();
+        return locationBuilder.generateLocationMap();
     }
 
     private Map<String, Player> populatePlayerMap() {
-        Map<String, Player> tempMap = new HashMap<>();
-        FilePath path = new FilePath();
-        BufferedReader reader;
-
-        try{
-            reader = new BufferedReader(new FileReader(path.getAbsolutePath()));
-            String line = reader.readLine();
-            while(line != null){
-                String[] splitLine = line.split(",");
-                String name = splitLine[0];
-                int hitpoints = Integer.parseInt(splitLine[1]);
-                int strength = Integer.parseInt(splitLine[2]);
-                String weapon = splitLine[3];
-                int location = Integer.parseInt(splitLine[4]);
-
-                Player tempPlayer = new Player(name, hitpoints, strength, weapon, location);
-                tempMap.put(name, tempPlayer);
-                line = reader.readLine();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return tempMap;
+        PlayerBuilder playerBuilder = new PlayerBuilder();
+        return playerBuilder.fillPlayerMap();
     }
 
     private Map<Integer, List<Enemy>> populateEnemyMap() {
-        Map<Integer, List<Enemy>> tempEnemyMap = new HashMap<>();
-        List<Enemy> enemyList = populateEnemyList();
-        List<Enemy> tempList = new ArrayList<>();
-        for(Enemy enemy : enemyList){
-            if(enemy.location == 3){
-                tempList.add(enemy);
-            }
-        }
-        tempEnemyMap.put(3, tempList);
-        return tempEnemyMap;
-    }
-
-    private List<Enemy> populateEnemyList(){
-        List<Enemy> enemyList = new ArrayList<>();
-        enemyList.add(createOgre());
-        return enemyList;
-    }
-
-    private Enemy createOgre() {
-        return new Ogre();
+        EnemyBuilder enemyBuilder = new EnemyBuilder();
+        return enemyBuilder.getIntegerListMap();
     }
 
     private void playTheGame(){
@@ -217,6 +149,10 @@ class GamePlay {
             System.out.println(locationMap.get(loc).getDescription());
             if(enemyMap.containsKey(loc)){
                 System.out.println("Uh-oh... looks like trouble");
+                System.out.println(enemyMap.get(loc).size() + " enemies are here.");
+                for(Enemy enemy : enemyMap.get(loc)){
+                    System.out.println("enemy is ... " + enemy.displayEnemy());
+                }
                 System.out.println(enemyMap.get(loc).get(0).displayEnemy());
                 enemyMap.get(loc).get(0).performBersekable();
                 System.out.println("you to death!");

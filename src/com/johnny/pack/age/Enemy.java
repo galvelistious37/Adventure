@@ -33,4 +33,12 @@ public abstract class Enemy {
 
         this.berserkable = berserkable;
     }
+
+    public int getLocation(){
+        return this.location;
+    }
+
+    public void setLocation(int location){
+        this.location = location;
+    }
 }
