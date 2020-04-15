@@ -1,20 +1,20 @@
 package com.johnny.pack.age;
 
-public class Ogre extends Enemy {
+public class Wolf extends Enemy{
 
-    public Ogre() {
-        attackable = new Punch();
-        berserkable = new Pummel();
-        hitpoints = 50;
-        strength = 20;
-        weapon = "fists";
+    public Wolf() {
+        attackable = new Bite();
+        berserkable = new Maul();
+        hitpoints = 30;
+        strength = 10;
+        weapon = "teeth";
 //        location = 3;
         isAlive = true;
     }
 
     @Override
     public String displayEnemy() {
-        return "Ogre";
+        return "Wolf";
     }
 
     @Override
@@ -27,3 +27,4 @@ public class Ogre extends Enemy {
         System.out.println(berserkable.goBersek());
     }
 }
+

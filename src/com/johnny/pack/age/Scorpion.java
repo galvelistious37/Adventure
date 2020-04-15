@@ -1,20 +1,20 @@
 package com.johnny.pack.age;
 
-public class Ogre extends Enemy {
+public class Scorpion extends Enemy {
 
-    public Ogre() {
-        attackable = new Punch();
-        berserkable = new Pummel();
-        hitpoints = 50;
-        strength = 20;
-        weapon = "fists";
+    public Scorpion() {
+        attackable = new Sting();
+        berserkable = new Impale();
+        hitpoints = 20;
+        strength = 15;
+        weapon = "stinger";
 //        location = 3;
         isAlive = true;
     }
 
     @Override
     public String displayEnemy() {
-        return "Ogre";
+        return "Scorpion";
     }
 
     @Override
