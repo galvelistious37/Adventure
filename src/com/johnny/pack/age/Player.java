@@ -65,12 +65,10 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", hitpoints=" + hitpoints +
-                ", strength=" + strength +
-                ", weapon='" + weapon + '\'' +
-                ", location=" + location +
-                '}';
+        return "Name: " + name +
+                ", Hitpoints: " + hitpoints +
+                ", Strength: " + strength +
+                ", Weapon: " + weapon +
+                ", Location: " + location;
     }
 }

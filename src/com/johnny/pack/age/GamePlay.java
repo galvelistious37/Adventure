@@ -1,20 +1,27 @@
 package com.johnny.pack.age;
 
-import java.io.*;
 import java.util.*;
 
 class GamePlay {
     // Constants
+    private static final String GREETING = "Welcome to the Greatest Adventure Game Ever!!!";
+    private static final String WRONG_DIRECTION = "You cannot go in that direction";
+    private static final String CHOOSE_PLAYER_NAME = "What is your player's name?";
+    private static final String CHOOSE_VALID_OPTION = "Select a valid option!";
+    private static final String SHUTTING_DOWN = "Shutting down...";
+    private static final String COLON_SEPARATOR = ": ";
+    private static final String QUIT_GAME = "Quit";
+    private static final String NEW_GAME = "Play";
+    private static final int STATUS = 0;
     private static final int PLAY = 1;
     private static final int QUIT = 2;
-    private static final String NEW_GAME = "Play";
-    private static final String QUIT_GAME = "Quit";
+
+    private PlayerMapBuilder playerMapBuilder;
 
     // Global Variables
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
-    private Player player;
-    private Map<String, Player> playerMap;
+//    private Player player;
     private Map<Integer, List<Enemy>> enemyMap;
 
     /**
@@ -22,9 +29,23 @@ class GamePlay {
      */
     GamePlay() {
         scanner = new Scanner(System.in);
-        playerMap = populatePlayerMap();
+        playerMapBuilder = new PlayerMapBuilder();
         enemyMap = populateEnemyMap();
         locationMap = populateLocationMap();
+    }
+
+    /**
+     * Return a list of locations
+     * @return list of locations
+     */
+    private Map<Integer, Location> populateLocationMap() {
+        LocationBuilder locationBuilder = new LocationBuilder();
+        return locationBuilder.generateLocationMap();
+    }
+
+    private Map<Integer, List<Enemy>> populateEnemyMap() {
+        EnemyBuilder enemyBuilder = new EnemyBuilder();
+        return enemyBuilder.getIntegerListMap();
     }
 
     /**
@@ -33,35 +54,18 @@ class GamePlay {
     void play() {
         displayGreeting();
         displayStartMenu();
-        if(!getStartMenuInput()){
+        if(!keepPlaying()){
             shutdown();
         }
-        player = setPlayer();
+        setPlayer();
         playTheGame();
-    }
-
-    /**
-     * Accept user input for player name
-     * @return a player object with the name from user input
-     */
-    private Player setPlayer() {
-        System.out.println("What is your player's name?");
-        String userInput = scanner.nextLine();
-        if(playerMap.containsKey(userInput)){
-            return playerMap.get(userInput);
-        } else {
-            System.out.println("Creating new player");
-            return new Player(userInput);
-        }
     }
 
     /**
      * Print a greeting to the screen
      */
     private void displayGreeting() {
-        String message = "Hello! " +
-                "Select an option from below:";
-        System.out.println(message);
+        System.out.println(GREETING);
     }
 
     /**
@@ -80,8 +84,8 @@ class GamePlay {
      */
     private List<String> createOptions() {
         List<String> generateOptions = new ArrayList<>();
-        generateOptions.add(PLAY + ": " + NEW_GAME);
-        generateOptions.add(QUIT + ": " + QUIT_GAME);
+        generateOptions.add(PLAY + COLON_SEPARATOR + NEW_GAME);
+        generateOptions.add(QUIT + COLON_SEPARATOR + QUIT_GAME);
         return generateOptions;
     }
 
@@ -90,7 +94,7 @@ class GamePlay {
      * play or quit.
      * @return a boolean value
      */
-    private boolean getStartMenuInput() {
+    private boolean keepPlaying() {
         while(true){
             if(scanner.hasNextInt()){
                 int startMenuInput = scanner.nextInt();
@@ -100,41 +104,30 @@ class GamePlay {
                 } else if (startMenuInput == QUIT){
                     return false;
                 } else {
-                    System.out.println("Select a valid option");
+                    selectValidOptionText();
                 }
             } else {
-                System.out.println("Select a valid option");
+                selectValidOptionText();
             }
             scanner.nextLine();
         }
     }
 
+    private void selectValidOptionText() {
+        System.out.println(CHOOSE_VALID_OPTION);
+    }
+
     /**
-     * Return a list of locations
-     * @return list of locations
+     * Accept user input for player name
      */
-    private Map<Integer, Location> populateLocationMap() {
-        LocationBuilder locationBuilder = new LocationBuilder();
-        return locationBuilder.generateLocationMap();
-    }
-
-    private Map<String, Player> populatePlayerMap() {
-        PlayerBuilder playerBuilder = new PlayerBuilder();
-        return playerBuilder.fillPlayerMap();
-    }
-
-    private Map<Integer, List<Enemy>> populateEnemyMap() {
-        EnemyBuilder enemyBuilder = new EnemyBuilder();
-        return enemyBuilder.getIntegerListMap();
+    private void setPlayer() {
+        System.out.println(CHOOSE_PLAYER_NAME);
+        String userInput = scanner.nextLine();
+        playerMapBuilder.loadPlayer(userInput);
     }
 
     private void playTheGame(){
-        System.out.println("Your player deetz");
-        System.out.println("Name: " + player.getName());
-        System.out.println("Hit Points: " + player.getHitpoints());
-        System.out.println("Strength: " + player.getStrength());
-        System.out.println("Weapon: " + player.getWeapon());
-        System.out.println("Location: " + player.getLocation());
+        showPlayerDetails();
 
         Map<String, String> vocabulary = new HashMap<>();
         vocabulary.put("QUIT", "Q");
@@ -144,7 +137,7 @@ class GamePlay {
         vocabulary.put("EAST", "E");
 
 
-        int loc = player.getLocation();
+        int loc = playerMapBuilder.getPlayer().getLocation();
         while(true){
             System.out.println(locationMap.get(loc).getDescription());
             if(enemyMap.containsKey(loc)){
@@ -186,41 +179,15 @@ class GamePlay {
                     quit();
                 }
                 loc = exits.get(direction);
-                player.setLocation(loc);
+                playerMapBuilder.getPlayer().setLocation(loc);
             } else {
-                System.out.println("You cannot go in that direction");
+                System.out.println(WRONG_DIRECTION);
             }
         }
-//        saveGame(player);
     }
 
-    private void saveGame(){
-        System.out.println("Saving your game...");
-        FilePath path = new FilePath();
-
-        if(!playerMap.containsKey(player.getName())){
-            playerMap.put(player.getName(), player);
-        }
-
-        try(FileWriter fw = new FileWriter(path.getAbsolutePath());
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw))
-        {
-            for(String key : playerMap.keySet()){
-                String saveString;
-                String separator = ",";
-                saveString = playerMap.get(key).getName() + separator +
-                        playerMap.get(key).getHitpoints() + separator +
-                        playerMap.get(key).getStrength() + separator +
-                        playerMap.get(key).getWeapon() + separator +
-                        playerMap.get(key).getLocation();
-
-                out.println(saveString);
-            }
-        } catch (IOException e) {
-            System.out.println("Exception???");
-            //exception handling left as an exercise for the reader
-        }
+    private void showPlayerDetails() {
+        System.out.println(playerMapBuilder.getPlayerDetails());
     }
 
     private void quit() {
@@ -228,9 +195,13 @@ class GamePlay {
         shutdown();
     }
 
+    private void saveGame(){
+        playerMapBuilder.savePlayerDetails();
+    }
+
     private void shutdown(){
         scanner.close();
-        System.out.println("Shutting down...");
-        System.exit(0);
+        System.out.println(SHUTTING_DOWN);
+        System.exit(STATUS);
     }
 }
