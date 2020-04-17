@@ -8,7 +8,6 @@ public class Ogre extends Enemy {
         hitpoints = 50;
         strength = 20;
         weapon = "fists";
-//        location = 3;
         isAlive = true;
     }
 

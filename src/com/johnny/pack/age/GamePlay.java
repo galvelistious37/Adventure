@@ -17,6 +17,7 @@ class GamePlay {
     private static final int QUIT = 2;
 
     private PlayerMapBuilder playerMapBuilder;
+    private Move availableExits;
 
     // Global Variables
     private Scanner scanner;
@@ -30,22 +31,11 @@ class GamePlay {
     GamePlay() {
         scanner = new Scanner(System.in);
         playerMapBuilder = new PlayerMapBuilder();
-        enemyMap = populateEnemyMap();
-        locationMap = populateLocationMap();
-    }
-
-    /**
-     * Return a list of locations
-     * @return list of locations
-     */
-    private Map<Integer, Location> populateLocationMap() {
         LocationBuilder locationBuilder = new LocationBuilder();
-        return locationBuilder.generateLocationMap();
-    }
-
-    private Map<Integer, List<Enemy>> populateEnemyMap() {
         EnemyBuilder enemyBuilder = new EnemyBuilder();
-        return enemyBuilder.getIntegerListMap();
+        locationMap = locationBuilder.generateLocationMap();
+        enemyMap = enemyBuilder.getEnemyMap();
+        availableExits = new Move();
     }
 
     /**
@@ -127,63 +117,98 @@ class GamePlay {
     }
 
     private void playTheGame(){
-        showPlayerDetails();
-
-        Map<String, String> vocabulary = new HashMap<>();
-        vocabulary.put("QUIT", "Q");
-        vocabulary.put("NORTH", "N");
-        vocabulary.put("SOUTH", "S");
-        vocabulary.put("WEST", "W");
-        vocabulary.put("EAST", "E");
-
-
-        int loc = playerMapBuilder.getPlayer().getLocation();
+        int locationNumber = playerMapBuilder.getPlayer().getLocation();
         while(true){
-            System.out.println(locationMap.get(loc).getDescription());
-            if(enemyMap.containsKey(loc)){
-                System.out.println("Uh-oh... looks like trouble");
-                System.out.println(enemyMap.get(loc).size() + " enemies are here.");
-                for(Enemy enemy : enemyMap.get(loc)){
-                    System.out.println("enemy is ... " + enemy.displayEnemy());
-                }
-                System.out.println(enemyMap.get(loc).get(0).displayEnemy());
-                enemyMap.get(loc).get(0).performBersekable();
-                System.out.println("you to death!");
+            System.out.println(locationMap.get(locationNumber).getDescription());
+            showPlayerDetails();
+            if(areEnemiesPresent(locationNumber)){
+                displayEnemyDetails(locationNumber);
+                initiative(locationNumber);
+                fight(locationNumber);
             }
-            if(loc == 0){
-//                saveObject(player);
-                break;
-            }
-
-            Map<String, Integer> exits = locationMap.get(loc).getExits();
-            System.out.println("Available exits are ");
-            for(String exit : exits.keySet()){
-                System.out.print(exit + ", ");
-            }
-            System.out.println();
-
+            Map<String, Integer> locationExits = locationMap.get(locationNumber).getExits();
+            displayAvailableExits(locationExits);
             String direction = scanner.nextLine().toUpperCase();
             if(direction.length() > 1){
-                String[] words = direction.split(" ");
-                for(String word : words){
-                    if(vocabulary.containsKey(word)){
-                        direction = vocabulary.get(word);
-                        break;
-                    }
-                }
+                direction = getDirectionFromWord(direction);
             }
-
-
-            if(exits.containsKey(direction)){
-                if(direction.equals("Q")){
-                    quit();
-                }
-                loc = exits.get(direction);
-                playerMapBuilder.getPlayer().setLocation(loc);
+            if(direction.equals("Q")){
+                quit();
+            }
+            if(locationExits.containsKey(direction)){
+                locationNumber = locationExits.get(direction);
+                playerMapBuilder.getPlayer().setLocation(locationNumber);
             } else {
                 System.out.println(WRONG_DIRECTION);
             }
         }
+    }
+
+    private void fight(int locationNumber) {
+        for(Enemy enemy : enemyMap.get(locationNumber)){
+            if(enemy.getInitiative() > playerMapBuilder.getPlayer().getInitiative()){
+                System.out.println(enemy.displayEnemy());
+                enemy.performBersekable();
+                System.out.println("you to death with it's " + enemy.weapon);
+            } else {
+                System.out.println(playerMapBuilder.getPlayer().getName() +
+                        " says: \"Hey Dude\" to the " + enemy.displayEnemy());
+            }
+        }
+    }
+
+    private void initiative(int locationNumber) {
+        playerMapBuilder.getPlayer().setInitiative(rollATwenty());
+        for(Enemy enemy : enemyMap.get(locationNumber)){
+            enemy.setInitiative(rollATwenty());
+        }
+        System.out.println("Player: " + playerMapBuilder.getPlayer().getInitiative());
+        for(Enemy enemy : enemyMap.get(locationNumber)){
+            System.out.println(enemy.displayEnemy() + ": " + enemy.getInitiative());
+        }
+    }
+
+    private int rollATwenty() {
+        return (int) ((Math.random() * 20) + 1);
+    }
+
+
+    private boolean areEnemiesPresent(int locationNumber) {
+        return enemyMap.containsKey(locationNumber);
+    }
+
+    private void displayEnemyDetails(int locatioNumber) {
+        String singularOrPlural = "y is";
+        if(enemyMap.get(locatioNumber).size() > 1){
+            singularOrPlural = "ies are";
+        }
+        System.out.println(enemyMap.get(locatioNumber).size()
+                + " enem" + singularOrPlural + " here.");
+    }
+
+    private void displayAvailableExits(Map<String, Integer> locationExits) {
+            System.out.println("Available exits are ");
+            int stringCounter = 1;
+            for(String exit : locationExits.keySet()){
+                if(stringCounter < locationExits.size()){
+                    System.out.print(exit + ", ");
+                } else {
+                    System.out.print(exit);
+                }
+                stringCounter++;
+            }
+            System.out.println();
+    }
+
+    private String getDirectionFromWord(String direction) {
+        Move moveDirections = new Move();
+        String[] words = direction.split(" ");
+        for(String word : words){
+            if(moveDirections.getMoveOptionsMap().containsKey(word)){
+                return moveDirections.getMoveOptionsMap().get(word);
+            }
+        }
+        return "X";
     }
 
     private void showPlayerDetails() {

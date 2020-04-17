@@ -8,7 +8,6 @@ public class Wolf extends Enemy{
         hitpoints = 30;
         strength = 10;
         weapon = "teeth";
-//        location = 3;
         isAlive = true;
     }
 

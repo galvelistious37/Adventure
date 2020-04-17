@@ -8,7 +8,6 @@ public class Scorpion extends Enemy {
         hitpoints = 20;
         strength = 15;
         weapon = "stinger";
-//        location = 3;
         isAlive = true;
     }
 
