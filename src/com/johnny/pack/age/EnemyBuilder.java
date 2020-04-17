@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class EnemyBuilder {
 
-    protected Map<Integer, List<Enemy>> getIntegerListMap() {
+    protected Map<Integer, List<Enemy>> getEnemyMap() {
         LocationNumberBuilder locationNumberBuilder = new LocationNumberBuilder();
         Map<Integer, List<Enemy>> tempEnemyMap = new HashMap<>();
         List<Enemy> enemyList = populateEnemyList();

@@ -1,20 +1,28 @@
 package com.johnny.pack.age;
 
-import java.io.*;
 import java.util.*;
 
 class GamePlay {
     // Constants
+    private static final String GREETING = "Welcome to the Greatest Adventure Game Ever!!!";
+    private static final String WRONG_DIRECTION = "You cannot go in that direction";
+    private static final String CHOOSE_PLAYER_NAME = "What is your player's name?";
+    private static final String CHOOSE_VALID_OPTION = "Select a valid option!";
+    private static final String SHUTTING_DOWN = "Shutting down...";
+    private static final String COLON_SEPARATOR = ": ";
+    private static final String QUIT_GAME = "Quit";
+    private static final String NEW_GAME = "Play";
+    private static final int STATUS = 0;
     private static final int PLAY = 1;
     private static final int QUIT = 2;
-    private static final String NEW_GAME = "Play";
-    private static final String QUIT_GAME = "Quit";
+
+    private PlayerMapBuilder playerMapBuilder;
+    private Move availableExits;
 
     // Global Variables
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
-    private Player player;
-    private Map<String, Player> playerMap;
+//    private Player player;
     private Map<Integer, List<Enemy>> enemyMap;
 
     /**
@@ -22,9 +30,12 @@ class GamePlay {
      */
     GamePlay() {
         scanner = new Scanner(System.in);
-        playerMap = populatePlayerMap();
-        enemyMap = populateEnemyMap();
-        locationMap = populateLocationMap();
+        playerMapBuilder = new PlayerMapBuilder();
+        LocationBuilder locationBuilder = new LocationBuilder();
+        EnemyBuilder enemyBuilder = new EnemyBuilder();
+        locationMap = locationBuilder.generateLocationMap();
+        enemyMap = enemyBuilder.getEnemyMap();
+        availableExits = new Move();
     }
 
     /**
@@ -33,35 +44,18 @@ class GamePlay {
     void play() {
         displayGreeting();
         displayStartMenu();
-        if(!getStartMenuInput()){
+        if(!keepPlaying()){
             shutdown();
         }
-        player = setPlayer();
+        setPlayer();
         playTheGame();
-    }
-
-    /**
-     * Accept user input for player name
-     * @return a player object with the name from user input
-     */
-    private Player setPlayer() {
-        System.out.println("What is your player's name?");
-        String userInput = scanner.nextLine();
-        if(playerMap.containsKey(userInput)){
-            return playerMap.get(userInput);
-        } else {
-            System.out.println("Creating new player");
-            return new Player(userInput);
-        }
     }
 
     /**
      * Print a greeting to the screen
      */
     private void displayGreeting() {
-        String message = "Hello! " +
-                "Select an option from below:";
-        System.out.println(message);
+        System.out.println(GREETING);
     }
 
     /**
@@ -80,8 +74,8 @@ class GamePlay {
      */
     private List<String> createOptions() {
         List<String> generateOptions = new ArrayList<>();
-        generateOptions.add(PLAY + ": " + NEW_GAME);
-        generateOptions.add(QUIT + ": " + QUIT_GAME);
+        generateOptions.add(PLAY + COLON_SEPARATOR + NEW_GAME);
+        generateOptions.add(QUIT + COLON_SEPARATOR + QUIT_GAME);
         return generateOptions;
     }
 
@@ -90,7 +84,7 @@ class GamePlay {
      * play or quit.
      * @return a boolean value
      */
-    private boolean getStartMenuInput() {
+    private boolean keepPlaying() {
         while(true){
             if(scanner.hasNextInt()){
                 int startMenuInput = scanner.nextInt();
@@ -100,127 +94,125 @@ class GamePlay {
                 } else if (startMenuInput == QUIT){
                     return false;
                 } else {
-                    System.out.println("Select a valid option");
+                    selectValidOptionText();
                 }
             } else {
-                System.out.println("Select a valid option");
+                selectValidOptionText();
             }
             scanner.nextLine();
         }
     }
 
+    private void selectValidOptionText() {
+        System.out.println(CHOOSE_VALID_OPTION);
+    }
+
     /**
-     * Return a list of locations
-     * @return list of locations
+     * Accept user input for player name
      */
-    private Map<Integer, Location> populateLocationMap() {
-        LocationBuilder locationBuilder = new LocationBuilder();
-        return locationBuilder.generateLocationMap();
-    }
-
-    private Map<String, Player> populatePlayerMap() {
-        PlayerBuilder playerBuilder = new PlayerBuilder();
-        return playerBuilder.fillPlayerMap();
-    }
-
-    private Map<Integer, List<Enemy>> populateEnemyMap() {
-        EnemyBuilder enemyBuilder = new EnemyBuilder();
-        return enemyBuilder.getIntegerListMap();
+    private void setPlayer() {
+        System.out.println(CHOOSE_PLAYER_NAME);
+        String userInput = scanner.nextLine();
+        playerMapBuilder.loadPlayer(userInput);
     }
 
     private void playTheGame(){
-        System.out.println("Your player deetz");
-        System.out.println("Name: " + player.getName());
-        System.out.println("Hit Points: " + player.getHitpoints());
-        System.out.println("Strength: " + player.getStrength());
-        System.out.println("Weapon: " + player.getWeapon());
-        System.out.println("Location: " + player.getLocation());
-
-        Map<String, String> vocabulary = new HashMap<>();
-        vocabulary.put("QUIT", "Q");
-        vocabulary.put("NORTH", "N");
-        vocabulary.put("SOUTH", "S");
-        vocabulary.put("WEST", "W");
-        vocabulary.put("EAST", "E");
-
-
-        int loc = player.getLocation();
+        int locationNumber = playerMapBuilder.getPlayer().getLocation();
         while(true){
-            System.out.println(locationMap.get(loc).getDescription());
-            if(enemyMap.containsKey(loc)){
-                System.out.println("Uh-oh... looks like trouble");
-                System.out.println(enemyMap.get(loc).size() + " enemies are here.");
-                for(Enemy enemy : enemyMap.get(loc)){
-                    System.out.println("enemy is ... " + enemy.displayEnemy());
-                }
-                System.out.println(enemyMap.get(loc).get(0).displayEnemy());
-                enemyMap.get(loc).get(0).performBersekable();
-                System.out.println("you to death!");
+            System.out.println(locationMap.get(locationNumber).getDescription());
+            showPlayerDetails();
+            if(areEnemiesPresent(locationNumber)){
+                displayEnemyDetails(locationNumber);
+                initiative(locationNumber);
+                fight(locationNumber);
             }
-            if(loc == 0){
-//                saveObject(player);
-                break;
-            }
-
-            Map<String, Integer> exits = locationMap.get(loc).getExits();
-            System.out.println("Available exits are ");
-            for(String exit : exits.keySet()){
-                System.out.print(exit + ", ");
-            }
-            System.out.println();
-
+            Map<String, Integer> locationExits = locationMap.get(locationNumber).getExits();
+            displayAvailableExits(locationExits);
             String direction = scanner.nextLine().toUpperCase();
             if(direction.length() > 1){
-                String[] words = direction.split(" ");
-                for(String word : words){
-                    if(vocabulary.containsKey(word)){
-                        direction = vocabulary.get(word);
-                        break;
-                    }
-                }
+                direction = getDirectionFromWord(direction);
             }
-
-
-            if(exits.containsKey(direction)){
-                if(direction.equals("Q")){
-                    quit();
-                }
-                loc = exits.get(direction);
-                player.setLocation(loc);
+            if(direction.equals("Q")){
+                quit();
+            }
+            if(locationExits.containsKey(direction)){
+                locationNumber = locationExits.get(direction);
+                playerMapBuilder.getPlayer().setLocation(locationNumber);
             } else {
-                System.out.println("You cannot go in that direction");
+                System.out.println(WRONG_DIRECTION);
             }
         }
-//        saveGame(player);
     }
 
-    private void saveGame(){
-        System.out.println("Saving your game...");
-        FilePath path = new FilePath();
-
-        if(!playerMap.containsKey(player.getName())){
-            playerMap.put(player.getName(), player);
-        }
-
-        try(FileWriter fw = new FileWriter(path.getAbsolutePath());
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter out = new PrintWriter(bw))
-        {
-            for(String key : playerMap.keySet()){
-                String saveString;
-                String separator = ",";
-                saveString = playerMap.get(key).getName() + separator +
-                        playerMap.get(key).getHitpoints() + separator +
-                        playerMap.get(key).getStrength() + separator +
-                        playerMap.get(key).getWeapon() + separator +
-                        playerMap.get(key).getLocation();
-
-                out.println(saveString);
+    private void fight(int locationNumber) {
+        for(Enemy enemy : enemyMap.get(locationNumber)){
+            if(enemy.getInitiative() > playerMapBuilder.getPlayer().getInitiative()){
+                System.out.println(enemy.displayEnemy());
+                enemy.performBersekable();
+                System.out.println("you to death with it's " + enemy.weapon);
+            } else {
+                System.out.println(playerMapBuilder.getPlayer().getName() +
+                        " says: \"Hey Dude\" to the " + enemy.displayEnemy());
             }
-        } catch (IOException e) {
-            System.out.println("Exception???");
-            //exception handling left as an exercise for the reader
         }
+    }
+
+    private void initiative(int locationNumber) {
+        playerMapBuilder.getPlayer().setInitiative(rollATwenty());
+        for(Enemy enemy : enemyMap.get(locationNumber)){
+            enemy.setInitiative(rollATwenty());
+        }
+        System.out.println("Player: " + playerMapBuilder.getPlayer().getInitiative());
+        for(Enemy enemy : enemyMap.get(locationNumber)){
+            System.out.println(enemy.displayEnemy() + ": " + enemy.getInitiative());
+        }
+    }
+
+    private int rollATwenty() {
+        return (int) ((Math.random() * 20) + 1);
+    }
+
+
+    private boolean areEnemiesPresent(int locationNumber) {
+        return enemyMap.containsKey(locationNumber);
+    }
+
+    private void displayEnemyDetails(int locatioNumber) {
+        String singularOrPlural = "y is";
+        if(enemyMap.get(locatioNumber).size() > 1){
+            singularOrPlural = "ies are";
+        }
+        System.out.println(enemyMap.get(locatioNumber).size()
+                + " enem" + singularOrPlural + " here.");
+    }
+
+    private void displayAvailableExits(Map<String, Integer> locationExits) {
+            System.out.println("Available exits are ");
+            int stringCounter = 1;
+            for(String exit : locationExits.keySet()){
+                if(stringCounter < locationExits.size()){
+                    System.out.print(exit + ", ");
+                } else {
+                    System.out.print(exit);
+                }
+                stringCounter++;
+            }
+            System.out.println();
+    }
+
+    private String getDirectionFromWord(String direction) {
+        Move moveDirections = new Move();
+        String[] words = direction.split(" ");
+        for(String word : words){
+            if(moveDirections.getMoveOptionsMap().containsKey(word)){
+                return moveDirections.getMoveOptionsMap().get(word);
+            }
+        }
+        return "X";
+    }
+
+    private void showPlayerDetails() {
+        System.out.println(playerMapBuilder.getPlayerDetails());
     }
 
     private void quit() {
@@ -228,9 +220,13 @@ class GamePlay {
         shutdown();
     }
 
+    private void saveGame(){
+        playerMapBuilder.savePlayerDetails();
+    }
+
     private void shutdown(){
         scanner.close();
-        System.out.println("Shutting down...");
-        System.exit(0);
+        System.out.println(SHUTTING_DOWN);
+        System.exit(STATUS);
     }
 }

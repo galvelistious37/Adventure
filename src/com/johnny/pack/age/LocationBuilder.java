@@ -9,13 +9,10 @@ public class LocationBuilder {
     protected Map<Integer, Location> generateLocationMap(){
         LocationNumberBuilder locationNumberBuilder = new LocationNumberBuilder();
         Map<Integer, Location> tempLocationMap = new HashMap<>();
-
         List<Integer> locationNumbers = locationNumberBuilder.getLocationNumbersList();
-
         for(Integer locNumber : locationNumbers){
             tempLocationMap.put(locNumber, new Location(locNumber, String.valueOf(locNumber), getExits(locNumber, locationNumbers))) ;
         }
-
         return tempLocationMap;
     }
 

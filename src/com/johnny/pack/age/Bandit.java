@@ -8,7 +8,6 @@ public class Bandit extends Enemy {
         hitpoints = 40;
         strength = 20;
         weapon = "knife";
-//        location = 3;
         isAlive = true;
     }
 

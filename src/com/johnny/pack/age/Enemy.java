@@ -8,6 +8,7 @@ public abstract class Enemy {
     String weapon;
     int location;
     boolean isAlive;
+    int initiative;
 
     public Enemy(){
 
@@ -40,5 +41,13 @@ public abstract class Enemy {
 
     public void setLocation(int location){
         this.location = location;
+    }
+
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
     }
 }

@@ -6,6 +6,7 @@ public class Player {
     private int strength;
     private String weapon;
     private int location;
+    private int initiative;
 
     public Player(String name) {
         this.name = name;
@@ -13,6 +14,7 @@ public class Player {
         this.strength = 10;
         this.weapon = "Sword";
         this.location = 1;
+        this.initiative = 0;
     }
 
     public Player(String name, int hitpoints, int strength, String weapon, int location) {
@@ -65,12 +67,18 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "name='" + name + '\'' +
-                ", hitpoints=" + hitpoints +
-                ", strength=" + strength +
-                ", weapon='" + weapon + '\'' +
-                ", location=" + location +
-                '}';
+        return "Name: " + name +
+                ", Hitpoints: " + hitpoints +
+                ", Strength: " + strength +
+                ", Weapon: " + weapon +
+                ", Location: " + location;
+    }
+
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
     }
 }
