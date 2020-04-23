@@ -117,14 +117,16 @@ class GamePlay {
     }
 
     private void playTheGame(){
+        Fight fightinStuff = new Fight();
         int locationNumber = playerMapBuilder.getPlayer().getLocation();
         while(true){
             System.out.println(locationMap.get(locationNumber).getDescription());
             showPlayerDetails();
             if(areEnemiesPresent(locationNumber)){
-                displayEnemyDetails(locationNumber);
-                initiative(locationNumber);
-                fight(locationNumber);
+                fightinStuff.initiative(playerMapBuilder.getPlayer(), getEnemiesFromLocation(locationNumber));
+                fightinStuff.doFightinStuff(playerMapBuilder.getPlayer(), getEnemiesFromLocation(locationNumber));
+//                displayEnemyDetails(locationNumber);
+//                fight(locationNumber);
             }
             Map<String, Integer> locationExits = locationMap.get(locationNumber).getExits();
             displayAvailableExits(locationExits);
@@ -157,24 +159,12 @@ class GamePlay {
         }
     }
 
-    private void initiative(int locationNumber) {
-        playerMapBuilder.getPlayer().setInitiative(rollATwenty());
-        for(Enemy enemy : enemyMap.get(locationNumber)){
-            enemy.setInitiative(rollATwenty());
-        }
-        System.out.println("Player: " + playerMapBuilder.getPlayer().getInitiative());
-        for(Enemy enemy : enemyMap.get(locationNumber)){
-            System.out.println(enemy.displayEnemy() + ": " + enemy.getInitiative());
-        }
-    }
-
-    private int rollATwenty() {
-        return (int) ((Math.random() * 20) + 1);
-    }
-
-
     private boolean areEnemiesPresent(int locationNumber) {
         return enemyMap.containsKey(locationNumber);
+    }
+
+    private List<Enemy> getEnemiesFromLocation(int locationNumber){
+        return enemyMap.get(locationNumber);
     }
 
     private void displayEnemyDetails(int locatioNumber) {

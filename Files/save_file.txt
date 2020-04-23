@@ -1,6 +1,7 @@
 Dude,100,10,Sword,45
 Winter,100,10,Sword,1
-Johnny,100,10,Sword,21
+Johnny,-130,10,Sword,35
 Jerky,150,30,Axe,1
 Groot,100,10,Sword,2
+Johnnyu,70,10,Sword,2
 Jekk Baerr,100,10,Sword,45
