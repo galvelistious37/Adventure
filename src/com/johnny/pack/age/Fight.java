@@ -181,10 +181,8 @@ public class Fight {
             getFightMenu();
             if (fightScanner.hasNextInt()) {
                 int fightMenuSelection = fightScanner.nextInt();
-                if (fightMenuSelection > 1 || fightMenuSelection < 4) {
+                if (fightMenuSelection >= 1 && fightMenuSelection <= 4) {
                     return fightMenuSelection;
-                } else {
-                    System.out.println("Select a valid option");
                 }
             }
             System.out.println("Select a valid option");
