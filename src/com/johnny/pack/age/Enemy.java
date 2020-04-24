@@ -16,13 +16,13 @@ public abstract class Enemy {
 
     public abstract String displayEnemy();
 
-    public void performAttack(){
-        System.out.println(attackable.attack());
+    public String performAttack(){
+        return attackable.attack();
     }
 
-    public void performBersekable(){
+    public String performBersekable(){
 
-        System.out.println(berserkable.goBersek());
+        return berserkable.goBersek();
     }
 
     public void setAttackable(IAttackable attackable){
