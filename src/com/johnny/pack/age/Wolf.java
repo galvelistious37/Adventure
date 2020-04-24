@@ -17,13 +17,13 @@ public class Wolf extends Enemy{
     }
 
     @Override
-    public void performAttack() {
-        System.out.println(attackable.attack());
+    public String performAttack() {
+        return attackable.attack();
     }
 
     @Override
-    public void performBersekable() {
-        System.out.println(berserkable.goBersek());
+    public String performBersekable() {
+        return berserkable.goBersek();
     }
 }
 
