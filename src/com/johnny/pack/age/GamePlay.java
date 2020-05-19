@@ -22,7 +22,6 @@ class GamePlay {
     // Global Variables
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
-//    private Player player;
     private Map<Integer, List<Enemy>> enemyMap;
 
     /**
@@ -39,7 +38,7 @@ class GamePlay {
     }
 
     /**
-     * Main play method to run the game
+     * Greet and play the game
      */
     void play() {
         displayGreeting();
@@ -103,6 +102,9 @@ class GamePlay {
         }
     }
 
+    /**
+     * Display text to choose a valid option
+     */
     private void selectValidOptionText() {
         System.out.println(CHOOSE_VALID_OPTION);
     }
@@ -116,15 +118,17 @@ class GamePlay {
         playerMapBuilder.loadPlayer(userInput);
     }
 
+    /**
+     * Main game play method. This method loops through the logic
+     * of each round.
+     */
     private void playTheGame(){
-        Fight fightinStuff = new Fight();
         int locationNumber = playerMapBuilder.getPlayer().getLocation();
         while(true){
             System.out.println(locationMap.get(locationNumber).getDescription());
             showPlayerDetails();
             if(areEnemiesPresent(locationNumber)){
-                fightinStuff.initiative(playerMapBuilder.getPlayer(), getEnemiesFromLocation(locationNumber));
-                fightinStuff.doFightinStuff(playerMapBuilder.getPlayer(), getEnemiesFromLocation(locationNumber));
+                dealWithEnemies(locationNumber);
 //                displayEnemyDetails(locationNumber);
 //                fight(locationNumber);
             }
@@ -144,6 +148,12 @@ class GamePlay {
                 System.out.println(WRONG_DIRECTION);
             }
         }
+    }
+
+    private void dealWithEnemies(int locationNumber) {
+        Fight fightinStuff = new Fight();
+        fightinStuff.initiative(playerMapBuilder.getPlayer(), getEnemiesFromLocation(locationNumber));
+        fightinStuff.doFightinStuff(playerMapBuilder.getPlayer(), getEnemiesFromLocation(locationNumber));
     }
 
     private void fight(int locationNumber) {
