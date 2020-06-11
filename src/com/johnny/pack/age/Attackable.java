@@ -1,5 +1,5 @@
 package com.johnny.pack.age;
 
-public interface IAttackable {
+public interface Attackable {
     String attack();
 }
