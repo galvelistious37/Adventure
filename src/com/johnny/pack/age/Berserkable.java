@@ -1,5 +1,5 @@
 package com.johnny.pack.age;
 
-public interface IBerserkable {
+public interface Berserkable {
     String goBersek();
 }

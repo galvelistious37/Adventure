@@ -7,38 +7,22 @@ import java.util.Map;
 
 public class EnemyBuilder {
 
-    protected Map<Integer, List<Enemy>> getEnemyMap() {
-        LocationNumberBuilder locationNumberBuilder = new LocationNumberBuilder();
-        Map<Integer, List<Enemy>> tempEnemyMap = new HashMap<>();
-        List<Enemy> enemyList = populateEnemyList();
-        List<Integer> locationNumbers = locationNumberBuilder.getLocationNumbersList();
-
-        for(Integer number : locationNumbers){
-            List<Enemy> tempList = new ArrayList<>();
-            for(Enemy enemy : enemyList){
-                if(enemy.getLocation() == number){
-                    tempList.add(enemy);
-                }
-            }
-            if(tempList.size() > 0){
-                tempEnemyMap.put(number, tempList);
-            }
-
-        }
-        return tempEnemyMap;
+    protected List<Character> getEnemyList() {
+        List<Character> enemyList = populateEnemyList();
+        return enemyList;
     }
 
-    private List<Enemy> populateEnemyList(){
-        List<Enemy> enemyList = new ArrayList<>();
+    private List<Character> populateEnemyList(){
+        List<Character> enemyList = new ArrayList<>();
         for(int i = 0; i < 25; i++){
-            Enemy tempEnemy = getEnemy();
-            tempEnemy.setLocation(getRandomLocation());
+            Character tempEnemy = getEnemy();
+//            tempEnemy.setLocation(getRandomLocation());
             enemyList.add(tempEnemy);
         }
         return enemyList;
     }
 
-    private Enemy getEnemy(){
+    private Character getEnemy(){
         switch(getRandomEnemy()){
             case 1 :
                 return new Ogre();
