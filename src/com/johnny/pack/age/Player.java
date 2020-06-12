@@ -109,16 +109,7 @@ public class Player extends Character{
 
     @Override
     public String toString() {
-        return "Player{" +
-                "equipable=" + equipable +
-                ", attackable=" + attackable +
-                ", berserkable=" + berserkable +
-                ", hitpoints=" + hitpoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", NAME='" + NAME + '\'' +
-                '}';
+        return NAME + " have " + hitpoints + " hitpoints. \n" +
+                "Weapon: " + equipable.weaponType();
     }
 }

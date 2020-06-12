@@ -10,8 +10,6 @@ class GamePlay {
     private static final String SHUTTING_DOWN = "Shutting down...";
     private static final int STATUS = 0;
 
-    private Move availableExits;
-
     // Global Variables
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
@@ -28,7 +26,6 @@ class GamePlay {
         EnemyBuilder enemyBuilder = new EnemyBuilder();
         locationMap = locationBuilder.generateLocationMap();
         enemies = enemyBuilder.getEnemyList();
-        availableExits = new Move();
     }
 
     /**
@@ -47,44 +44,47 @@ class GamePlay {
     }
 
     /**
-     * Display text to choose a valid option
-     */
-    private void selectValidOptionText() {
-        System.out.println(CHOOSE_VALID_OPTION);
-    }
-
-
-    /**
      * Main game play method. This method loops through the logic
      * of each round.
      */
     private void playTheGame(){
         int locationNumber = playerOne.getLocation();
+        Map<String, Integer> exits;
         while(true){
-            System.out.println(locationMap.get(locationNumber).getDescription());
+            displayLocation(locationNumber);
             showPlayerDetails();
-            if(areEnemiesPresent(locationNumber)){
-                dealWithEnemies(locationNumber);
-//                displayEnemyDetails(locationNumber);
-//                fight(locationNumber);
-            }
-            Map<String, Integer> locationExits = locationMap.get(locationNumber).getExits();
-            displayAvailableExits(locationExits);
+            checkForEnemies(locationNumber);
+            exits = locationMap.get(locationNumber).getExits();
+            displayAvailableExits(exits);
             String direction = scanner.nextLine().toUpperCase();
-            if(direction.length() > 1){
-                direction = getDirectionFromWord(direction);
-            }
-            if(direction.equals("Q")){
-                quit();
-            }
-            if(locationExits.containsKey(direction)){
-                locationNumber = locationExits.get(direction);
-                playerOne.setLocation(locationNumber);
-            } else {
-                System.out.println(WRONG_DIRECTION);
-            }
+            locationNumber = moveInDirection(locationNumber, exits, direction);
         }
     }
+
+    private void checkForEnemies(int locationNumber) {
+        if(areEnemiesPresent(locationNumber)){
+            dealWithEnemies(locationNumber);
+//                displayEnemyDetails(locationNumber);
+//                fight(locationNumber);
+        }
+    }
+
+    private int moveInDirection(int locationNumber, Map<String, Integer> exits, String direction) {
+        if(direction.length() > 1){
+            direction = getDirectionFromWord(direction);
+        }
+        if(direction.equals("Q")){
+            quit();
+        }
+        if(exits.containsKey(direction)){
+            locationNumber = exits.get(direction);
+            playerOne.setLocation(locationNumber);
+        } else {
+            System.out.println(WRONG_DIRECTION);
+        }
+        return locationNumber;
+    }
+
 
     private void dealWithEnemies(int locationNumber) {
         Fight fightinStuff = new Fight();
@@ -159,6 +159,10 @@ class GamePlay {
             }
         }
         return "X";
+    }
+
+    private void displayLocation(int locationNumber) {
+        System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
     }
 
     private void showPlayerDetails() {

@@ -7,11 +7,11 @@ import java.util.Scanner;
 public class Fight {
     private static final String COLON_SEPARATOR = ": ";
     private static final String DO_FIGHTIN = "Fight";
-    private static final String TAUNT_THEM = "Taunt";
+    private static final String INTIMIDATE_THEM = "Intimidate";
     private static final String SNEAKY_LIKE = "Sneak Past";
     private static final String RUN_FORREST = "Run";
     private static final int FIGHT = 1;
-    private static final int TAUNT = 2;
+    private static final int INTIMIDATE = 2;
     private static final int SNEAK_PAST = 3;
     private static final int RUN_AWAY = 4;
     private Scanner fightScanner;
@@ -39,7 +39,7 @@ public class Fight {
     private List<String> createOptions() {
         List<String> generateOptions = new ArrayList<>();
         generateOptions.add(FIGHT + COLON_SEPARATOR + DO_FIGHTIN);
-        generateOptions.add(TAUNT + COLON_SEPARATOR + TAUNT_THEM);
+        generateOptions.add(INTIMIDATE + COLON_SEPARATOR + INTIMIDATE_THEM);
         generateOptions.add(SNEAK_PAST + COLON_SEPARATOR + SNEAKY_LIKE);
         generateOptions.add(RUN_AWAY + COLON_SEPARATOR + RUN_FORREST);
         return generateOptions;
@@ -66,6 +66,9 @@ public class Fight {
                     int action = getSelection();
                     quit = tryAction(action, player, enemiesFromLocation);
                 }
+                if(quit){
+                   break;
+                }
                 for(Character enemy : enemiesFromLocation){
                     if(enemy.getInitiative() == i){
                         if(enemy.getIsAlive()){
@@ -77,7 +80,24 @@ public class Fight {
                 }
             }
             System.out.println("**************************************************");
+            if(countTheDead(enemiesFromLocation)){
+                quit = true;
+            }
         }
+    }
+
+    private boolean countTheDead(List<Character> enemiesFromLocation) {
+        int bodies = 0;
+        for(Character enemy : enemiesFromLocation){
+            if(!enemy.getIsAlive()){
+                bodies++;
+            }
+            if(bodies == enemiesFromLocation.size()){
+                System.out.println("The ground is painted with " + enemy.displayCharacter() + " blood");
+                return true;
+            }
+        }
+        return false;
     }
 
     private void enemyAttack(Character player, Character enemy) {
@@ -105,14 +125,14 @@ public class Fight {
                 attack(player, enemiesFromLocation);
                 return false;
             case 2:
-//                taunt(player, enemiesFromLocation);
+//                intimidate(player, enemiesFromLocation);
                 return false;
             case 3:
 //                sneak();
                 return false;
             case 4:
                 runAway();
-                return  true;
+                return true;
         }
         return false;
     }
@@ -126,7 +146,7 @@ public class Fight {
         Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
         int enemyHitpoints  = currentEnemy.getHitpoints();
 
-        if(diceRoll.rollATwenty() > 18){
+        if(diceRoll.rollATwenty() >= 18){
             System.out.println("You " + player.performBersek() + " " + currentEnemy.displayCharacter()
             + " with your " + player.weaponType());
             currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()*2));
@@ -135,7 +155,7 @@ public class Fight {
             }
             System.out.println(enemiesFromLocation.get(enemyToAttack).displayCharacter()
                     + " has " + currentEnemy.getHitpoints() + " hitpoints left");
-        } else if(diceRoll.rollATwenty() >= 10){
+        } else if(diceRoll.rollATwenty() >= 8){
             System.out.println("You successfully " + player.performAttack() + " " + currentEnemy.displayCharacter()
             + " with your " + player.weaponType());
             currentEnemy.setHitpoints(enemyHitpoints - player.getStrength());
@@ -144,18 +164,13 @@ public class Fight {
             }
             System.out.println(currentEnemy.displayCharacter()
                     + " has " + currentEnemy.getHitpoints() + " hitpoints left");
-        }else if(diceRoll.rollATwenty() >= 5){
+        }else if(diceRoll.rollATwenty() >= 3){
             System.out.println("You scratched the " + currentEnemy.displayCharacter()
                     + " with your " + player.weaponType());
             currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()-2));
             if(currentEnemy.getHitpoints() <= 0){
                 currentEnemy.setIsAlive(false);
             }
-            System.out.println(currentEnemy.displayCharacter()
-                    + " has " + currentEnemy.getHitpoints() + " hitpoints left");
-        }else if(diceRoll.rollATwenty() >= 3){
-            System.out.println(currentEnemy.displayCharacter()
-                    + " blocked your " + player.weaponType() + " attack");
             System.out.println(currentEnemy.displayCharacter()
                     + " has " + currentEnemy.getHitpoints() + " hitpoints left");
         }else{
