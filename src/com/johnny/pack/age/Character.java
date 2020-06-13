@@ -1,16 +1,8 @@
 package com.johnny.pack.age;
 
 public abstract class Character {
-//    Equipable equipable;
-//    Attackable attackable;
-//    Berserkable berserkable;
-//    int hitpoints;
-//    int strength;
-//    int location;
-//    boolean isAlive;
-//    int initiative;
-
-    public abstract String displayCharacter();
+    public abstract String getName();
+    public abstract void setName(String name);
     public abstract String weaponType();
     public abstract void setEquipable(Equipable equipable);
     public abstract String performAttack();

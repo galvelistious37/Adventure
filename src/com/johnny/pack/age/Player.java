@@ -9,7 +9,7 @@ public class Player extends Character{
     private int location;
     private boolean isAlive;
     private int initiative;
-    private final String NAME = "You";
+    private String name;
 
     public Player() {
         this.equipable = new Fist();
@@ -20,11 +20,17 @@ public class Player extends Character{
         this.location = 1;
         this.isAlive = true;
         this.initiative = 0;
+        this.name = "You";
     }
 
     @Override
-    public String displayCharacter() {
-        return NAME;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -109,7 +115,7 @@ public class Player extends Character{
 
     @Override
     public String toString() {
-        return NAME + " have " + hitpoints + " hitpoints. \n" +
+        return name + " have " + hitpoints + " hitpoints \n" +
                 "Weapon: " + equipable.weaponType();
     }
 }

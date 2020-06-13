@@ -9,7 +9,8 @@ public class Bandit extends Character {
     private int location;
     private boolean isAlive;
     private int initiative;
-    private final String NAME = "Bandit";
+    private String name;
+    private final String ENEMY_TYPE = "Bandit";
 
     public Bandit() {
         this.equipable = new Knife();
@@ -20,11 +21,17 @@ public class Bandit extends Character {
         this.location = 4;
         this.isAlive = true;
         this.initiative = 0;
+        this.name = "Bandit";
     }
 
     @Override
-    public String displayCharacter() {
-        return NAME;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -118,7 +125,7 @@ public class Bandit extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", NAME='" + NAME + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
