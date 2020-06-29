@@ -173,7 +173,7 @@ class GamePlay {
         System.out.println(playerOne.toString());
     }
 
-    private void quit() {
+    protected void quit() {
         scanner.close();
         System.out.println(SHUTTING_DOWN);
         System.exit(STATUS);

@@ -23,7 +23,7 @@ public class Fight {
     }
 
     /**
-     * Calls a method to generate options. Display options
+     * Display Fight Menu options
      */
     public void getFightMenu(){
         List<String> options = createOptions();
@@ -33,8 +33,8 @@ public class Fight {
     }
 
     /**
-     * Create the options for the Fight Menu.
-     * @return List of String options.
+     * Create Fight Menu.
+     * @return List of String Fight Menu options.
      */
     private List<String> createOptions() {
         List<String> generateOptions = new ArrayList<>();
@@ -58,7 +58,8 @@ public class Fight {
         while(!quit){
             round++;
             displayRound(round);
-            System.out.println(player.toString());
+            showCharacterStatus(player);
+
             for(int i = 20; i > 0; i--){
                 if(player.getInitiative() == i){
                     int action = getSelection();
@@ -83,10 +84,15 @@ public class Fight {
         }
     }
 
+
     private void displayRound(int round) {
         System.out.println("**************************************************");
         System.out.println("                  Round " + round);
         System.out.println("**************************************************");
+    }
+
+    private void showCharacterStatus(Character character) {
+        System.out.println(character.toString());
     }
 
     private boolean countTheDead(List<Character> enemiesFromLocation) {
@@ -109,6 +115,24 @@ public class Fight {
         int damage = enemyDealsDamage(roll, enemy);
         playerHitpoint -= damage;
         player.setHitpoints(playerHitpoint);
+        if(player.getHitpoints() <= 0){
+            player.setIsAlive(false);
+            System.out.println(enemy.getName() + " killed you");
+            System.out.println("Game Over");
+            pressEnterKeyToContinue();
+            GamePlay gamePlay = new GamePlay();
+            gamePlay.quit();
+
+        } else {
+            System.out.println("You have " + player.getHitpoints() + " remaining");
+        }
+    }
+
+    public void pressEnterKeyToContinue()
+    {
+        System.out.println("Press Enter key to quit...");
+        Scanner s = new Scanner(System.in);
+        s.nextLine();
     }
 
     private int enemyDealsDamage(int roll, Character enemy) {
