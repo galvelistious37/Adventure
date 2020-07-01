@@ -10,8 +10,6 @@ class GamePlay {
     private static final String SHUTTING_DOWN = "Shutting down...";
     private static final int STATUS = 0;
 
-    private Move availableExits;
-
     // Global Variables
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
@@ -28,7 +26,6 @@ class GamePlay {
         EnemyBuilder enemyBuilder = new EnemyBuilder();
         locationMap = locationBuilder.generateLocationMap();
         enemies = enemyBuilder.getEnemyList();
-        availableExits = new Move();
     }
 
     /**
@@ -47,63 +44,70 @@ class GamePlay {
     }
 
     /**
-     * Display text to choose a valid option
-     */
-    private void selectValidOptionText() {
-        System.out.println(CHOOSE_VALID_OPTION);
-    }
-
-
-    /**
      * Main game play method. This method loops through the logic
      * of each round.
      */
     private void playTheGame(){
         int locationNumber = playerOne.getLocation();
+        int nextLocationNumber = 0;
+        Map<String, Integer> exits;
         while(true){
-            System.out.println(locationMap.get(locationNumber).getDescription());
-            showPlayerDetails();
-            if(areEnemiesPresent(locationNumber)){
-                dealWithEnemies(locationNumber);
-//                displayEnemyDetails(locationNumber);
-//                fight(locationNumber);
-            }
-            Map<String, Integer> locationExits = locationMap.get(locationNumber).getExits();
-            displayAvailableExits(locationExits);
+            displayLocation(locationNumber);
+            showCharacterStatus(playerOne);
+            checkForEnemies(locationNumber);
+            exits = locationMap.get(locationNumber).getExits();
+            displayAvailableExits(exits);
             String direction = scanner.nextLine().toUpperCase();
-            if(direction.length() > 1){
-                direction = getDirectionFromWord(direction);
-            }
-            if(direction.equals("Q")){
-                quit();
-            }
-            if(locationExits.containsKey(direction)){
-                locationNumber = locationExits.get(direction);
-                playerOne.setLocation(locationNumber);
-            } else {
-                System.out.println(WRONG_DIRECTION);
+            nextLocationNumber = moveInDirection(locationNumber, exits, direction);
+            if(locationNumber != nextLocationNumber){
+                resetCharacterInitiative(locationNumber);
+                locationNumber = nextLocationNumber;
             }
         }
     }
 
-    private void dealWithEnemies(int locationNumber) {
-        Fight fightinStuff = new Fight();
+    private void resetCharacterInitiative(int locationNumber){
         List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
+        playerOne.setInitiative(0);
+        for(Character enemy : localEnemies){
+            enemy.setInitiative(0);
+        }
+    }
+
+    private void checkForEnemies(int locationNumber) {
+        if(areEnemiesPresent(locationNumber)){
+            Fight fight = new Fight();
+            List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
+            if(!fight.countTheDead(localEnemies)){
+                displayAreaEnemies(localEnemies);
+                dealWithEnemies(fight, localEnemies);
+            } else {
+                System.out.println("All enemies here are dead");
+            }
+        }
+    }
+
+    private int moveInDirection(int locationNumber, Map<String, Integer> exits, String direction) {
+        if(direction.length() > 1){
+            direction = getDirectionFromWord(direction);
+        }
+        if(direction.equals("Q")){
+            quit();
+        }
+        if(exits.containsKey(direction)){
+            locationNumber = exits.get(direction);
+            playerOne.setLocation(locationNumber);
+            System.out.println("");
+        } else {
+            System.out.println(WRONG_DIRECTION);
+        }
+        return locationNumber;
+    }
+
+
+    private void dealWithEnemies(Fight fightinStuff, List<Character> localEnemies){
         fightinStuff.initiative(playerOne, localEnemies);
         fightinStuff.doFightinStuff(playerOne, localEnemies);
-    }
-
-    private void fight(int locationNumber) {
-        for(Character enemy : enemies){
-            if(enemy.getInitiative() > playerOne.getInitiative()){
-                System.out.println(enemy.displayCharacter());
-                enemy.performBersek();
-                System.out.println("you to death with it's " + enemy.weaponType());
-            } else {
-                System.out.println(playerOne.displayCharacter() +
-                        " says: \"Hey Dude\" to the " + enemy.displayCharacter());
-            }
-        }
     }
 
     private boolean areEnemiesPresent(int locationNumber) {
@@ -119,35 +123,31 @@ class GamePlay {
         List<Character> tempList = new ArrayList<>();
         for(Character enemy : enemies){
             if(enemy.getLocation() == locationNumber){
-                System.out.println(enemy.toString());
                 tempList.add(enemy);
             }
         }
-        System.out.println("temp list size: = " + tempList.size());
         return tempList;
     }
 
-//    private void displayEnemyDetails(int locatioNumber) {
-//        String singularOrPlural = "y is";
-//        if(enemies.get(locatioNumber).size() > 1){
-//            singularOrPlural = "ies are";
-//        }
-//        System.out.println(enemies.get(locatioNumber).size()
-//                + " enem" + singularOrPlural + " here.");
-//    }
+    private void displayAreaEnemies(List<Character> localEnemies){
+        for(Character enemy : localEnemies){
+            System.out.println("\t" + enemy.getName() + ": " + enemy.getHitpoints() + " HP");
+        }
+    }
 
     private void displayAvailableExits(Map<String, Integer> locationExits) {
-            System.out.println("Available exits are ");
-            int stringCounter = 1;
-            for(String exit : locationExits.keySet()){
-                if(stringCounter < locationExits.size()){
-                    System.out.print(exit + ", ");
-                } else {
-                    System.out.print(exit);
-                }
-                stringCounter++;
+        System.out.println("Available exits are: ");
+        int stringCounter = 1;
+        System.out.print("\t");
+        for(String exit : locationExits.keySet()){
+            if(stringCounter < locationExits.size()){
+                System.out.print(exit + ", ");
+            } else {
+                System.out.print(exit);
             }
-            System.out.println();
+            stringCounter++;
+        }
+        System.out.println();
     }
 
     private String getDirectionFromWord(String direction) {
@@ -161,11 +161,16 @@ class GamePlay {
         return "X";
     }
 
-    private void showPlayerDetails() {
-        System.out.println(playerOne.toString());
+    private void displayLocation(int locationNumber) {
+        System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
     }
 
-    private void quit() {
+    protected void showCharacterStatus(Character character) {
+        System.out.println(character.toString());
+        System.out.println(" ");
+    }
+
+    protected void quit() {
         scanner.close();
         System.out.println(SHUTTING_DOWN);
         System.exit(STATUS);

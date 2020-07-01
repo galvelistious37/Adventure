@@ -9,7 +9,7 @@ public class Ogre extends Character {
     private int location;
     private boolean isAlive;
     private int initiative;
-    private final String NAME = "Ogre";
+    private String name;
 
     public Ogre() {
         this.equipable = new Fist();
@@ -20,11 +20,17 @@ public class Ogre extends Character {
         this.location = 5;
         this.isAlive = true;
         this.initiative = 0;
+        this.name = "Ogre";
     }
 
     @Override
-    public String displayCharacter() {
-        return NAME;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -118,7 +124,7 @@ public class Ogre extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", NAME='" + NAME + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

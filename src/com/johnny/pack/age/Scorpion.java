@@ -9,7 +9,7 @@ public class Scorpion extends Character {
     private int location;
     private boolean isAlive;
     private int initiative;
-    private final String NAME = "Scorpion";
+    private String name;
 
     public Scorpion() {
         this.equipable = new Stinger();
@@ -20,11 +20,17 @@ public class Scorpion extends Character {
         this.location = 3;
         this.isAlive = true;
         this.initiative = 0;
+        this.name = "Scorpion";
     }
 
     @Override
-    public String displayCharacter() {
-        return NAME;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -118,7 +124,7 @@ public class Scorpion extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", NAME='" + NAME + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

@@ -9,7 +9,7 @@ public class Wolf extends Character {
     private int location;
     private boolean isAlive;
     private int initiative;
-    private final String NAME = "Wolf";
+    private String name;
 
     public Wolf() {
         this.equipable = new Teeth();
@@ -20,11 +20,17 @@ public class Wolf extends Character {
         this.location = 11;
         this.isAlive = true;
         this.initiative = 0;
+        this.name = "Wolf";
     }
 
     @Override
-    public String displayCharacter() {
-        return NAME;
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name){
+        this.name = name;
     }
 
     @Override
@@ -118,7 +124,7 @@ public class Wolf extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", NAME='" + NAME + '\'' +
+                ", NAME='" + name + '\'' +
                 '}';
     }
 }
