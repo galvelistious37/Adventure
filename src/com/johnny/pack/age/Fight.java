@@ -46,18 +46,20 @@ public class Fight {
     }
 
     public void initiative(Character player, List<Character> enemiesFromLocation) {
-        player.setInitiative(diceRoll.rollATwenty());
+        if(player.getInitiative() == 0){
+            player.setInitiative(diceRoll.rollATwenty());
+        }
         for(Character enemy : enemiesFromLocation){
-            enemy.setInitiative(diceRoll.rollATwenty());
+            if (enemy.getInitiative() == 0) {
+                enemy.setInitiative(diceRoll.rollATwenty());
+            }
         }
     }
 
     public void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
         boolean quit = false;
-        int round = 0;
         while(!quit){
-            round++;
-            displayRound(round);
+            displaySpacer();
             showCharacterStatus(player);
 
             for(int i = 20; i > 0; i--){
@@ -79,30 +81,32 @@ public class Fight {
                 }
             }
             if(countTheDead(enemiesFromLocation)){
+                System.out.println("You have painted these lands with blood of your enemies");
                 quit = true;
             }
         }
     }
 
 
-    private void displayRound(int round) {
+    private void displaySpacer() {
+        System.out.println("");
         System.out.println("**************************************************");
-        System.out.println("                  Round " + round);
         System.out.println("**************************************************");
+        System.out.println("");
     }
 
     private void showCharacterStatus(Character character) {
-        System.out.println(character.toString());
+        GamePlay gamePlay = new GamePlay();
+        gamePlay.showCharacterStatus(character);
     }
 
-    private boolean countTheDead(List<Character> enemiesFromLocation) {
+    protected boolean countTheDead(List<Character> enemiesFromLocation) {
         int bodies = 0;
         for(Character enemy : enemiesFromLocation){
             if(!enemy.getIsAlive()){
                 bodies++;
             }
             if(bodies == enemiesFromLocation.size()){
-                System.out.println("You have painted these lands with blood of your enemies");
                 return true;
             }
         }
@@ -124,7 +128,7 @@ public class Fight {
             gamePlay.quit();
 
         } else {
-            System.out.println("You have " + player.getHitpoints() + " remaining");
+            System.out.println("You have " + player.getHitpoints() + " HP remaining");
         }
     }
 

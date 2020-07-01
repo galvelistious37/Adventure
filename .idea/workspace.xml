@@ -3,14 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="86b438eb-af59-4c9d-8c68-d46e48f6f51d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Bandit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Bandit.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/EnemyBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/EnemyBuilder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Fight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Fight.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/GamePlay.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/GamePlay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Ogre.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Ogre.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Scorpion.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Scorpion.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Wolf.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Adventure/com/johnny/pack/age/Wolf.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/Fight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/Fight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" afterDir="false" />
     </list>
@@ -30,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="177" column="42" lean-forward="true" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
+            <state relative-caret-position="26">
+              <caret line="64" column="13" lean-forward="true" selection-start-line="64" selection-start-column="13" selection-end-line="64" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -39,12 +33,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Fight.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="59">
-              <caret line="132" column="57" lean-forward="true" selection-start-line="132" selection-start-column="57" selection-end-line="132" selection-end-column="57" />
+            <state relative-caret-position="284">
+              <caret line="80" column="17" selection-start-line="72" selection-start-column="58" selection-end-line="80" selection-end-column="17" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3173#3174#0" expanded="true" />
-                <element signature="e#3226#3227#0" expanded="true" />
+                <element signature="e#6013#6014#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -53,7 +46,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/EnemyBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
+            <state relative-caret-position="1239">
               <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -65,8 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Character.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
+            <state relative-caret-position="42">
+              <caret line="2" column="33" lean-forward="true" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -74,8 +67,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="302">
-              <caret line="117" column="56" selection-start-line="117" selection-start-column="56" selection-end-line="117" selection-end-column="56" />
+            <state relative-caret-position="111">
+              <caret line="116" column="26" selection-start-line="116" selection-start-column="18" selection-end-line="116" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -153,6 +146,12 @@
       <find>dead</find>
       <find>availableExits</find>
       <find>sit</find>
+      <find>umbled into a risky situation</find>
+      <find>You have painted these lands with blood of your enemie</find>
+      <find>count</find>
+      <find>initia</find>
+      <find>you have</find>
+      <find>toString</find>
     </findStrings>
     <replaceStrings>
       <replace>, tempExit));</replace>
@@ -205,13 +204,13 @@
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Knife.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Sword.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Equipable.java" />
-        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Character.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/EnemyBuilder.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Scorpion.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Wolf.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Ogre.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Bandit.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Player.java" />
+        <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Character.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java" />
         <option value="$PROJECT_DIR$/src/com/johnny/pack/age/Fight.java" />
       </list>
@@ -229,6 +228,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -261,8 +262,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -443,30 +442,38 @@
       <option name="project" value="LOCAL" />
       <updated>1592027451411</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="WIP: Character can die now and end the game">
+      <created>1593409031475</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1593409031476</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Image Layers" order="0" />
       <window_info id="Designer" order="1" />
       <window_info id="UI Designer" order="2" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.24832214" />
+      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.25167784" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="0" sideWeight="0.48926175" weight="0.3186969" />
       <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.49328858" weight="0.3611898" />
-      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50064266" side_tool="true" weight="0.32974428" />
-      <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49328858" weight="0.22096318" />
+      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50939596" side_tool="true" weight="0.2733711" />
+      <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.4919463" weight="0.22096318" />
       <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49127516" weight="0.2733711" />
+      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.4899329" weight="0.2733711" />
       <window_info anchor="bottom" id="Debug" order="6" sideWeight="0.49932885" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="7" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="8" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="9" />
-      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.5087248" side_tool="true" visible="true" weight="0.71954674" />
+      <window_info active="true" anchor="bottom" id="Run" order="10" sideWeight="0.5080537" side_tool="true" visible="true" weight="0.2181303" />
       <window_info anchor="right" id="Palette" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Maven" order="2" />
@@ -562,7 +569,8 @@
     <MESSAGE value="Start of complete refactor. Refactored player and enemy to extend Character class and created Equipable for weapon variations." />
     <MESSAGE value="WIP: More refactoring of game play and fight methods" />
     <MESSAGE value="WIP: Refactored fight logic. Can attack specific enemies now." />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP: Refactored fight logic. Can attack specific enemies now." />
+    <MESSAGE value="WIP: Character can die now and end the game" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP: Character can die now and end the game" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/ISaveable.java" />
@@ -809,10 +817,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Character.java">
+    <entry file="jar://C:/Program Files/Java/jdk-11.0.3/lib/src.zip!/java.base/java/lang/Object.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="46" selection-start-line="4" selection-start-column="46" selection-end-line="4" selection-end-column="46" />
+        <state relative-caret-position="178">
+          <caret line="244" column="18" selection-start-line="244" selection-start-column="18" selection-end-line="244" selection-end-column="18" />
+          <folding>
+            <element signature="e#10225#10226#0" expanded="true" />
+            <element signature="e#10308#10309#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/EnemyBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1239">
+          <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -851,49 +873,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-11.0.3/lib/src.zip!/java.base/java/lang/Object.java">
+    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Character.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="244" column="18" selection-start-line="244" selection-start-column="18" selection-end-line="244" selection-end-column="18" />
-          <folding>
-            <element signature="e#10225#10226#0" expanded="true" />
-            <element signature="e#10308#10309#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/EnemyBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="64" column="29" selection-start-line="64" selection-start-column="29" selection-end-line="64" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="42">
+          <caret line="2" column="33" lean-forward="true" selection-start-line="2" selection-start-column="33" selection-end-line="2" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="117" column="56" selection-start-line="117" selection-start-column="56" selection-end-line="117" selection-end-column="56" />
+        <state relative-caret-position="111">
+          <caret line="116" column="26" selection-start-line="116" selection-start-column="18" selection-end-line="116" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/GamePlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="177" column="42" lean-forward="true" selection-start-line="177" selection-start-column="42" selection-end-line="177" selection-end-column="42" />
+        <state relative-caret-position="26">
+          <caret line="64" column="13" lean-forward="true" selection-start-line="64" selection-start-column="13" selection-end-line="64" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/johnny/pack/age/Fight.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="59">
-          <caret line="132" column="57" lean-forward="true" selection-start-line="132" selection-start-column="57" selection-end-line="132" selection-end-column="57" />
+        <state relative-caret-position="284">
+          <caret line="80" column="17" selection-start-line="72" selection-start-column="58" selection-end-line="80" selection-end-column="17" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3173#3174#0" expanded="true" />
-            <element signature="e#3226#3227#0" expanded="true" />
+            <element signature="e#6013#6014#0" expanded="true" />
           </folding>
         </state>
       </provider>
