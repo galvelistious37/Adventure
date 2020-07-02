@@ -17,7 +17,7 @@ public class Ogre extends Character {
         this.berserkable = new Pummel();
         this.hitpoints = 25;
         this.strength = 12;
-        this.location = 5;
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = "Ogre";

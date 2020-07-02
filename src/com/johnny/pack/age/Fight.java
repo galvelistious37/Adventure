@@ -26,6 +26,7 @@ public class Fight {
      * Display Fight Menu options
      */
     public void getFightMenu(){
+        System.out.println("");
         List<String> options = createOptions();
         for(String option : options){
             System.out.println(option);
@@ -57,10 +58,12 @@ public class Fight {
     }
 
     public void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
+        GamePlay gamePlay = new GamePlay();
         boolean quit = false;
         while(!quit){
             displaySpacer();
             showCharacterStatus(player);
+            gamePlay.displayEnemies(enemiesFromLocation);
 
             for(int i = 20; i > 0; i--){
                 if(player.getInitiative() == i){
@@ -92,7 +95,6 @@ public class Fight {
         System.out.println("");
         System.out.println("**************************************************");
         System.out.println("**************************************************");
-        System.out.println("");
     }
 
     private void showCharacterStatus(Character character) {
@@ -128,7 +130,7 @@ public class Fight {
             gamePlay.quit();
 
         } else {
-            System.out.println("You have " + player.getHitpoints() + " HP remaining");
+            System.out.println("\tYou have " + player.getHitpoints() + " HP remaining");
         }
     }
 
@@ -181,55 +183,55 @@ public class Fight {
     private void attack(Character player, List<Character> enemiesFromLocation) {
         boolean quit = false;
         int enemyToAttack = 0;
-        while(!quit){
-            enemyToAttack = whichEnemy(enemiesFromLocation);
-            if(enemyToAttack != -1){
-                quit = true;
-            } else {
-                System.out.println("Enter an enemy name!");
-            }
-        }
-        Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
-        int enemyHitpoints  = currentEnemy.getHitpoints();
+        enemyToAttack = whichEnemy(enemiesFromLocation);
+        if(enemyToAttack != -1){
+            Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
+            int enemyHitpoints  = currentEnemy.getHitpoints();
 
-        if(diceRoll.rollATwenty() >= 18){
-            System.out.println("You " + player.performBersek() + " " + currentEnemy.getName()
-            + " with your " + player.weaponType());
-            currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()*2));
-            if(currentEnemy.getHitpoints() <= 0){
-                System.out.println("You killed " + currentEnemy.getName());
-                currentEnemy.setIsAlive(false);
-            } else {
-                System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                        + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+            if(diceRoll.rollATwenty() >= 18){
+                System.out.println("You " + player.performBersek() + " " + currentEnemy.getName()
+                + " with your " + player.weaponType());
+                currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()*2));
+                if(currentEnemy.getHitpoints() <= 0){
+                    currentEnemy.setHitpoints(0);
+                    System.out.println("You killed " + currentEnemy.getName());
+                    currentEnemy.setIsAlive(false);
+                } else {
+                    System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
+                            + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+                }
+            } else if(diceRoll.rollATwenty() >= 7){
+                System.out.println("You successfully " + player.performAttack() + " " + currentEnemy.getName()
+                + " with your " + player.weaponType());
+                currentEnemy.setHitpoints(enemyHitpoints - player.getStrength());
+                if(currentEnemy.getHitpoints() <= 0){
+                    currentEnemy.setHitpoints(0);
+                    System.out.println("You killed " + currentEnemy.getName());
+                    currentEnemy.setIsAlive(false);
+                } else {
+                    System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
+                            + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+                }
+            }else if(diceRoll.rollATwenty() >= 3){
+                System.out.println("You scratched " + currentEnemy.getName()
+                        + " with your " + player.weaponType());
+                currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()-2));
+                if(currentEnemy.getHitpoints() <= 0){
+                    currentEnemy.setHitpoints(0);
+                    System.out.println("You killed " + currentEnemy.getName());
+                    currentEnemy.setIsAlive(false);
+                } else {
+                    System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
+                            + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+                }
+            }else{
+                System.out.println("You swung at " + currentEnemy.getName()
+                        + " and and missed... horribly");
             }
-        } else if(diceRoll.rollATwenty() >= 8){
-            System.out.println("You successfully " + player.performAttack() + " " + currentEnemy.getName()
-            + " with your " + player.weaponType());
-            currentEnemy.setHitpoints(enemyHitpoints - player.getStrength());
-            if(currentEnemy.getHitpoints() <= 0){
-                System.out.println("You killed " + currentEnemy.getName());
-                currentEnemy.setIsAlive(false);
-            } else {
-                System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                        + " has " + currentEnemy.getHitpoints() + " hitpoints left");
-            }
-        }else if(diceRoll.rollATwenty() >= 3){
-            System.out.println("You scratched the " + currentEnemy.getName()
-                    + " with your " + player.weaponType());
-            currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()-2));
-            if(currentEnemy.getHitpoints() <= 0){
-                System.out.println("You killed " + currentEnemy.getName());
-                currentEnemy.setIsAlive(false);
-            } else {
-                System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                        + " has " + currentEnemy.getHitpoints() + " hitpoints left");
-            }
-        }else{
-            System.out.println("You swung at " + currentEnemy.getName()
-                    + " and and missed... horribly");
+            System.out.println("");
+        } else {
+            System.out.println("You have chosen not to attack");
         }
-        System.out.println("");
     }
 
     private int whichEnemy(List<Character> enemiesFromLocation) {
@@ -239,18 +241,30 @@ public class Fight {
         if(enemiesFromLocation.size() == 1){
             index = 0;
         } else {
+            int enemyName;
             while(!quit){
-                System.out.println("Which enemy are you attacking?");
-                String enemyName = enemySelection.nextLine();
-                for (Character enemy : enemiesFromLocation){
-                    if(enemy.getName().equalsIgnoreCase(enemyName)){
-                            if(!enemy.getIsAlive()){
-                                System.out.println("Dude, that one is already dead. Sicko!");
-                            } else {
-                                quit = true;
-                            }
-                        index = enemiesFromLocation.indexOf(enemy);
+                Character enemy = null;
+                System.out.println("Which number enemy are you attacking? \n" +
+                        "\tExit attack: 99");
+                if(enemySelection.hasNextInt()){
+                    enemyName = enemySelection.nextInt();
+                    if(enemyName == 99){
+                        return -1;
                     }
+                    if(enemyName < 0 || enemyName > enemiesFromLocation.size() - 1){
+                        System.out.println("Select a valid enemy number");
+                    } else {
+                        enemy = enemiesFromLocation.get(enemyName);
+                        if(!enemy.getIsAlive()){
+                            System.out.println("Dude, that one is already dead. Sicko!");
+                        } else {
+                            quit = true;
+                        }
+                    }
+                    index = enemiesFromLocation.indexOf(enemy);
+                } else {
+                    System.out.println("Choose an enemy number");
+                    enemySelection.nextLine();
                 }
             }
         }

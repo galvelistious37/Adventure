@@ -17,7 +17,7 @@ public class Scorpion extends Character {
         this.berserkable = new Impale();
         this.hitpoints = 15;
         this.strength = 8;
-        this.location = 3;
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = "Scorpion";

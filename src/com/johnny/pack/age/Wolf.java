@@ -17,7 +17,7 @@ public class Wolf extends Character {
         this.berserkable = new Maul();
         this.hitpoints = 8;
         this.strength = 10;
-        this.location = 11;
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = "Wolf";
