@@ -16,8 +16,8 @@ public class EnemyBuilder {
         List<Character> enemyList = new ArrayList<>();
         for(int i = 0; i < 10; i++){
             Character tempEnemy = getEnemy();
-            tempEnemy.setName(tempEnemy.getName() + " " + (i + 1));
-//            tempEnemy.setLocation(getRandomLocation());
+            tempEnemy.setName(tempEnemy.getName());
+            tempEnemy.setLocation(getRandomLocation());
             enemyList.add(tempEnemy);
         }
         return enemyList;

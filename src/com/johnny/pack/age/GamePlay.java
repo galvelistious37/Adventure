@@ -40,6 +40,7 @@ class GamePlay {
      * Print a greeting to the screen
      */
     private void displayGreeting() {
+        System.out.println("");
         System.out.println(GREETING);
     }
 
@@ -53,7 +54,6 @@ class GamePlay {
         Map<String, Integer> exits;
         while(true){
             displayLocation(locationNumber);
-            showCharacterStatus(playerOne);
             checkForEnemies(locationNumber);
             exits = locationMap.get(locationNumber).getExits();
             displayAvailableExits(exits);
@@ -79,7 +79,6 @@ class GamePlay {
             Fight fight = new Fight();
             List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
             if(!fight.countTheDead(localEnemies)){
-                displayAreaEnemies(localEnemies);
                 dealWithEnemies(fight, localEnemies);
             } else {
                 System.out.println("All enemies here are dead");
@@ -129,9 +128,11 @@ class GamePlay {
         return tempList;
     }
 
-    private void displayAreaEnemies(List<Character> localEnemies){
+    protected void displayEnemies(List<Character> localEnemies){
+        System.out.println("\tEnemies in these lands:");
         for(Character enemy : localEnemies){
-            System.out.println("\t" + enemy.getName() + ": " + enemy.getHitpoints() + " HP");
+            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
+                    enemy.getName() + ": " + enemy.getHitpoints() + " HP");
         }
     }
 
@@ -162,10 +163,12 @@ class GamePlay {
     }
 
     private void displayLocation(int locationNumber) {
+        System.out.println("");
         System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
     }
 
     protected void showCharacterStatus(Character character) {
+        System.out.println(" ");
         System.out.println(character.toString());
         System.out.println(" ");
     }

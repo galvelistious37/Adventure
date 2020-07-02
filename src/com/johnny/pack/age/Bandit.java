@@ -18,7 +18,7 @@ public class Bandit extends Character {
         this.berserkable = new Impale();
         this.hitpoints = 15;
         this.strength = 8;
-        this.location = 4;
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = "Bandit";
