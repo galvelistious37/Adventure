@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 public class EnemyBuilder {
+    Dice diceRoll;
+
+    public EnemyBuilder(){
+        diceRoll = new Dice();
+    }
 
     protected List<Character> getEnemyList() {
         List<Character> enemyList = populateEnemyList();
@@ -17,7 +22,7 @@ public class EnemyBuilder {
         for(int i = 0; i < 10; i++){
             Character tempEnemy = getEnemy();
             tempEnemy.setName(tempEnemy.getName());
-            tempEnemy.setLocation(getRandomLocation());
+            tempEnemy.setLocation(diceRoll.getRandomLocation());
             enemyList.add(tempEnemy);
         }
         return enemyList;
@@ -39,32 +44,6 @@ public class EnemyBuilder {
 
     private int getRandomEnemy(){
         return (int) ((Math.random() * 4) + 1);
-    }
-
-    private int getRandomLocation(){
-        int oneThroughFive = (int) ((Math.random() * 5) + 1);
-        int increase = (int) ((Math.random() * 5) + 1);
-        int addLevel = 0;
-        switch(increase){
-            case 1 :
-                addLevel = 0;
-                break;
-            case 2 :
-                addLevel = 10;
-                break;
-            case 3 :
-                addLevel = 20;
-                break;
-            case 4 :
-                addLevel = 30;
-                break;
-            case 5 :
-                addLevel = 40;
-                break;
-            default :
-                addLevel = 0;
-        }
-        return oneThroughFive + addLevel;
     }
 
 }

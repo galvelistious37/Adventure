@@ -15,15 +15,19 @@ class GamePlay {
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;
     private Character playerOne;
+    private Fight fightObj;
+    private LocationBuilder locationBuilder;
+    private EnemyBuilder enemyBuilder;
 
     /**
      * GamePlay Constructor instantiates global variables
      */
     GamePlay() {
+        fightObj = new Fight();
         scanner = new Scanner(System.in);
         playerOne = new Player();
-        LocationBuilder locationBuilder = new LocationBuilder();
-        EnemyBuilder enemyBuilder = new EnemyBuilder();
+        locationBuilder = new LocationBuilder();
+        enemyBuilder = new EnemyBuilder();
         locationMap = locationBuilder.generateLocationMap();
         enemies = enemyBuilder.getEnemyList();
     }
@@ -76,10 +80,9 @@ class GamePlay {
 
     private void checkForEnemies(int locationNumber) {
         if(areEnemiesPresent(locationNumber)){
-            Fight fight = new Fight();
             List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
-            if(!fight.countTheDead(localEnemies)){
-                dealWithEnemies(fight, localEnemies);
+            if(!fightObj.countTheDead(localEnemies)){
+                dealWithEnemies(localEnemies);
             } else {
                 System.out.println("All enemies here are dead");
             }
@@ -104,9 +107,9 @@ class GamePlay {
     }
 
 
-    private void dealWithEnemies(Fight fightinStuff, List<Character> localEnemies){
-        fightinStuff.initiative(playerOne, localEnemies);
-        fightinStuff.doFightinStuff(playerOne, localEnemies);
+    private void dealWithEnemies(List<Character> localEnemies){
+        fightObj.initiative(playerOne, localEnemies);
+        fightObj.doFightinStuff(playerOne, localEnemies);
     }
 
     private boolean areEnemiesPresent(int locationNumber) {

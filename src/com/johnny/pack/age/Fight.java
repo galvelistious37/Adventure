@@ -61,33 +61,66 @@ public class Fight {
         GamePlay gamePlay = new GamePlay();
         boolean quit = false;
         while(!quit){
-            displaySpacer();
-            showCharacterStatus(player);
-            gamePlay.displayEnemies(enemiesFromLocation);
+            if(enemiesFromLocation.size() == 0){
+                quit = true;
+                System.out.println("No more enemies in these lands");
+                System.out.println("");
+            } else {
+                displaySpacer();
+                showCharacterStatus(player);
+                gamePlay.displayEnemies(enemiesFromLocation);
 
-            for(int i = 20; i > 0; i--){
-                if(player.getInitiative() == i){
-                    int action = getSelection();
-                    quit = tryAction(action, player, enemiesFromLocation);
-                }
-                if(quit){
-                   break;
-                }
-                for(Character enemy : enemiesFromLocation){
-                    if(enemy.getInitiative() == i){
-                        if(enemy.getIsAlive()){
-                            enemyAttack(player, enemy);
-                        } else {
-                            System.out.println(enemy.getName() + " is dead");
+                for(int i = 20; i > 0; i--){
+                    if(player.getInitiative() == i){
+                        int action = getSelection();
+                        quit = tryAction(action, player, enemiesFromLocation);
+                    }
+                    if(quit){
+                       break;
+                    }
+                    for(Character enemy : enemiesFromLocation){
+                        if(enemy.getInitiative() == i){
+                            if(enemy.getIsAlive()){
+                                enemyAttack(player, enemy);
+                            } else {
+                                System.out.println(enemy.getName() + " is dead");
+                            }
                         }
                     }
                 }
+                if(countTheDead(enemiesFromLocation)){
+                    System.out.println("You have painted these lands with blood of your enemies");
+                    if(eatTheDead()){
+                        System.out.println("You devour the flesh of your enemy for +15 HP");
+                        int hp = player.getHitpoints();
+                        hp += 6;
+                        if(hp > 100){
+                            hp = 100;
+                        }
+                        player.setHitpoints(hp);
+                    }
+                    quit = true;
+                }
             }
-            if(countTheDead(enemiesFromLocation)){
-                System.out.println("You have painted these lands with blood of your enemies");
+        }
+    }
+
+    private boolean eatTheDead() {
+        Scanner scanner = new Scanner(System.in);
+        boolean eatThem = false;
+        boolean quit = false;
+        String eatDead;
+        while(!quit){
+        System.out.println("Eat the dead? ... Enter \"Yes\" or \"No\"");
+            eatDead = scanner.nextLine();
+            if (eatDead.equalsIgnoreCase("YES")){
+                eatThem = true;
+                quit = true;
+            } else if (eatDead.equalsIgnoreCase("NO")){
                 quit = true;
             }
         }
+        return eatThem;
     }
 
 
@@ -164,7 +197,7 @@ public class Fight {
                 attack(player, enemiesFromLocation);
                 return false;
             case 2:
-//                intimidate(player, enemiesFromLocation);
+                intimidate(player, enemiesFromLocation);
                 return false;
             case 3:
 //                sneak();
@@ -176,14 +209,37 @@ public class Fight {
         return false;
     }
 
+    private void intimidate(Character player, List<Character> enemiesFromLocation) {
+        int enemyToIntimidate = whichEnemy(enemiesFromLocation);
+        if(enemyToIntimidate != -1){
+            Character currentEnemy = enemiesFromLocation.get(enemyToIntimidate);
+            int successRoll = diceRoll.rollATwenty();
+            System.out.println("Success Roll: " + successRoll);
+            if(successRoll > 10){
+                enemiesFromLocation.remove(currentEnemy);
+                currentEnemy.setLocation(diceRoll.getRandomLocation());
+                System.out.println("You scared " + currentEnemy.getName() + " so " +
+                        "bad it ran away");
+            } else if (successRoll < 10){
+                currentEnemy.setHitpoints(currentEnemy.getHitpoints() + 5);
+                System.out.println("You failed at your intimidation attempt and " +
+                        currentEnemy.getName() + " is definitely not scared of you");
+                System.out.println(currentEnemy.getName() + " gained 5 HP");
+            }
+
+
+        } else {
+            System.out.println("You have chosen not to intimidate and have lost your turn");
+        }
+    }
+
     private void runAway() {
         System.out.println("You run away like some kind of wuss");
     }
 
     private void attack(Character player, List<Character> enemiesFromLocation) {
         boolean quit = false;
-        int enemyToAttack = 0;
-        enemyToAttack = whichEnemy(enemiesFromLocation);
+        int enemyToAttack = whichEnemy(enemiesFromLocation);
         if(enemyToAttack != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
             int enemyHitpoints  = currentEnemy.getHitpoints();
@@ -230,7 +286,7 @@ public class Fight {
             }
             System.out.println("");
         } else {
-            System.out.println("You have chosen not to attack");
+            System.out.println("You have chosen not to attack and have lost your turn");
         }
     }
 
