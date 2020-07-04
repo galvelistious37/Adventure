@@ -3,23 +3,19 @@ package com.johnny.pack.age;
 import java.util.*;
 
 class GamePlay {
-    // Constants
-    private static final String GREETING = "Welcome to the Greatest Adventure Game Ever!!!";
-    private static final String WRONG_DIRECTION = "You cannot go in that direction";
-    private static final String CHOOSE_VALID_OPTION = "Select a valid option!";
-    private static final String SHUTTING_DOWN = "Shutting down...";
-    private static final int STATUS = 0;
 
     // Global Variables
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;
     private Character playerOne;
+    private Fight fightObj;
 
     /**
      * GamePlay Constructor instantiates global variables
      */
     GamePlay() {
+        fightObj = new Fight();
         scanner = new Scanner(System.in);
         playerOne = new Player();
         LocationBuilder locationBuilder = new LocationBuilder();
@@ -40,8 +36,8 @@ class GamePlay {
      * Print a greeting to the screen
      */
     private void displayGreeting() {
-        System.out.println("");
-        System.out.println(GREETING);
+        String greeting = "Welcome to the Greatest Adventure Game Ever!!!";
+        System.out.println("\n" + greeting);
     }
 
     /**
@@ -50,16 +46,16 @@ class GamePlay {
      */
     private void playTheGame(){
         int locationNumber = playerOne.getLocation();
-        int nextLocationNumber = 0;
+        int nextLocationNumber;
         Map<String, Integer> exits;
-        while(true){
+        while (true) {
             displayLocation(locationNumber);
             checkForEnemies(locationNumber);
             exits = locationMap.get(locationNumber).getExits();
             displayAvailableExits(exits);
             String direction = scanner.nextLine().toUpperCase();
             nextLocationNumber = moveInDirection(locationNumber, exits, direction);
-            if(locationNumber != nextLocationNumber){
+            if (locationNumber != nextLocationNumber) {
                 resetCharacterInitiative(locationNumber);
                 locationNumber = nextLocationNumber;
             }
@@ -76,10 +72,9 @@ class GamePlay {
 
     private void checkForEnemies(int locationNumber) {
         if(areEnemiesPresent(locationNumber)){
-            Fight fight = new Fight();
             List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
-            if(!fight.countTheDead(localEnemies)){
-                dealWithEnemies(fight, localEnemies);
+            if(!fightObj.countTheDead(localEnemies)){
+                dealWithEnemies(localEnemies);
             } else {
                 System.out.println("All enemies here are dead");
             }
@@ -96,17 +91,18 @@ class GamePlay {
         if(exits.containsKey(direction)){
             locationNumber = exits.get(direction);
             playerOne.setLocation(locationNumber);
-            System.out.println("");
+            System.out.println("\n");
         } else {
-            System.out.println(WRONG_DIRECTION);
+            String wrongDirection = "You cannot go in that direction";
+            System.out.println(wrongDirection);
         }
         return locationNumber;
     }
 
 
-    private void dealWithEnemies(Fight fightinStuff, List<Character> localEnemies){
-        fightinStuff.initiative(playerOne, localEnemies);
-        fightinStuff.doFightinStuff(playerOne, localEnemies);
+    private void dealWithEnemies(List<Character> localEnemies){
+        fightObj.initiative(playerOne, localEnemies);
+        fightObj.doFightinStuff(playerOne, localEnemies);
     }
 
     private boolean areEnemiesPresent(int locationNumber) {
@@ -128,7 +124,7 @@ class GamePlay {
         return tempList;
     }
 
-    protected void displayEnemies(List<Character> localEnemies){
+    void displayEnemies(List<Character> localEnemies){
         System.out.println("\tEnemies in these lands:");
         for(Character enemy : localEnemies){
             System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
@@ -163,19 +159,20 @@ class GamePlay {
     }
 
     private void displayLocation(int locationNumber) {
-        System.out.println("");
-        System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
+        System.out.println("\nLocation: " + locationMap.get(locationNumber).getDescription());
     }
 
-    protected void showCharacterStatus(Character character) {
+    void showCharacterStatus(Character character) {
         System.out.println(" ");
         System.out.println(character.toString());
         System.out.println(" ");
     }
 
-    protected void quit() {
+    void quit() {
         scanner.close();
-        System.out.println(SHUTTING_DOWN);
-        System.exit(STATUS);
+        String shutDown = "Shutting down...";
+        int status = 0;
+        System.out.println(shutDown);
+        System.exit(status);
     }
 }
