@@ -1,10 +1,11 @@
 package com.johnny.pack.age;
 
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Fight {
+class Fight {
     private static final String COLON_SEPARATOR = ": ";
     private static final String DO_FIGHTIN = "Fight";
     private static final String INTIMIDATE_THEM = "Intimidate";
@@ -17,7 +18,7 @@ public class Fight {
     private Scanner fightScanner;
     private Dice diceRoll;
 
-    public Fight() {
+    Fight() {
         this.fightScanner = new Scanner(System.in);
         this.diceRoll = new Dice();
     }
@@ -25,8 +26,8 @@ public class Fight {
     /**
      * Display Fight Menu options
      */
-    public void getFightMenu(){
-        System.out.println("");
+    private void getFightMenu(){
+        System.out.println("\n");
         List<String> options = createOptions();
         for(String option : options){
             System.out.println(option);
@@ -46,7 +47,7 @@ public class Fight {
         return generateOptions;
     }
 
-    public void initiative(Character player, List<Character> enemiesFromLocation) {
+    void initiative(Character player, List<Character> enemiesFromLocation) {
         if(player.getInitiative() == 0){
             player.setInitiative(diceRoll.rollATwenty());
         }
@@ -57,14 +58,16 @@ public class Fight {
         }
     }
 
-    public void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
+    void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
         GamePlay gamePlay = new GamePlay();
         boolean quit = false;
+        int round = 0;
         while(!quit){
+            round++;
             if(enemiesFromLocation.size() == 0){
                 quit = true;
                 System.out.println("No more enemies in these lands");
-                System.out.println("");
+                System.out.println("\n");
             } else {
                 displaySpacer();
                 showCharacterStatus(player);
@@ -73,7 +76,7 @@ public class Fight {
                 for(int i = 20; i > 0; i--){
                     if(player.getInitiative() == i){
                         int action = getSelection();
-                        quit = tryAction(action, player, enemiesFromLocation);
+                        quit = tryAction(action, player, enemiesFromLocation, round);
                     }
                     if(quit){
                        break;
@@ -91,13 +94,15 @@ public class Fight {
                 if(countTheDead(enemiesFromLocation)){
                     System.out.println("You have painted these lands with blood of your enemies");
                     if(eatTheDead()){
-                        System.out.println("You devour the flesh of your enemy for +15 HP");
+                        System.out.println("You devour the flesh of your enemy");
+                        ;
                         int hp = player.getHitpoints();
                         hp += 6;
                         if(hp > 100){
                             hp = 100;
                         }
                         player.setHitpoints(hp);
+                        System.out.println("You have " + player.getHitpoints() + " hitpoints");
                     }
                     quit = true;
                 }
@@ -125,8 +130,7 @@ public class Fight {
 
 
     private void displaySpacer() {
-        System.out.println("");
-        System.out.println("**************************************************");
+        System.out.println("\n**************************************************");
         System.out.println("**************************************************");
     }
 
@@ -135,7 +139,7 @@ public class Fight {
         gamePlay.showCharacterStatus(character);
     }
 
-    protected boolean countTheDead(List<Character> enemiesFromLocation) {
+    boolean countTheDead(List<Character> enemiesFromLocation) {
         int bodies = 0;
         for(Character enemy : enemiesFromLocation){
             if(!enemy.getIsAlive()){
@@ -167,7 +171,7 @@ public class Fight {
         }
     }
 
-    public void pressEnterKeyToContinue()
+    private void pressEnterKeyToContinue()
     {
         System.out.println("Press Enter key to quit...");
         Scanner s = new Scanner(System.in);
@@ -191,17 +195,16 @@ public class Fight {
         return damage;
     }
 
-    private boolean tryAction(int action, Character player, List<Character> enemiesFromLocation) {
+    private boolean tryAction(int action, Character player, List<Character> enemiesFromLocation, int round) {
         switch(action){
             case 1:
                 attack(player, enemiesFromLocation);
                 return false;
             case 2:
-                intimidate(player, enemiesFromLocation);
+                intimidate(enemiesFromLocation);
                 return false;
             case 3:
-//                sneak();
-                return false;
+                return sneak(round, enemiesFromLocation, player);
             case 4:
                 runAway();
                 return true;
@@ -209,7 +212,36 @@ public class Fight {
         return false;
     }
 
-    private void intimidate(Character player, List<Character> enemiesFromLocation) {
+    private boolean sneak(int round, List<Character> enemiesFromLocation, Character player) {
+        if(round == 1 && haveTheDrop(player, enemiesFromLocation)){
+             return attemptSneak(enemiesFromLocation);
+        } else {
+            System.out.println("The enemies have already seen you. You cannot sneak.");
+            return false;
+        }
+    }
+
+    private boolean haveTheDrop(Character player, List<Character> enemiesFromLocation) {
+        for(Character enemy : enemiesFromLocation){
+            if(enemy.getInitiative() > player.getInitiative()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean attemptSneak(List<Character> enemiesFromLocation) {
+        for(Character enemy : enemiesFromLocation){
+            if(diceRoll.rollATwenty() > 17){
+                System.out.println(enemy.getName() + " busted you trying to sneak by");
+                return false;
+            }
+        }
+        System.out.println("You sneak passed the enemies");
+        return true;
+    }
+
+    private void intimidate(List<Character> enemiesFromLocation) {
         int enemyToIntimidate = whichEnemy(enemiesFromLocation);
         if(enemyToIntimidate != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToIntimidate);
@@ -238,7 +270,6 @@ public class Fight {
     }
 
     private void attack(Character player, List<Character> enemiesFromLocation) {
-        boolean quit = false;
         int enemyToAttack = whichEnemy(enemiesFromLocation);
         if(enemyToAttack != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
@@ -284,7 +315,7 @@ public class Fight {
                 System.out.println("You swung at " + currentEnemy.getName()
                         + " and and missed... horribly");
             }
-            System.out.println("");
+            System.out.println("\n");
         } else {
             System.out.println("You have chosen not to attack and have lost your turn");
         }
