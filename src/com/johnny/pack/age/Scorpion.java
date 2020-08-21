@@ -11,16 +11,24 @@ public class Scorpion extends Character {
     private int initiative;
     private String name;
 
-    public Scorpion() {
+    private Scorpion(int hitpoints, int strength, String name) {
         this.equipable = new Stinger();
         this.attackable = new Sting();
         this.berserkable = new Impale();
-        this.hitpoints = 15;
-        this.strength = 8;
+        this.hitpoints = hitpoints;
+        this.strength = strength;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = "Scorpion";
+        this.name = name;
+    }
+
+    public static Scorpion normalScorpion(){
+        return new Scorpion(15, 8, "Normal Scorpion");
+    }
+
+    public static Scorpion superScorpion(){
+        return new Scorpion(20, 12, "Super Crazy Scorpion");
     }
 
     @Override

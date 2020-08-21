@@ -31,13 +31,13 @@ public class EnemyBuilder {
     private Character getEnemy(){
         switch(getRandomEnemy()){
             case 1 :
-                return new Ogre();
+                return isSuperCrazy() ? Ogre.superOgre() : Ogre.normalOgre();
             case 2 :
-                return new Wolf();
+                return isSuperCrazy() ? Wolf.superWolf() : Wolf.normalWolf();
             case 3 :
-                return new Scorpion();
+                return isSuperCrazy() ? Scorpion.superScorpion() : Scorpion.normalScorpion();
             case 4 :
-                return new Bandit();
+                return isSuperCrazy() ? Bandit.superBandit() : Bandit.normalBandit();
         }
         return null;
     }
@@ -46,4 +46,7 @@ public class EnemyBuilder {
         return (int) ((Math.random() * 4) + 1);
     }
 
+    private boolean isSuperCrazy(){
+        return Math.floor(Math.random() * 2) > 0;
+    }
 }
