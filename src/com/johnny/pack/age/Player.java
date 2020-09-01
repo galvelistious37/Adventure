@@ -6,21 +6,29 @@ public class Player extends Character{
     private Berserkable berserkable;
     private int hitpoints;
     private int strength;
+    private int damage;
     private int location;
     private boolean isAlive;
     private int initiative;
     private String name;
 
-    public Player() {
-        this.equipable = new Fist();
-        this.attackable = new Punch();
-        this.berserkable = new Pummel();
+    private static final Player INSTANCE = new Player();
+
+    private Player() {
+        this.equipable = Fist.getInstance();
+        this.attackable = Punch.getInstance();
+        this.berserkable = Pummel.getInstance();
         this.hitpoints = 100;
-        this.strength = 10;
+        this.strength = 5;
+        this.damage = Fist.getInstance().getDamage();
         this.location = 1;
         this.isAlive = true;
         this.initiative = 0;
         this.name = "You";
+    }
+
+    public static Player getInstance(){
+        return INSTANCE;
     }
 
     @Override
@@ -118,4 +126,34 @@ public class Player extends Character{
         return name + " have " + hitpoints + " hitpoints \n" +
                 "Weapon: " + equipable.weaponType();
     }
+
+    private Equipable determineEquipable(String weapon){
+        switch(weapon){
+            case "knife" :
+                return Knife.getInstance();
+            case "sword" :
+                return Sword.getInstance();
+        }
+        return Fist.getInstance();
+    }
+
+    private Attackable determineAttackable(Equipable equipable){
+        if(equipable.weaponType().equals("fist")){
+            return Punch.getInstance();
+        }
+        return Stab.getInstance();
+    }
+
+    private Berserkable determineBerserkable(Equipable equipable){
+        if(equipable.weaponType().equals("fist")){
+            return Pummel.getInstance();
+        }
+        return Hack.getInstance();
+    }
+
+    public int dealDamage(){
+        return this.strength + this.damage;
+    }
+
+
 }

@@ -12,9 +12,9 @@ public class Ogre extends Character {
     private String name;
 
     private Ogre(int hitpoints, int strength, String name) {
-        this.equipable = new Fist();
-        this.attackable = new Punch();
-        this.berserkable = new Pummel();
+        this.equipable = Fist.getInstance();
+        this.attackable = Punch.getInstance();
+        this.berserkable = Pummel.getInstance();
         this.hitpoints = hitpoints;
         this.strength = strength;
         this.location = 0;

@@ -12,9 +12,9 @@ public class Scorpion extends Character {
     private String name;
 
     private Scorpion(int hitpoints, int strength, String name) {
-        this.equipable = new Stinger();
-        this.attackable = new Sting();
-        this.berserkable = new Impale();
+        this.equipable = Stinger.getInstance();
+        this.attackable = Sting.getInstance();
+        this.berserkable = Impale.getInstance();
         this.hitpoints = hitpoints;
         this.strength = strength;
         this.location = 0;

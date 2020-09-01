@@ -1,14 +1,26 @@
 package com.johnny.pack.age;
 
-public class Knife implements Equipable {
-    private String weapon;
+public final class Knife implements Equipable {
+    private final String weapon;
+    private final int damage;
 
-    public Knife() {
+    private static final Knife INSTANCE = new Knife();
+
+    private Knife() {
         this.weapon = "knife";
+        this.damage = 8;
+    }
+
+    public static final Knife getInstance(){
+        return INSTANCE;
     }
 
     @Override
     public String weaponType() {
         return this.weapon;
+    }
+
+    public int getDamage(){
+        return this.damage;
     }
 }

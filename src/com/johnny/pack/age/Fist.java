@@ -1,14 +1,26 @@
 package com.johnny.pack.age;
 
-public class Fist implements Equipable {
-    private String weapon;
+public final class Fist implements Equipable {
+    private final String weapon;
+    private final int damage;
 
-    public Fist() {
+    private static final Fist INSTANCE = new Fist();
+
+    private Fist() {
         this.weapon = "fists";
+        this.damage = 5;
+    }
+
+    public static final Fist getInstance(){
+        return INSTANCE;
     }
 
     @Override
     public String weaponType() {
         return this.weapon;
+    }
+
+    public int getDamage(){
+        return this.damage;
     }
 }

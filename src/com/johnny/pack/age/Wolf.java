@@ -12,9 +12,9 @@ public class Wolf extends Character {
     private String name;
 
     private Wolf(int hitpoints, int strength, String name) {
-        this.equipable = new Teeth();
-        this.attackable = new Bite();
-        this.berserkable = new Maul();
+        this.equipable = Teeth.getInstance();
+        this.attackable = Bite.getInstance();
+        this.berserkable = Maul.getInstance();
         this.hitpoints = hitpoints;
         this.strength = strength;
         this.location = 0;
