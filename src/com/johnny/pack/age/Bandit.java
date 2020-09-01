@@ -13,9 +13,9 @@ public class Bandit extends Character {
     private final String ENEMY_TYPE = "Bandit";
 
     private Bandit(int hitpoints, int strength, String name) {
-        this.equipable = new Knife();
-        this.attackable = new Stab();
-        this.berserkable = new Impale();
+        this.equipable = Knife.getInstance();
+        this.attackable = Stab.getInstance();
+        this.berserkable = Impale.getInstance();
         this.hitpoints = hitpoints;
         this.strength = strength;
         this.location = 0;

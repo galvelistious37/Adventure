@@ -1,8 +1,20 @@
 package com.johnny.pack.age;
 
-public class Bite implements Attackable {
+public final class Bite implements Attackable {
+    private final String attack;
+
+    private static final Bite INSTANCE = new Bite();
+
+    private Bite(){
+        this.attack = "bit";
+    }
+
+    public static final Bite getInstance(){
+        return INSTANCE;
+    }
+
     @Override
     public String attack() {
-        return "bites";
+        return this.attack;
     }
 }

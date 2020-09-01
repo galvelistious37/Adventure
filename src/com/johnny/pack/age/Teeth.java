@@ -1,10 +1,16 @@
 package com.johnny.pack.age;
 
-public class Teeth implements Equipable {
-    private String weapon;
+public final class Teeth implements Equipable {
+    private final String weapon;
 
-    public Teeth() {
+    private static final Teeth INSTANCE = new Teeth();
+
+    private Teeth() {
         this.weapon = "teeth";
+    }
+
+    public static Teeth getInstance(){
+        return INSTANCE;
     }
 
     @Override

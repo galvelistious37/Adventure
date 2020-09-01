@@ -1,14 +1,26 @@
 package com.johnny.pack.age;
 
-public class Stinger implements Equipable {
-    private String weapon;
+public final class Stinger implements Equipable {
+    private final String weapon;
+    private final int damage;
 
-    public Stinger() {
+    private static final Stinger INSTANCE = new Stinger();
+
+    private Stinger() {
         this.weapon = "stinger";
+        this.damage = 7;
+    }
+
+    public static Stinger getInstance(){
+        return INSTANCE;
     }
 
     @Override
     public String weaponType() {
         return this.weapon;
+    }
+
+    public int getDamage(){
+        return this.damage;
     }
 }

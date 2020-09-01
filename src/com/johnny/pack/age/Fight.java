@@ -58,7 +58,7 @@ class Fight {
         }
     }
 
-    void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
+    void doFightinStuff(Player player, List<Character> enemiesFromLocation) {
         GamePlay gamePlay = new GamePlay();
         boolean quit = false;
         int round = 0;
@@ -195,7 +195,7 @@ class Fight {
         return damage;
     }
 
-    private boolean tryAction(int action, Character player, List<Character> enemiesFromLocation, int round) {
+    private boolean tryAction(int action, Player player, List<Character> enemiesFromLocation, int round) {
         switch(action){
             case 1:
                 attack(player, enemiesFromLocation);
@@ -269,7 +269,7 @@ class Fight {
         System.out.println("You run away like some kind of wuss");
     }
 
-    private void attack(Character player, List<Character> enemiesFromLocation) {
+    private void attack(Player player, List<Character> enemiesFromLocation) {
         int enemyToAttack = whichEnemy(enemiesFromLocation);
         if(enemyToAttack != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
@@ -278,7 +278,7 @@ class Fight {
             if(diceRoll.rollATwenty() >= 18){
                 System.out.println("You " + player.performBersek() + " " + currentEnemy.getName()
                 + " with your " + player.weaponType());
-                currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()*2));
+                currentEnemy.setHitpoints(enemyHitpoints - (player.dealDamage()*2));
                 if(currentEnemy.getHitpoints() <= 0){
                     currentEnemy.setHitpoints(0);
                     System.out.println("You killed " + currentEnemy.getName());
@@ -290,7 +290,7 @@ class Fight {
             } else if(diceRoll.rollATwenty() >= 7){
                 System.out.println("You successfully " + player.performAttack() + " " + currentEnemy.getName()
                 + " with your " + player.weaponType());
-                currentEnemy.setHitpoints(enemyHitpoints - player.getStrength());
+                currentEnemy.setHitpoints(enemyHitpoints - player.dealDamage());
                 if(currentEnemy.getHitpoints() <= 0){
                     currentEnemy.setHitpoints(0);
                     System.out.println("You killed " + currentEnemy.getName());
@@ -302,7 +302,7 @@ class Fight {
             }else if(diceRoll.rollATwenty() >= 3){
                 System.out.println("You scratched " + currentEnemy.getName()
                         + " with your " + player.weaponType());
-                currentEnemy.setHitpoints(enemyHitpoints - (player.getStrength()-2));
+                currentEnemy.setHitpoints(enemyHitpoints - (player.dealDamage()-2));
                 if(currentEnemy.getHitpoints() <= 0){
                     currentEnemy.setHitpoints(0);
                     System.out.println("You killed " + currentEnemy.getName());

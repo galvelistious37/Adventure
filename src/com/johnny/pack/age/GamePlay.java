@@ -9,7 +9,7 @@ class GamePlay {
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;
-    private Character playerOne;
+    private Player playerOne;
     private Fight fightObj;
 
     /**
@@ -18,7 +18,7 @@ class GamePlay {
     GamePlay() {
         fightObj = new Fight();
         scanner = new Scanner(System.in);
-        playerOne = new Player();
+        playerOne = Player.getInstance();
         locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
         enemies = EnemyBuilder.totalEnemiesList(TOTAL_ENEMIES).getEnemyList();
     }
