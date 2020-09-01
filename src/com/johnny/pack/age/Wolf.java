@@ -11,16 +11,24 @@ public class Wolf extends Character {
     private int initiative;
     private String name;
 
-    public Wolf() {
+    private Wolf(int hitpoints, int strength, String name) {
         this.equipable = new Teeth();
         this.attackable = new Bite();
         this.berserkable = new Maul();
-        this.hitpoints = 8;
-        this.strength = 10;
+        this.hitpoints = hitpoints;
+        this.strength = strength;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = "Wolf";
+        this.name = name;
+    }
+
+    public static Wolf normalWolf(){
+        return new Wolf(8, 10, "Normal Wolf");
+    }
+
+    public static Wolf superWolf(){
+        return new Wolf(12, 14, "Super Crazy Wolf");
     }
 
     @Override

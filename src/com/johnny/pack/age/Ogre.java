@@ -11,16 +11,24 @@ public class Ogre extends Character {
     private int initiative;
     private String name;
 
-    public Ogre() {
+    private Ogre(int hitpoints, int strength, String name) {
         this.equipable = new Fist();
         this.attackable = new Punch();
         this.berserkable = new Pummel();
-        this.hitpoints = 25;
-        this.strength = 12;
+        this.hitpoints = hitpoints;
+        this.strength = strength;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = "Ogre";
+        this.name = name;
+    }
+
+    public static Ogre normalOgre(){
+        return new Ogre(25, 12, "Normal Ogre");
+    }
+
+    public static Ogre superOgre(){
+        return new Ogre(35, 17, "Super Crazy Ogre");
     }
 
     @Override

@@ -12,16 +12,24 @@ public class Bandit extends Character {
     private String name;
     private final String ENEMY_TYPE = "Bandit";
 
-    public Bandit() {
+    private Bandit(int hitpoints, int strength, String name) {
         this.equipable = new Knife();
         this.attackable = new Stab();
         this.berserkable = new Impale();
-        this.hitpoints = 15;
-        this.strength = 8;
+        this.hitpoints = hitpoints;
+        this.strength = strength;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = "Bandit";
+        this.name = name;
+    }
+
+    public static Bandit normalBandit(){
+        return new Bandit(15, 8, "Normal Bandit");
+    }
+
+    public static Bandit superBandit(){
+        return new Bandit(20, 12, "Super Crazy Bandit");
     }
 
     @Override

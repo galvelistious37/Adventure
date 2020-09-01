@@ -21,7 +21,21 @@ public class LocationBuilder {
     private static final int THREE = 3;
     private static final String SPACE = " ";
 
-    protected Map<Integer, Location> generateLocationMap(){
+    private Map<Integer, Location> locationMap;
+
+    private LocationBuilder(){
+        this.locationMap = generateLocationMap();
+    }
+
+    public static LocationBuilder createLocationBuilder(){
+        return new LocationBuilder();
+    }
+
+    public Map<Integer, Location> getLocationMap() {
+        return locationMap;
+    }
+
+    private Map<Integer, Location> generateLocationMap(){
         LocationNumberBuilder locationNumberBuilder = new LocationNumberBuilder();
         Map<Integer, Location> tempLocationMap = new HashMap<>();
         List<Integer> locationNumbers = locationNumberBuilder.getLocationNumbersList();
