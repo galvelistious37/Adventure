@@ -5,6 +5,7 @@ import java.util.*;
 class GamePlay {
 
     // Global Variables
+    private final int TOTAL_ENEMIES = 10;
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;
@@ -18,10 +19,8 @@ class GamePlay {
         fightObj = new Fight();
         scanner = new Scanner(System.in);
         playerOne = new Player();
-        LocationBuilder locationBuilder = new LocationBuilder();
-        EnemyBuilder enemyBuilder = new EnemyBuilder();
-        locationMap = locationBuilder.generateLocationMap();
-        enemies = enemyBuilder.getEnemyList();
+        locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
+        enemies = EnemyBuilder.totalEnemiesList(TOTAL_ENEMIES).getEnemyList();
     }
 
     /**
