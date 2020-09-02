@@ -31,6 +31,10 @@ public class Player extends Character{
         return INSTANCE;
     }
 
+    public void setDamage(int damage){
+        this.damage = damage;
+    }
+
     @Override
     public String getName() {
         return name;
@@ -44,6 +48,10 @@ public class Player extends Character{
     @Override
     public String weaponType() {
         return equipable.weaponType();
+    }
+
+    public Equipable getEquipable(){
+        return equipable;
     }
 
     @Override
@@ -127,7 +135,7 @@ public class Player extends Character{
                 "Weapon: " + equipable.weaponType();
     }
 
-    private Equipable determineEquipable(String weapon){
+    public Equipable determineEquipable(String weapon){
         switch(weapon){
             case "knife" :
                 return Knife.getInstance();
@@ -137,14 +145,14 @@ public class Player extends Character{
         return Fist.getInstance();
     }
 
-    private Attackable determineAttackable(Equipable equipable){
+    public Attackable determineAttackable(Equipable equipable){
         if(equipable.weaponType().equals("fist")){
             return Punch.getInstance();
         }
         return Stab.getInstance();
     }
 
-    private Berserkable determineBerserkable(Equipable equipable){
+    public Berserkable determineBerserkable(Equipable equipable){
         if(equipable.weaponType().equals("fist")){
             return Pummel.getInstance();
         }

@@ -1,6 +1,5 @@
 package com.johnny.pack.age;
 
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,11 +15,11 @@ class Fight {
     private static final int SNEAK_PAST = 3;
     private static final int RUN_AWAY = 4;
     private Scanner fightScanner;
-    private Dice diceRoll;
+    private final Dice diceRoll;
 
     Fight() {
         this.fightScanner = new Scanner(System.in);
-        this.diceRoll = new Dice();
+        this.diceRoll = Dice.getInstance();
     }
 
     /**
@@ -49,11 +48,11 @@ class Fight {
 
     void initiative(Character player, List<Character> enemiesFromLocation) {
         if(player.getInitiative() == 0){
-            player.setInitiative(diceRoll.rollATwenty());
+            player.setInitiative(diceRoll.rollTheDie(20));
         }
         for(Character enemy : enemiesFromLocation){
             if (enemy.getInitiative() == 0) {
-                enemy.setInitiative(diceRoll.rollATwenty());
+                enemy.setInitiative(diceRoll.rollTheDie(20));
             }
         }
     }
@@ -154,7 +153,7 @@ class Fight {
 
     private void enemyAttack(Character player, Character enemy) {
         int playerHitpoint = player.getHitpoints();
-        int roll = diceRoll.rollATwenty();
+        int roll = diceRoll.rollTheDie(20);
         int damage = enemyDealsDamage(roll, enemy);
         playerHitpoint -= damage;
         player.setHitpoints(playerHitpoint);
@@ -232,7 +231,7 @@ class Fight {
 
     private boolean attemptSneak(List<Character> enemiesFromLocation) {
         for(Character enemy : enemiesFromLocation){
-            if(diceRoll.rollATwenty() > 17){
+            if(diceRoll.rollTheDie(20) > 17){
                 System.out.println(enemy.getName() + " busted you trying to sneak by");
                 return false;
             }
@@ -245,7 +244,7 @@ class Fight {
         int enemyToIntimidate = whichEnemy(enemiesFromLocation);
         if(enemyToIntimidate != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToIntimidate);
-            int successRoll = diceRoll.rollATwenty();
+            int successRoll = diceRoll.rollTheDie(20);
             System.out.println("Success Roll: " + successRoll);
             if(successRoll > 10){
                 enemiesFromLocation.remove(currentEnemy);
@@ -275,7 +274,7 @@ class Fight {
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
             int enemyHitpoints  = currentEnemy.getHitpoints();
 
-            if(diceRoll.rollATwenty() >= 18){
+            if(diceRoll.rollTheDie(20) >= 18){
                 System.out.println("You " + player.performBersek() + " " + currentEnemy.getName()
                 + " with your " + player.weaponType());
                 currentEnemy.setHitpoints(enemyHitpoints - (player.dealDamage()*2));
@@ -287,7 +286,7 @@ class Fight {
                     System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
                             + " has " + currentEnemy.getHitpoints() + " hitpoints left");
                 }
-            } else if(diceRoll.rollATwenty() >= 7){
+            } else if(diceRoll.rollTheDie(20) >= 7){
                 System.out.println("You successfully " + player.performAttack() + " " + currentEnemy.getName()
                 + " with your " + player.weaponType());
                 currentEnemy.setHitpoints(enemyHitpoints - player.dealDamage());
@@ -299,7 +298,7 @@ class Fight {
                     System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
                             + " has " + currentEnemy.getHitpoints() + " hitpoints left");
                 }
-            }else if(diceRoll.rollATwenty() >= 3){
+            }else if(diceRoll.rollTheDie(20) >= 3){
                 System.out.println("You scratched " + currentEnemy.getName()
                         + " with your " + player.weaponType());
                 currentEnemy.setHitpoints(enemyHitpoints - (player.dealDamage()-2));

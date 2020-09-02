@@ -9,7 +9,7 @@ public class EnemyBuilder {
     private List<Character> enemyList;
 
     private EnemyBuilder(int totalEnemies){
-        diceRoll = new Dice();
+        diceRoll = Dice.getInstance();
         this.totalEnemies = totalEnemies;
         this.enemyList = populateEnemyList();
     }
@@ -48,10 +48,10 @@ public class EnemyBuilder {
     }
 
     private int getRandomEnemy(){
-        return (int) ((Math.random() * 4) + 1);
+        return diceRoll.rollTheDie(4);
     }
 
     private boolean isSuperCrazy(){
-        return Math.floor(Math.random() * 2) > 0;
+        return diceRoll.rollTheDie(2) > 1;
     }
 }

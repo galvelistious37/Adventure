@@ -1,20 +1,21 @@
 package com.johnny.pack.age;
 
-public class Dice {
+final class Dice {
 
-    public int rollATwenty() {
-        return (int) ((Math.random() * 20) + 1);
+    private static final Dice INSTANCE = new Dice();
+    private Dice(){};
+    public static final Dice getInstance(){
+        return INSTANCE;
     }
 
-    public int getRandomNumberFromListSize(int size){
-        return (int) ((Math.random() * size) + 1);
+    int rollTheDie(int sides) {
+        return (int) Math.ceil(Math.random() * sides);
     }
 
-    protected int getRandomLocation(){
-        int oneThroughFive = (int) ((Math.random() * 5) + 1);
-        int increase = (int) ((Math.random() * 5) + 1);
+    int getRandomLocation(){
+        int oneThroughFive = rollTheDie(5);
         int addLevel = 0;
-        switch(increase){
+        switch(rollTheDie(5)){
             case 1 :
                 addLevel = 0;
                 break;
@@ -30,9 +31,7 @@ public class Dice {
             case 5 :
                 addLevel = 40;
                 break;
-            default :
-                addLevel = 0;
         }
-        return oneThroughFive + addLevel;
+        return addLevel + oneThroughFive;
     }
 }

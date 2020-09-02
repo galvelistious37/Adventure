@@ -58,6 +58,19 @@ class GamePlay {
                 resetCharacterInitiative(locationNumber);
                 locationNumber = nextLocationNumber;
             }
+            checkNewWeapon(locationNumber);
+        }
+    }
+
+    private void checkNewWeapon(int locationNumber) {
+        if(locationNumber == 2){
+            playerOne.setEquipable(playerOne.determineEquipable("knife"));
+            playerOne.setAttackable(playerOne.determineAttackable(playerOne.getEquipable()));
+            playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
+            playerOne.setDamage(Knife.getInstance().getDamage());
+            System.out.println("You now have a " + playerOne.getEquipable().weaponType());
+            System.out.println("Attack mode " + playerOne.performAttack());
+            System.out.println("Berserk mode " + playerOne.performBersek());
         }
     }
 
