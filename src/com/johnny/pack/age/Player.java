@@ -11,11 +11,12 @@ public class Player extends Character{
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
+    private final Scratchable scratchable;
 
     private static final Player INSTANCE = new Player(
             "You", 100, 5, Fist.getInstance().getDamage(),
             1, true, 0, Fist.getInstance(),
-            Punch.getInstance(), Pummel.getInstance());
+            Punch.getInstance(), Pummel.getInstance(), Scratch.getInstance());
 
     private Player(String name,
                    int hitPoints,
@@ -26,7 +27,8 @@ public class Player extends Character{
                    int initiative,
                    Equipable equipable,
                    Attackable attackable,
-                   Berserkable berserkable) {
+                   Berserkable berserkable,
+                   Scratchable scratchable) {
         this.name = name;
         this.hitPoints = hitPoints;
         this.strength = strength;
@@ -37,6 +39,7 @@ public class Player extends Character{
         this.equipable = equipable;
         this.attackable = attackable;
         this.berserkable = berserkable;
+        this.scratchable = scratchable;
     }
 
     public static Player getInstance(){
@@ -75,6 +78,10 @@ public class Player extends Character{
     @Override
     public void setBerserkable(Berserkable berserkable) {
         this.berserkable = berserkable;
+    }
+
+    public Scratchable getScratchable(){
+        return scratchable;
     }
 
     @Override

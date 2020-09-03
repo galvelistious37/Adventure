@@ -90,7 +90,7 @@ public class Ogre extends Character {
 
     @Override
     public int getDamage() {
-        return 0;
+        return damage;
     }
 
     @Override

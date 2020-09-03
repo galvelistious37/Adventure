@@ -94,7 +94,6 @@ class Fight {
                     System.out.println("You have painted these lands with blood of your enemies");
                     if(eatTheDead()){
                         System.out.println("You devour the flesh of your enemy");
-                        ;
                         int hp = player.getHitPoints();
                         hp += 6;
                         if(hp > 100){
@@ -176,12 +175,12 @@ class Fight {
     private int enemyDealsDamage(int roll, Character enemy) {
         int damage;
         if(roll >= 18){
-            damage = enemy.getStrength() + 4;
-            System.out.println(enemy.getName() + " " + enemy.getBerserkable()
+            damage = enemy.dealDamage() + 4;
+            System.out.println(enemy.getName() + " " + enemy.getBerserkable().goBersek()
                     + " you for " + damage + " points of damage" );
         } else if(roll >= 7){
-            damage = enemy.getStrength();
-            System.out.println(enemy.getName() + " " + enemy.getAttackable()
+            damage = enemy.dealDamage();
+            System.out.println(enemy.getName() + " " + enemy.getAttackable().attack()
                     + " you for " + damage + " points of damage" );
         }else{
             damage = 0;
@@ -269,50 +268,57 @@ class Fight {
         if(enemyToAttack != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
             int enemyHitpoints  = currentEnemy.getHitPoints();
-
-            if(diceRoll.rollTheDie(20) >= 18){
-                System.out.println("You " + player.getBerserkable() + " " + currentEnemy.getName()
-                + " with your " + player.getEquipable());
-                currentEnemy.setHitPoints(enemyHitpoints - (player.dealDamage()*2));
-                if(currentEnemy.getHitPoints() <= 0){
-                    currentEnemy.setHitPoints(0);
-                    System.out.println("You killed " + currentEnemy.getName());
-                    currentEnemy.setIsAlive(false);
-                } else {
-                    System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                            + " has " + currentEnemy.getHitPoints() + " hit points left");
-                }
-            } else if(diceRoll.rollTheDie(20) >= 7){
-                System.out.println("You successfully " + player.getAttackable() + " " + currentEnemy.getName()
-                + " with your " + player.getEquipable());
-                currentEnemy.setHitPoints(enemyHitpoints - player.dealDamage());
-                if(currentEnemy.getHitPoints() <= 0){
-                    currentEnemy.setHitPoints(0);
-                    System.out.println("You killed " + currentEnemy.getName());
-                    currentEnemy.setIsAlive(false);
-                } else {
-                    System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                            + " has " + currentEnemy.getHitPoints() + " hit points left");
-                }
-            }else if(diceRoll.rollTheDie(20) >= 3){
-                System.out.println("You scratched " + currentEnemy.getName()
-                        + " with your " + player.getEquipable());
-                currentEnemy.setHitPoints(enemyHitpoints - (player.dealDamage()-2));
-                if(currentEnemy.getHitPoints() <= 0){
-                    currentEnemy.setHitPoints(0);
-                    System.out.println("You killed " + currentEnemy.getName());
-                    currentEnemy.setIsAlive(false);
-                } else {
-                    System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                            + " has " + currentEnemy.getHitPoints() + " hit points left");
-                }
-            }else{
-                System.out.println("You swung at " + currentEnemy.getName()
-                        + " and and missed... horribly");
+            int roll = diceRoll.rollTheDie(20);
+            String severity = "none";
+            int damageDealt = 0;
+            if(roll >= 18){
+                severity = "critical";
+                damageDealt = (player.dealDamage() * 2);
+            } else if(roll >= 7){
+                severity = "normal";
+                damageDealt = player.dealDamage();
+            }else if(roll >= 3){
+                severity = "low";
+                damageDealt = (player.dealDamage() - 3);
             }
+            displayAttackDetails(player, currentEnemy, severity);
+            currentEnemy.setHitPoints(enemyHitpoints - damageDealt);
+            currentEnemy.setIsAlive(checkDead(currentEnemy));
             System.out.println("\n");
         } else {
             System.out.println("You have chosen not to attack and have lost your turn");
+        }
+    }
+
+    private void displayAttackDetails(Player player, Character enemy, String severity){
+        String form;
+        switch(severity){
+            case "critical" :
+                form = player.getBerserkable().goBersek();
+                break;
+            case "normal" :
+                form = player.getAttackable().attack();
+                break;
+            case "low" :
+                form = player.getScratchable().scratch();
+                break;
+            default :
+                form = "missed";
+        }
+        System.out.println(player.getName() + " " +
+                form + " " + enemy.getName() + " with your "  +
+                player.getEquipable().weaponType());
+    }
+
+    private boolean checkDead(Character enemy) {
+        if (enemy.getHitPoints() <= 0) {
+            enemy.setHitPoints(0);
+            System.out.println("You killed " + enemy.getName());
+            return false;
+        } else {
+            System.out.println(enemy.getName() + " has "
+                    + enemy.getHitPoints() + " hit points left");
+            return true;
         }
     }
 
