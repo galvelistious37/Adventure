@@ -26,7 +26,6 @@ class Fight {
      * Display Fight Menu options
      */
     private void getFightMenu(){
-        System.out.println("\n");
         List<String> options = createOptions();
         for(String option : options){
             System.out.println(option);
@@ -66,12 +65,8 @@ class Fight {
             if(enemiesFromLocation.size() == 0){
                 quit = true;
                 System.out.println("No more enemies in these lands");
-                System.out.println("\n");
             } else {
-                displaySpacer();
-                showCharacterStatus(player);
-                gamePlay.displayEnemies(enemiesFromLocation);
-
+                showDisplays(player, enemiesFromLocation);
                 for(int i = 20; i > 0; i--){
                     if(player.getInitiative() == i){
                         int action = getSelection();
@@ -93,14 +88,7 @@ class Fight {
                 if(countTheDead(enemiesFromLocation)){
                     System.out.println("You have painted these lands with blood of your enemies");
                     if(eatTheDead()){
-                        System.out.println("You devour the flesh of your enemy");
-                        int hp = player.getHitPoints();
-                        hp += 6;
-                        if(hp > 100){
-                            hp = 100;
-                        }
-                        player.setHitPoints(hp);
-                        System.out.println("You have " + player.getHitPoints() + " hit points");
+                        digestTheDead(player);
                     }
                     quit = true;
                 }
@@ -109,32 +97,24 @@ class Fight {
     }
 
     private boolean eatTheDead() {
+        System.out.println("Enter \"Yes\" to eat the dead");
         Scanner scanner = new Scanner(System.in);
-        boolean eatThem = false;
-        boolean quit = false;
-        String eatDead;
-        while(!quit){
-        System.out.println("Eat the dead? ... Enter \"Yes\" or \"No\"");
-            eatDead = scanner.nextLine();
-            if (eatDead.equalsIgnoreCase("YES")){
-                eatThem = true;
-                quit = true;
-            } else if (eatDead.equalsIgnoreCase("NO")){
-                quit = true;
-            }
+        String eatDead = scanner.nextLine();
+        return eatDead.equalsIgnoreCase("YES");
+    }
+
+    private void digestTheDead(Player player){
+        System.out.println("You devour the flesh of your enemy");
+        int hp = player.getHitPoints();
+        hp += 10;
+        if(hp > 100){
+            hp = 100;
         }
-        return eatThem;
+        player.setHitPoints(hp);
+        System.out.println("You have " + player.getHitPoints() + " hit points");
     }
 
 
-    private void displaySpacer() {
-        System.out.println("\n**************************************************");
-        System.out.println("**************************************************");
-    }
-
-    private void showCharacterStatus(Character character) {
-        GamePlay.getInstance().showCharacterStatus(character);
-    }
 
     boolean countTheDead(List<Character> enemiesFromLocation) {
         int bodies = 0;
@@ -143,7 +123,7 @@ class Fight {
                 bodies++;
             }
         }
-        return bodies == enemiesFromLocation.size();
+        return bodies == enemiesFromLocation.size() && bodies > 0;
     }
 
     private void enemyAttack(Character player, Character enemy) {
@@ -161,7 +141,7 @@ class Fight {
             gamePlay.quit();
 
         } else {
-            System.out.println("\tYou have " + player.getHitPoints() + " HP remaining");
+            System.out.println(player.getName() + " have " + player.getHitPoints() + " HP remaining");
         }
     }
 
@@ -284,7 +264,6 @@ class Fight {
             displayAttackDetails(player, currentEnemy, severity);
             currentEnemy.setHitPoints(enemyHitpoints - damageDealt);
             currentEnemy.setIsAlive(checkDead(currentEnemy));
-            System.out.println("\n");
         } else {
             System.out.println("You have chosen not to attack and have lost your turn");
         }
@@ -305,6 +284,7 @@ class Fight {
             default :
                 form = "missed";
         }
+
         System.out.println(player.getName() + " " +
                 form + " " + enemy.getName() + " with your "  +
                 player.getEquipable().weaponType());
@@ -372,4 +352,33 @@ class Fight {
             fightScanner.nextLine();
         }
     }
+
+    private void showDisplays(Player player, List<Character> enemiesFromLocation) {
+        displaySpacer();
+        showPlayerStatus(player);
+        displayEnemies(enemiesFromLocation);
+    }
+
+    private void displaySpacer() {
+        System.out.println("**************************************************");
+        System.out.println("**************************************************");
+    }
+
+    void showPlayerStatus(Player player) {
+        System.out.println("");
+        String message = "~Player Details~ " +
+                "\nHit Points: " + player.getHitPoints() +
+                "\nWeapon: " + player.getEquipable().weaponType();
+        System.out.println(message);
+        System.out.println(" ");
+    }
+
+    void displayEnemies(List<Character> localEnemies){
+        System.out.println("Enemies in these lands:");
+        for(Character enemy : localEnemies){
+            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
+                    enemy.getName() + ": " + enemy.getHitPoints() + " HP");
+        }
+    }
+
 }

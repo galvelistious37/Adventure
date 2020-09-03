@@ -41,8 +41,7 @@ class GamePlay {
      * Print a greeting to the screen
      */
     private void displayGreeting() {
-        String greeting = "Welcome to the Greatest Adventure Game Ever!!!";
-        System.out.println("\n" + greeting);
+        System.out.println("Welcome to the Greatest Adventure Game Ever!!!");
     }
 
     /**
@@ -109,7 +108,6 @@ class GamePlay {
         if(exits.containsKey(direction)){
             locationNumber = exits.get(direction);
             playerOne.setLocation(locationNumber);
-            System.out.println("\n");
         } else {
             String wrongDirection = "You cannot go in that direction";
             System.out.println(wrongDirection);
@@ -142,13 +140,6 @@ class GamePlay {
         return tempList;
     }
 
-    void displayEnemies(List<Character> localEnemies){
-        System.out.println("\tEnemies in these lands:");
-        for(Character enemy : localEnemies){
-            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
-                    enemy.getName() + ": " + enemy.getHitPoints() + " HP");
-        }
-    }
 
     private void displayAvailableExits(Map<String, Integer> locationExits) {
         System.out.println("Available exits are: ");
@@ -177,15 +168,9 @@ class GamePlay {
     }
 
     private void displayLocation(int locationNumber) {
-        System.out.println("\nLocation: " + locationMap.get(locationNumber).getDescription());
+        System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
     }
 
-    void showCharacterStatus(Character character) {
-        System.out.println(" ");
-        String message = character.getName() + " have " + character.getHitPoints() + " left";
-        System.out.println(message);
-        System.out.println(" ");
-    }
 
     void quit() {
         scanner.close();
