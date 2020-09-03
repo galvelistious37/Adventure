@@ -20,6 +20,7 @@ public final class Stinger implements Equipable {
         return this.weapon;
     }
 
+    @Override
     public int getDamage(){
         return this.damage;
     }

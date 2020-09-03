@@ -4,19 +4,21 @@ public class Scorpion extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
-    private int hitpoints;
+    private int hitPoints;
     private int strength;
+    private int damage;
     private int location;
     private boolean isAlive;
     private int initiative;
     private String name;
 
-    private Scorpion(int hitpoints, int strength, String name) {
+    private Scorpion(int hitPoints, int strength, String name) {
         this.equipable = Stinger.getInstance();
         this.attackable = Sting.getInstance();
         this.berserkable = Impale.getInstance();
-        this.hitpoints = hitpoints;
+        this.hitPoints = hitPoints;
         this.strength = strength;
+        this.damage = equipable.getDamage();
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
@@ -37,13 +39,8 @@ public class Scorpion extends Character {
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String weaponType() {
-        return equipable.weaponType();
+    public Equipable getEquipable() {
+        return equipable;
     }
 
     @Override
@@ -52,8 +49,8 @@ public class Scorpion extends Character {
     }
 
     @Override
-    public String performAttack() {
-        return attackable.attack();
+    public Attackable getAttackable() {
+        return attackable;
     }
 
     @Override
@@ -62,8 +59,8 @@ public class Scorpion extends Character {
     }
 
     @Override
-    public String performBersek() {
-        return berserkable.goBersek();
+    public Berserkable getBerserkable() {
+        return berserkable;
     }
 
     @Override
@@ -72,13 +69,13 @@ public class Scorpion extends Character {
     }
 
     @Override
-    public int getHitpoints() {
-        return hitpoints;
+    public int getHitPoints() {
+        return hitPoints;
     }
 
     @Override
-    public void setHitpoints(int hitpoints) {
-        this.hitpoints = hitpoints;
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
     }
 
     @Override
@@ -89,6 +86,16 @@ public class Scorpion extends Character {
     @Override
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    @Override
+    public int getDamage() {
+        return 0;
+    }
+
+    @Override
+    public void setDamage(int damage) {
+
     }
 
     @Override
@@ -122,12 +129,17 @@ public class Scorpion extends Character {
     }
 
     @Override
+    public int dealDamage() {
+        return damage + strength;
+    }
+
+    @Override
     public String toString() {
         return "Scorpion{" +
                 "equipable=" + equipable +
                 ", attackable=" + attackable +
                 ", berserkable=" + berserkable +
-                ", hitpoints=" + hitpoints +
+                ", hitPoints=" + hitPoints +
                 ", strength=" + strength +
                 ", location=" + location +
                 ", isAlive=" + isAlive +

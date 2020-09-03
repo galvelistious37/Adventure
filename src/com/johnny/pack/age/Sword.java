@@ -15,7 +15,6 @@ public final class Sword implements Equipable {
         return INSTANCE;
     }
 
-
     @Override
     public String weaponType() {
         return this.weapon;

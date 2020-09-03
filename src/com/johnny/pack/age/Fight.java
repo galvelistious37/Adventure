@@ -58,7 +58,7 @@ class Fight {
     }
 
     void doFightinStuff(Player player, List<Character> enemiesFromLocation) {
-        GamePlay gamePlay = new GamePlay();
+        GamePlay gamePlay = GamePlay.getInstance();
         boolean quit = false;
         int round = 0;
         while(!quit){
@@ -95,13 +95,13 @@ class Fight {
                     if(eatTheDead()){
                         System.out.println("You devour the flesh of your enemy");
                         ;
-                        int hp = player.getHitpoints();
+                        int hp = player.getHitPoints();
                         hp += 6;
                         if(hp > 100){
                             hp = 100;
                         }
-                        player.setHitpoints(hp);
-                        System.out.println("You have " + player.getHitpoints() + " hitpoints");
+                        player.setHitPoints(hp);
+                        System.out.println("You have " + player.getHitPoints() + " hit points");
                     }
                     quit = true;
                 }
@@ -134,8 +134,7 @@ class Fight {
     }
 
     private void showCharacterStatus(Character character) {
-        GamePlay gamePlay = new GamePlay();
-        gamePlay.showCharacterStatus(character);
+        GamePlay.getInstance().showCharacterStatus(character);
     }
 
     boolean countTheDead(List<Character> enemiesFromLocation) {
@@ -144,29 +143,26 @@ class Fight {
             if(!enemy.getIsAlive()){
                 bodies++;
             }
-            if(bodies == enemiesFromLocation.size()){
-                return true;
-            }
         }
-        return false;
+        return bodies == enemiesFromLocation.size();
     }
 
     private void enemyAttack(Character player, Character enemy) {
-        int playerHitpoint = player.getHitpoints();
+        int playerHitpoint = player.getHitPoints();
         int roll = diceRoll.rollTheDie(20);
         int damage = enemyDealsDamage(roll, enemy);
         playerHitpoint -= damage;
-        player.setHitpoints(playerHitpoint);
-        if(player.getHitpoints() <= 0){
+        player.setHitPoints(playerHitpoint);
+        if(player.getHitPoints() <= 0){
             player.setIsAlive(false);
             System.out.println(enemy.getName() + " killed you");
             System.out.println("Game Over");
             pressEnterKeyToContinue();
-            GamePlay gamePlay = new GamePlay();
+            GamePlay gamePlay = GamePlay.getInstance();
             gamePlay.quit();
 
         } else {
-            System.out.println("\tYou have " + player.getHitpoints() + " HP remaining");
+            System.out.println("\tYou have " + player.getHitPoints() + " HP remaining");
         }
     }
 
@@ -181,11 +177,11 @@ class Fight {
         int damage;
         if(roll >= 18){
             damage = enemy.getStrength() + 4;
-            System.out.println(enemy.getName() + " " + enemy.performBersek()
+            System.out.println(enemy.getName() + " " + enemy.getBerserkable()
                     + " you for " + damage + " points of damage" );
         } else if(roll >= 7){
             damage = enemy.getStrength();
-            System.out.println(enemy.getName() + " " + enemy.performAttack()
+            System.out.println(enemy.getName() + " " + enemy.getAttackable()
                     + " you for " + damage + " points of damage" );
         }else{
             damage = 0;
@@ -252,7 +248,7 @@ class Fight {
                 System.out.println("You scared " + currentEnemy.getName() + " so " +
                         "bad it ran away");
             } else if (successRoll < 10){
-                currentEnemy.setHitpoints(currentEnemy.getHitpoints() + 5);
+                currentEnemy.setHitPoints(currentEnemy.getHitPoints() + 5);
                 System.out.println("You failed at your intimidation attempt and " +
                         currentEnemy.getName() + " is definitely not scared of you");
                 System.out.println(currentEnemy.getName() + " gained 5 HP");
@@ -272,43 +268,43 @@ class Fight {
         int enemyToAttack = whichEnemy(enemiesFromLocation);
         if(enemyToAttack != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
-            int enemyHitpoints  = currentEnemy.getHitpoints();
+            int enemyHitpoints  = currentEnemy.getHitPoints();
 
             if(diceRoll.rollTheDie(20) >= 18){
-                System.out.println("You " + player.performBersek() + " " + currentEnemy.getName()
-                + " with your " + player.weaponType());
-                currentEnemy.setHitpoints(enemyHitpoints - (player.dealDamage()*2));
-                if(currentEnemy.getHitpoints() <= 0){
-                    currentEnemy.setHitpoints(0);
+                System.out.println("You " + player.getBerserkable() + " " + currentEnemy.getName()
+                + " with your " + player.getEquipable());
+                currentEnemy.setHitPoints(enemyHitpoints - (player.dealDamage()*2));
+                if(currentEnemy.getHitPoints() <= 0){
+                    currentEnemy.setHitPoints(0);
                     System.out.println("You killed " + currentEnemy.getName());
                     currentEnemy.setIsAlive(false);
                 } else {
                     System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                            + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+                            + " has " + currentEnemy.getHitPoints() + " hit points left");
                 }
             } else if(diceRoll.rollTheDie(20) >= 7){
-                System.out.println("You successfully " + player.performAttack() + " " + currentEnemy.getName()
-                + " with your " + player.weaponType());
-                currentEnemy.setHitpoints(enemyHitpoints - player.dealDamage());
-                if(currentEnemy.getHitpoints() <= 0){
-                    currentEnemy.setHitpoints(0);
+                System.out.println("You successfully " + player.getAttackable() + " " + currentEnemy.getName()
+                + " with your " + player.getEquipable());
+                currentEnemy.setHitPoints(enemyHitpoints - player.dealDamage());
+                if(currentEnemy.getHitPoints() <= 0){
+                    currentEnemy.setHitPoints(0);
                     System.out.println("You killed " + currentEnemy.getName());
                     currentEnemy.setIsAlive(false);
                 } else {
                     System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                            + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+                            + " has " + currentEnemy.getHitPoints() + " hit points left");
                 }
             }else if(diceRoll.rollTheDie(20) >= 3){
                 System.out.println("You scratched " + currentEnemy.getName()
-                        + " with your " + player.weaponType());
-                currentEnemy.setHitpoints(enemyHitpoints - (player.dealDamage()-2));
-                if(currentEnemy.getHitpoints() <= 0){
-                    currentEnemy.setHitpoints(0);
+                        + " with your " + player.getEquipable());
+                currentEnemy.setHitPoints(enemyHitpoints - (player.dealDamage()-2));
+                if(currentEnemy.getHitPoints() <= 0){
+                    currentEnemy.setHitPoints(0);
                     System.out.println("You killed " + currentEnemy.getName());
                     currentEnemy.setIsAlive(false);
                 } else {
                     System.out.println(enemiesFromLocation.get(enemyToAttack).getName()
-                            + " has " + currentEnemy.getHitpoints() + " hitpoints left");
+                            + " has " + currentEnemy.getHitPoints() + " hit points left");
                 }
             }else{
                 System.out.println("You swung at " + currentEnemy.getName()

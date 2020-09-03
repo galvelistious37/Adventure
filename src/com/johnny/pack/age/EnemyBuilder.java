@@ -26,7 +26,6 @@ public class EnemyBuilder {
         List<Character> enemyList = new ArrayList<>();
         for(int i = 0; i < this.totalEnemies; i++){
             Character tempEnemy = getEnemy();
-            tempEnemy.setName(tempEnemy.getName());
             tempEnemy.setLocation(diceRoll.getRandomLocation());
             enemyList.add(tempEnemy);
         }

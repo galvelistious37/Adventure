@@ -15,12 +15,18 @@ class GamePlay {
     /**
      * GamePlay Constructor instantiates global variables
      */
-    GamePlay() {
+    private GamePlay() {
         fightObj = new Fight();
         scanner = new Scanner(System.in);
         playerOne = Player.getInstance();
         locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
         enemies = EnemyBuilder.totalEnemiesList(TOTAL_ENEMIES).getEnemyList();
+    }
+
+    private static final GamePlay INSTANCE = new GamePlay();
+
+    public static final GamePlay getInstance(){
+        return INSTANCE;
     }
 
     /**
@@ -69,8 +75,8 @@ class GamePlay {
             playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
             playerOne.setDamage(Knife.getInstance().getDamage());
             System.out.println("You now have a " + playerOne.getEquipable().weaponType());
-            System.out.println("Attack mode " + playerOne.performAttack());
-            System.out.println("Berserk mode " + playerOne.performBersek());
+            System.out.println("Attack mode " + playerOne.getAttackable().attack());
+            System.out.println("Berserk mode " + playerOne.getBerserkable().goBersek());
         }
     }
 
@@ -140,7 +146,7 @@ class GamePlay {
         System.out.println("\tEnemies in these lands:");
         for(Character enemy : localEnemies){
             System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
-                    enemy.getName() + ": " + enemy.getHitpoints() + " HP");
+                    enemy.getName() + ": " + enemy.getHitPoints() + " HP");
         }
     }
 
@@ -176,7 +182,8 @@ class GamePlay {
 
     void showCharacterStatus(Character character) {
         System.out.println(" ");
-        System.out.println(character.toString());
+        String message = character.getName() + " have " + character.getHitPoints() + " left";
+        System.out.println(message);
         System.out.println(" ");
     }
 
