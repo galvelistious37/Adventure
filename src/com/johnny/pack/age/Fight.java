@@ -331,10 +331,7 @@ class Fight {
     }
 
     private boolean isValidInput(int index, List<Character> enemiesFromLocation) {
-        if(index < 0 || index > enemiesFromLocation.size() - 1){
-            return false;
-        }
-        return true;
+        return index >= 0 && index <= enemiesFromLocation.size() - 1;
     }
 
     private void displayPrompt() {
