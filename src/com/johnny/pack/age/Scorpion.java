@@ -4,6 +4,7 @@ public class Scorpion extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
+    private Scratchable scratchable;
     private int hitPoints;
     private int strength;
     private int damage;
@@ -16,6 +17,7 @@ public class Scorpion extends Character {
         this.equipable = Stinger.getInstance();
         this.attackable = Sting.getInstance();
         this.berserkable = Impale.getInstance();
+        this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
         this.damage = equipable.getDamage();
@@ -67,6 +69,13 @@ public class Scorpion extends Character {
     public void setBerserkable(Berserkable berserkable) {
         this.berserkable = berserkable;
     }
+
+    @Override
+    public Scratchable getScratchable(){
+        return scratchable;
+    }
+
+
 
     @Override
     public int getHitPoints() {

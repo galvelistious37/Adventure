@@ -80,6 +80,7 @@ public class Player extends Character{
         this.berserkable = berserkable;
     }
 
+    @Override
     public Scratchable getScratchable(){
         return scratchable;
     }

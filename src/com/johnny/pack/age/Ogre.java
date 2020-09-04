@@ -4,6 +4,7 @@ public class Ogre extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
+    private Scratchable scratchable;
     private int hitPoints;
     private int strength;
     private int damage;
@@ -16,6 +17,7 @@ public class Ogre extends Character {
         this.equipable = Fist.getInstance();
         this.attackable = Punch.getInstance();
         this.berserkable = Pummel.getInstance();
+        this.scratchable = Scratch.getInstance();
         this.damage = equipable.getDamage();
         this.hitPoints = hitPoints;
         this.strength = strength;
@@ -67,6 +69,13 @@ public class Ogre extends Character {
     public void setBerserkable(Berserkable berserkable) {
         this.berserkable = berserkable;
     }
+
+    @Override
+    public Scratchable getScratchable(){
+        return scratchable;
+    }
+
+
 
     @Override
     public int getHitPoints() {

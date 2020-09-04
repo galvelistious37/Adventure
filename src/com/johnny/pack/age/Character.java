@@ -23,4 +23,5 @@ public abstract class Character {
     public abstract int getInitiative();
     public abstract void setInitiative(int initiative);
     public abstract int dealDamage();
+    public abstract Scratchable getScratchable();
 }

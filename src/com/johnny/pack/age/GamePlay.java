@@ -5,7 +5,7 @@ import java.util.*;
 class GamePlay {
 
     // Global Variables
-    private final int TOTAL_ENEMIES = 10;
+    private final int TOTAL_ENEMIES = 30;
     private Scanner scanner;
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;

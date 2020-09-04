@@ -78,7 +78,10 @@ class Fight {
                     for(Character enemy : enemiesFromLocation){
                         if(enemy.getInitiative() == i){
                             if(enemy.getIsAlive()){
-                                enemyAttack(player, enemy);
+                                attack(enemy, player);
+                                if(!player.getIsAlive()){
+                                    playerDied(enemy);
+                                }
                             } else {
                                 System.out.println(enemy.getName() + " is dead");
                             }
@@ -94,6 +97,13 @@ class Fight {
                 }
             }
         }
+    }
+
+    private void playerDied(Character enemy) {
+        System.out.println(enemy.getName() + " killed you");
+        System.out.println("Game Over");
+        pressEnterKeyToContinue();
+        GamePlay.getInstance().quit();
     }
 
     private boolean eatTheDead() {
@@ -126,25 +136,6 @@ class Fight {
         return bodies == enemiesFromLocation.size() && bodies > 0;
     }
 
-    private void enemyAttack(Character player, Character enemy) {
-        int playerHitpoint = player.getHitPoints();
-        int roll = diceRoll.rollTheDie(20);
-        int damage = enemyDealsDamage(roll, enemy);
-        playerHitpoint -= damage;
-        player.setHitPoints(playerHitpoint);
-        if(player.getHitPoints() <= 0){
-            player.setIsAlive(false);
-            System.out.println(enemy.getName() + " killed you");
-            System.out.println("Game Over");
-            pressEnterKeyToContinue();
-            GamePlay gamePlay = GamePlay.getInstance();
-            gamePlay.quit();
-
-        } else {
-            System.out.println(player.getName() + " have " + player.getHitPoints() + " HP remaining");
-        }
-    }
-
     private void pressEnterKeyToContinue()
     {
         System.out.println("Press Enter key to quit...");
@@ -152,27 +143,10 @@ class Fight {
         s.nextLine();
     }
 
-    private int enemyDealsDamage(int roll, Character enemy) {
-        int damage;
-        if(roll >= 18){
-            damage = enemy.dealDamage() + 4;
-            System.out.println(enemy.getName() + " " + enemy.getBerserkable().goBersek()
-                    + " you for " + damage + " points of damage" );
-        } else if(roll >= 7){
-            damage = enemy.dealDamage();
-            System.out.println(enemy.getName() + " " + enemy.getAttackable().attack()
-                    + " you for " + damage + " points of damage" );
-        }else{
-            damage = 0;
-            System.out.println(enemy.getName() + " totally fell on it's face" );
-        }
-        return damage;
-    }
-
     private boolean tryAction(int action, Player player, List<Character> enemiesFromLocation, int round) {
         switch(action){
             case 1:
-                attack(player, enemiesFromLocation);
+                attackEnemySelection(player, enemiesFromLocation);
                 return false;
             case 2:
                 intimidate(enemiesFromLocation);
@@ -243,100 +217,133 @@ class Fight {
         System.out.println("You run away like some kind of wuss");
     }
 
-    private void attack(Player player, List<Character> enemiesFromLocation) {
+    private void attackEnemySelection(Character player, List<Character> enemiesFromLocation) {
         int enemyToAttack = whichEnemy(enemiesFromLocation);
         if(enemyToAttack != -1){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
-            int enemyHitpoints  = currentEnemy.getHitPoints();
-            int roll = diceRoll.rollTheDie(20);
-            String severity = "none";
-            int damageDealt = 0;
-            if(roll >= 18){
-                severity = "critical";
-                damageDealt = (player.dealDamage() * 2);
-            } else if(roll >= 7){
-                severity = "normal";
-                damageDealt = player.dealDamage();
-            }else if(roll >= 3){
-                severity = "low";
-                damageDealt = (player.dealDamage() - 3);
-            }
-            displayAttackDetails(player, currentEnemy, severity);
-            currentEnemy.setHitPoints(enemyHitpoints - damageDealt);
-            currentEnemy.setIsAlive(checkDead(currentEnemy));
+            attack(player, currentEnemy);
         } else {
-            System.out.println("You have chosen not to attack and have lost your turn");
+            System.out.println("You have chosen not to attackEnemySelection and have lost your turn");
         }
     }
 
-    private void displayAttackDetails(Player player, Character enemy, String severity){
+    private void attack(Character attacker, Character victim) {
+        String severity = determineSeverity(diceRoll.rollTheDie(20));
+        int damageDealt = determineDamage(attacker, severity);
+        displayAttackDetails(attacker, victim, severity, damageDealt);
+        victim.setHitPoints(victim.getHitPoints() - damageDealt);
+        victim.setIsAlive(checkStillAlive(victim));
+    }
+
+    private int determineDamage(Character attacker, String severity) {
+        switch(severity){
+            case "critical" :
+                return attacker.dealDamage() * 2;
+            case "normal" :
+                return attacker.dealDamage();
+            case "low" :
+                return (int) Math.ceil(attacker.dealDamage() / 2);
+            default :
+                return 0;
+        }
+    }
+
+    private String determineSeverity(int roll) {
+        if(roll >= 18){
+            return "critical";
+        } else if(roll >= 7){
+            return "normal";
+        }else if(roll >= 3){
+            return "low";
+        } else
+            return "none";
+    }
+
+    private void displayAttackDetails(Character attacker, Character victim, String severity, int damage){
         String form;
         switch(severity){
             case "critical" :
-                form = player.getBerserkable().goBersek();
+                form = attacker.getBerserkable().goBersek();
                 break;
             case "normal" :
-                form = player.getAttackable().attack();
+                form = attacker.getAttackable().attack();
                 break;
             case "low" :
-                form = player.getScratchable().scratch();
+                form = attacker.getScratchable().scratch();
                 break;
             default :
                 form = "missed";
         }
 
-        System.out.println(player.getName() + " " +
-                form + " " + enemy.getName() + " with your "  +
-                player.getEquipable().weaponType());
+        System.out.println(attacker.getName() + " " +
+                form + " " + victim.getName() + " for " + damage + " HP");
     }
 
-    private boolean checkDead(Character enemy) {
-        if (enemy.getHitPoints() <= 0) {
-            enemy.setHitPoints(0);
-            System.out.println("You killed " + enemy.getName());
-            return false;
-        } else {
-            System.out.println(enemy.getName() + " has "
-                    + enemy.getHitPoints() + " hit points left");
-            return true;
+    private boolean checkStillAlive(Character victim) {
+        if (victim.getHitPoints() <= 0) {
+            victim.setHitPoints(0);
         }
+        return victim.getHitPoints() > 0;
     }
 
     private int whichEnemy(List<Character> enemiesFromLocation) {
-        Scanner enemySelection = new Scanner(System.in);
-        boolean quit = false;
-        int index = -1;
-        if(enemiesFromLocation.size() == 1){
-            index = 0;
+        if(moreThanOneEnemy(enemiesFromLocation)){
+            return getEnemyIndex(enemiesFromLocation);
         } else {
-            int enemyName;
-            while(!quit){
-                Character enemy = null;
-                System.out.println("Which number enemy are you attacking? \n" +
-                        "\tExit attack: 99");
-                if(enemySelection.hasNextInt()){
-                    enemyName = enemySelection.nextInt();
-                    if(enemyName == 99){
-                        return -1;
-                    }
-                    if(enemyName < 0 || enemyName > enemiesFromLocation.size() - 1){
-                        System.out.println("Select a valid enemy number");
-                    } else {
-                        enemy = enemiesFromLocation.get(enemyName);
-                        if(!enemy.getIsAlive()){
-                            System.out.println("Dude, that one is already dead. Sicko!");
-                        } else {
+            return 0;
+        }
+    }
+
+    private int getEnemyIndex(List<Character> enemiesFromLocation) {
+        Scanner userInput = new Scanner(System.in);
+        int enemyIndex = 0;
+        int index;
+        boolean quit = false;
+        while (!quit) {
+            displayPrompt();
+            if (userInput.hasNextInt()) {
+                index = userInput.nextInt();
+                if(index == 99) {
+                    enemyIndex = -1;
+                    quit = true;
+                } else {
+                    if (isValidInput(index, enemiesFromLocation)) {
+                        if (!alreadyDead(index, enemiesFromLocation)) {
+                            enemyIndex = index;
                             quit = true;
                         }
                     }
-                    index = enemiesFromLocation.indexOf(enemy);
-                } else {
-                    System.out.println("Choose an enemy number");
-                    enemySelection.nextLine();
                 }
+            } else {
+                System.out.println("Choose an enemy number");
+                userInput.nextLine();
             }
         }
-        return index;
+        return enemyIndex;
+    }
+
+    private boolean alreadyDead(int enemyIndex, List<Character> enemiesFromLocation) {
+        if(!enemiesFromLocation.get(enemyIndex).getIsAlive()){
+            System.out.println("Dude, that one is already dead. Sicko!");
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isValidInput(int index, List<Character> enemiesFromLocation) {
+        if(index < 0 || index > enemiesFromLocation.size() - 1){
+            return false;
+        }
+        return true;
+    }
+
+    private void displayPrompt() {
+        System.out.println("Which number enemy are you attacking? \n" +
+                "\tExit attackEnemySelection: 99");
+    }
+
+    private boolean moreThanOneEnemy(List<Character> enemiesFromLocation) {
+        return enemiesFromLocation.size() > 1;
     }
 
     private int getSelection() {
@@ -367,18 +374,18 @@ class Fight {
     void showPlayerStatus(Player player) {
         System.out.println("");
         String message = "~Player Details~ " +
-                "\nHit Points: " + player.getHitPoints() +
-                "\nWeapon: " + player.getEquipable().weaponType();
+                "\n\tHit Points: " + player.getHitPoints() +
+                "\n\tWeapon: " + player.getEquipable().weaponType();
         System.out.println(message);
-        System.out.println(" ");
     }
 
     void displayEnemies(List<Character> localEnemies){
-        System.out.println("Enemies in these lands:");
+        System.out.println("~Enemies~");
         for(Character enemy : localEnemies){
             System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
                     enemy.getName() + ": " + enemy.getHitPoints() + " HP");
         }
+        System.out.println(" ");
     }
 
 }
