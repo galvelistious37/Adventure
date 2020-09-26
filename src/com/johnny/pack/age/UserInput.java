@@ -20,8 +20,9 @@ public class UserInput {
     }
 
     public Boolean isInputYes(){
-        return scanner.nextLine().equalsIgnoreCase("YES")
-                || scanner.nextLine().equalsIgnoreCase("Y");
+        String eatThem = scanner.nextLine();
+        return eatThem.equalsIgnoreCase("YES")
+                || eatThem.equalsIgnoreCase("Y");
     }
 
     public Boolean scannerHasNextInt(){

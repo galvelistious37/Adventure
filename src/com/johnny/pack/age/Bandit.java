@@ -29,11 +29,11 @@ public class Bandit extends Character {
     }
 
     public static Bandit normalBandit(){
-        return new Bandit(15, 8, "Normal Bandit");
+        return new Bandit(15, 6, "Normal Bandit");
     }
 
     public static Bandit superBandit(){
-        return new Bandit(20, 12, "Super Crazy Bandit");
+        return new Bandit(20, 8, "Super Crazy Bandit");
     }
 
     @Override

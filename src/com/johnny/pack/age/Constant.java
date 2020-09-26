@@ -23,7 +23,19 @@ final class Constant {
     static final String DESERT = "Desert";
     static final String MOUNTAIN = "Mountains";
     static final String FOREST = "Forest";
+    static final int NEGATIVE_ONE = -1;
+    static final int ZERO = 0;
+    static final int ONE = 1;
     static final int TWO = 2;
     static final int THREE = 3;
+    static final int FOUR = 4;
+    static final int FIVE = 5;
+    static final int SEVEN = 7;
+    static final int TEN = 10;
+    static final int SEVENTEEN = 17;
+    static final int EIGHTEEN = 18;
+    static final int TWENTY = 20;
+    static final int NINETY_NINE = 99;
+    static final int ONE_HUNDRED = 100;
     static final String SPACE = " ";
 }

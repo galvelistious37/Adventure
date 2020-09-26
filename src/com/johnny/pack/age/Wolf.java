@@ -28,11 +28,11 @@ public class Wolf extends Character {
     }
 
     public static Wolf normalWolf(){
-        return new Wolf(8, 10, "Normal Wolf");
+        return new Wolf(8, 6, "Normal Wolf");
     }
 
     public static Wolf superWolf(){
-        return new Wolf(12, 14, "Super Crazy Wolf");
+        return new Wolf(12, 8, "Super Crazy Wolf");
     }
 
     @Override

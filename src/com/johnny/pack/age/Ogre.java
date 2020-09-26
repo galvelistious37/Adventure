@@ -28,11 +28,11 @@ public class Ogre extends Character {
     }
 
     public static Ogre normalOgre(){
-        return new Ogre(25, 12, "Normal Ogre");
+        return new Ogre(25, 8, "Normal Ogre");
     }
 
     public static Ogre superOgre(){
-        return new Ogre(35, 17, "Super Crazy Ogre");
+        return new Ogre(35, 10, "Super Crazy Ogre");
     }
 
     @Override

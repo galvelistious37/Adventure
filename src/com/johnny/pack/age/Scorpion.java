@@ -32,7 +32,7 @@ public class Scorpion extends Character {
     }
 
     public static Scorpion superScorpion(){
-        return new Scorpion(20, 12, "Super Crazy Scorpion");
+        return new Scorpion(20, 10, "Super Crazy Scorpion");
     }
 
     @Override
