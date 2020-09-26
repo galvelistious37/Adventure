@@ -5,21 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public class LocationBuilder {
-    private static final String WEST = "West";
-    private static final String SOUTH = "South";
-    private static final String SOUTHWEST = "Southwest";
-    private static final String SOUTHEAST = "Southeast";
-    private static final String EAST = "East";
-    private static final String NORTH = "North";
-    private static final String NORTHWEST = "Northwest";
-    private static final String NORTHEAST = "Northeast";
-    private static final String CENTER = "Central";
-    private static final String DESERT = "Desert";
-    private static final String MOUNTAIN = "Mountains";
-    private static final String FOREST = "Forest";
-    private static final int TWO = 2;
-    private static final int THREE = 3;
-    private static final String SPACE = " ";
 
     private Map<Integer, Location> locationMap;
 
@@ -54,7 +39,7 @@ public class LocationBuilder {
         int y = getY(locNumber);
         String bearing = getBearing(x,y);
         String terrain = getTerrain(bearing);
-        return bearing + SPACE + terrain;
+        return bearing + Constant.SPACE + terrain;
     }
 
     private int getX(Integer locNumber) {
@@ -74,35 +59,35 @@ public class LocationBuilder {
 
 
     private String getBearing(int x, int y) {
-        if(x == THREE && y < TWO){
-            return SOUTH;
-        } else if (x == THREE && y > TWO){
-            return NORTH;
-        } else if (x > THREE && y == TWO){
-            return EAST;
-        } else if (x < THREE && y == TWO){
-            return WEST;
-        } else if (x < THREE && y < TWO){
-            return SOUTHWEST;
-        } else if (x > THREE && y < TWO){
-            return SOUTHEAST;
-        } else if (x < THREE && y > TWO){
-            return NORTHWEST;
-        } else if (x > THREE && y > TWO){
-            return NORTHEAST;
+        if(x == Constant.THREE && y < Constant.TWO){
+            return Constant.SOUTH;
+        } else if (x == Constant.THREE && y > Constant.TWO){
+            return Constant.NORTH;
+        } else if (x > Constant.THREE && y == Constant.TWO){
+            return Constant.EAST;
+        } else if (x < Constant.THREE && y == Constant.TWO){
+            return Constant.WEST;
+        } else if (x < Constant.THREE && y < Constant.TWO){
+            return Constant.SOUTHWEST;
+        } else if (x > Constant.THREE && y < Constant.TWO){
+            return Constant.SOUTHEAST;
+        } else if (x < Constant.THREE && y > Constant.TWO){
+            return Constant.NORTHWEST;
+        } else if (x > Constant.THREE && y > Constant.TWO){
+            return Constant.NORTHEAST;
         } else {
-            return CENTER;
+            return Constant.CENTER;
         }
     }
 
     private String getTerrain(String bearing) {
         if (bearing.equals("North") || bearing.equals("Northwest") ||
                 bearing.equals("West") || bearing.equals("Southwest")){
-            return MOUNTAIN;
+            return Constant.MOUNTAIN;
         } else if (bearing.equals("South") || bearing.equals("Southeast")){
-            return DESERT;
+            return Constant.DESERT;
         } else {
-            return FOREST;
+            return Constant.FOREST;
         }
     }
 

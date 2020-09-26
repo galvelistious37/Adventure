@@ -5,8 +5,6 @@ import java.util.*;
 class GamePlay {
 
     // Global Variables
-    private final int TOTAL_ENEMIES = 30;
-    private Scanner scanner;
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;
     private Player playerOne;
@@ -17,10 +15,9 @@ class GamePlay {
      */
     private GamePlay() {
         fightObj = new Fight();
-        scanner = new Scanner(System.in);
         playerOne = Player.getInstance();
         locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
-        enemies = EnemyBuilder.totalEnemiesList(TOTAL_ENEMIES).getEnemyList();
+        enemies = EnemyBuilder.totalEnemiesList(Constant.TOTAL_ENEMIES).getEnemyList();
     }
 
     private static final GamePlay INSTANCE = new GamePlay();
@@ -57,7 +54,7 @@ class GamePlay {
             checkForEnemies(locationNumber);
             exits = locationMap.get(locationNumber).getExits();
             displayAvailableExits(exits);
-            String direction = scanner.nextLine().toUpperCase();
+            String direction = UserInput.getUserInstance().getScanner().nextLine().toUpperCase();
             nextLocationNumber = moveInDirection(locationNumber, exits, direction);
             if (locationNumber != nextLocationNumber) {
                 resetCharacterInitiative(locationNumber);
@@ -68,15 +65,20 @@ class GamePlay {
     }
 
     private void checkNewWeapon(int locationNumber) {
-        if(locationNumber == 2){
-            playerOne.setEquipable(playerOne.determineEquipable("knife"));
-            playerOne.setAttackable(playerOne.determineAttackable(playerOne.getEquipable()));
-            playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
-            playerOne.setDamage(Knife.getInstance().getDamage());
-            System.out.println("You now have a " + playerOne.getEquipable().weaponType());
-            System.out.println("Attack mode " + playerOne.getAttackable().attack());
-            System.out.println("Berserk mode " + playerOne.getBerserkable().goBersek());
+        if(locationNumber == Knife.getInstance().getLocation()){
+            setWeaponDetails(Knife.getInstance().weaponType());
         }
+        if(locationNumber == Sword.getInstance().getLocation()){
+            setWeaponDetails(Sword.getInstance().weaponType());
+        }
+    }
+
+    private void setWeaponDetails(String weaponType){
+        System.out.println("You found a " + weaponType);
+        playerOne.setEquipable(playerOne.determineEquipable(weaponType));
+        playerOne.setAttackable(playerOne.determineAttackable(playerOne.getEquipable()));
+        playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
+        playerOne.setDamage(playerOne.getEquipable().getDamage());
     }
 
     private void resetCharacterInitiative(int locationNumber){
@@ -173,7 +175,7 @@ class GamePlay {
 
 
     void quit() {
-        scanner.close();
+        UserInput.getUserInstance().getScanner().close();
         String shutDown = "Shutting down...";
         int status = 0;
         System.out.println(shutDown);

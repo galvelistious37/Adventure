@@ -1,24 +1,13 @@
 package com.johnny.pack.age;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 class Fight {
-    private static final String COLON_SEPARATOR = ": ";
-    private static final String DO_FIGHTIN = "Fight";
-    private static final String INTIMIDATE_THEM = "Intimidate";
-    private static final String SNEAKY_LIKE = "Sneak Past";
-    private static final String RUN_FORREST = "Run";
-    private static final int FIGHT = 1;
-    private static final int INTIMIDATE = 2;
-    private static final int SNEAK_PAST = 3;
-    private static final int RUN_AWAY = 4;
-    private Scanner fightScanner;
     private final Dice diceRoll;
 
     Fight() {
-        this.fightScanner = new Scanner(System.in);
         this.diceRoll = Dice.getInstance();
     }
 
@@ -38,10 +27,10 @@ class Fight {
      */
     private List<String> createOptions() {
         List<String> generateOptions = new ArrayList<>();
-        generateOptions.add(FIGHT + COLON_SEPARATOR + DO_FIGHTIN);
-        generateOptions.add(INTIMIDATE + COLON_SEPARATOR + INTIMIDATE_THEM);
-        generateOptions.add(SNEAK_PAST + COLON_SEPARATOR + SNEAKY_LIKE);
-        generateOptions.add(RUN_AWAY + COLON_SEPARATOR + RUN_FORREST);
+        generateOptions.add(Constant.FIGHT + Constant.COLON_SEPARATOR + Constant.DO_FIGHTIN);
+        generateOptions.add(Constant.INTIMIDATE + Constant.COLON_SEPARATOR + Constant.INTIMIDATE_THEM);
+        generateOptions.add(Constant.SNEAK_PAST + Constant.COLON_SEPARATOR + Constant.SNEAKY_LIKE);
+        generateOptions.add(Constant.RUN_AWAY + Constant.COLON_SEPARATOR + Constant.RUN_FORREST);
         return generateOptions;
     }
 
@@ -57,7 +46,6 @@ class Fight {
     }
 
     void doFightinStuff(Player player, List<Character> enemiesFromLocation) {
-        GamePlay gamePlay = GamePlay.getInstance();
         boolean quit = false;
         int round = 0;
         while(!quit){
@@ -69,11 +57,12 @@ class Fight {
                 showDisplays(player, enemiesFromLocation);
                 for(int i = 20; i > 0; i--){
                     if(player.getInitiative() == i){
-                        int action = getSelection();
+                        int action = 0;
+                        action = getSelection();
                         quit = tryAction(action, player, enemiesFromLocation, round);
                     }
                     if(quit){
-                       break;
+                        break;
                     }
                     for(Character enemy : enemiesFromLocation){
                         if(enemy.getInitiative() == i){
@@ -108,9 +97,7 @@ class Fight {
 
     private boolean eatTheDead() {
         System.out.println("Enter \"Yes\" to eat the dead");
-        Scanner scanner = new Scanner(System.in);
-        String eatDead = scanner.nextLine();
-        return eatDead.equalsIgnoreCase("YES");
+        return UserInput.getUserInstance().isInputYes();
     }
 
     private void digestTheDead(Player player){
@@ -139,8 +126,7 @@ class Fight {
     private void pressEnterKeyToContinue()
     {
         System.out.println("Press Enter key to quit...");
-        Scanner s = new Scanner(System.in);
-        s.nextLine();
+        UserInput.getUserInstance().getScanner().nextLine();
     }
 
     private boolean tryAction(int action, Player player, List<Character> enemiesFromLocation, int round) {
@@ -223,7 +209,7 @@ class Fight {
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
             attack(player, currentEnemy);
         } else {
-            System.out.println("You have chosen not to attackEnemySelection and have lost your turn");
+            System.out.println("You did not pick an enemy and lost your turn");
         }
     }
 
@@ -295,14 +281,13 @@ class Fight {
     }
 
     private int getEnemyIndex(List<Character> enemiesFromLocation) {
-        Scanner userInput = new Scanner(System.in);
         int enemyIndex = 0;
         int index;
         boolean quit = false;
         while (!quit) {
             displayPrompt();
-            if (userInput.hasNextInt()) {
-                index = userInput.nextInt();
+            if (UserInput.getUserInstance().scannerHasNextInt()) {
+                index = Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
                 if(index == 99) {
                     enemyIndex = -1;
                     quit = true;
@@ -316,7 +301,7 @@ class Fight {
                 }
             } else {
                 System.out.println("Choose an enemy number");
-                userInput.nextLine();
+                UserInput.getUserInstance().scannerNextLine();
             }
         }
         return enemyIndex;
@@ -346,14 +331,14 @@ class Fight {
     private int getSelection() {
         while(true) {
             getFightMenu();
-            if (fightScanner.hasNextInt()) {
-                int fightMenuSelection = fightScanner.nextInt();
-                if (fightMenuSelection >= 1 && fightMenuSelection <= 4) {
-                    return fightMenuSelection;
+            if(UserInput.getUserInstance().scannerHasNextInt()){
+                int selection =  Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
+                if(selection > 0 && selection < 5){
+                    return selection;
                 }
             }
             System.out.println("Select a valid option");
-            fightScanner.nextLine();
+            UserInput.getUserInstance().getScanner().nextLine();
         }
     }
 

@@ -3,12 +3,14 @@ package com.johnny.pack.age;
 public final class Sword implements Equipable {
     private final String weapon;
     private final int damage;
+    private int location;
 
     private static final Sword INSTANCE = new Sword();
 
     private Sword() {
         this.weapon = "sword";
-        this.damage = 12;
+        this.damage = 14;
+        this.location = 3;
     }
 
     public static final Sword getInstance(){
@@ -22,5 +24,13 @@ public final class Sword implements Equipable {
 
     public int getDamage(){
         return this.damage;
+    }
+
+    public int getLocation(){
+        return this.location;
+    }
+
+    public void setLocation(int location){
+        this.location = location;
     }
 }

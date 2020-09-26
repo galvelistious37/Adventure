@@ -1,0 +1,29 @@
+package com.johnny.pack.age;
+
+final class Constant {
+    static final String COLON_SEPARATOR = ": ";
+    static final String DO_FIGHTIN = "Fight";
+    static final String INTIMIDATE_THEM = "Intimidate";
+    static final String SNEAKY_LIKE = "Sneak Past";
+    static final String RUN_FORREST = "Run";
+    static final int FIGHT = 1;
+    static final int INTIMIDATE = 2;
+    static final int SNEAK_PAST = 3;
+    static final int RUN_AWAY = 4;
+    static final int TOTAL_ENEMIES = 30;
+    static final String WEST = "West";
+    static final String SOUTH = "South";
+    static final String SOUTHWEST = "Southwest";
+    static final String SOUTHEAST = "Southeast";
+    static final String EAST = "East";
+    static final String NORTH = "North";
+    static final String NORTHWEST = "Northwest";
+    static final String NORTHEAST = "Northeast";
+    static final String CENTER = "Central";
+    static final String DESERT = "Desert";
+    static final String MOUNTAIN = "Mountains";
+    static final String FOREST = "Forest";
+    static final int TWO = 2;
+    static final int THREE = 3;
+    static final String SPACE = " ";
+}
