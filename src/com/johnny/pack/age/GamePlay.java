@@ -1,6 +1,8 @@
 package com.johnny.pack.age;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class GamePlay {
 
@@ -69,6 +71,7 @@ class GamePlay {
             setWeaponDetails(Knife.getInstance().weaponType());
         }
         if(locationNumber == Sword.getInstance().getLocation()){
+
             setWeaponDetails(Sword.getInstance().weaponType());
         }
     }
@@ -82,11 +85,9 @@ class GamePlay {
     }
 
     private void resetCharacterInitiative(int locationNumber){
-        List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
         playerOne.setInitiative(0);
-        for(Character enemy : localEnemies){
-            enemy.setInitiative(0);
-        }
+        getEnemiesFromLocation(locationNumber).stream()
+                .forEach(enemy -> enemy.setInitiative(0));
     }
 
     private void checkForEnemies(int locationNumber) {
@@ -124,37 +125,22 @@ class GamePlay {
     }
 
     private boolean areEnemiesPresent(int locationNumber) {
-        for(Character enemy : enemies){
-            if(enemy.getLocation() == locationNumber){
-                return true;
-            }
-        }
-        return false;
+        return enemies.stream()
+                .anyMatch(enemy -> enemy.getLocation() == locationNumber);
     }
 
     private List<Character> getEnemiesFromLocation(int locationNumber){
-        List<Character> tempList = new ArrayList<>();
-        for(Character enemy : enemies){
-            if(enemy.getLocation() == locationNumber){
-                tempList.add(enemy);
-            }
-        }
-        return tempList;
+        return enemies.stream()
+                .filter(enemy -> enemy.getLocation() == locationNumber)
+                .collect(Collectors.toList());
     }
 
 
     private void displayAvailableExits(Map<String, Integer> locationExits) {
         System.out.println("Available exits are: ");
-        int stringCounter = 1;
         System.out.print("\t");
-        for(String exit : locationExits.keySet()){
-            if(stringCounter < locationExits.size()){
-                System.out.print(exit + ", ");
-            } else {
-                System.out.print(exit);
-            }
-            stringCounter++;
-        }
+        Stream<String> stream = Stream.of(locationExits.keySet().toString());
+        stream.forEach(s -> System.out.println(s));
         System.out.println();
     }
 

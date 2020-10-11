@@ -10,7 +10,7 @@ final class Constant {
     static final int INTIMIDATE = 2;
     static final int SNEAK_PAST = 3;
     static final int RUN_AWAY = 4;
-    static final int TOTAL_ENEMIES = 30;
+    static final int TOTAL_ENEMIES = 15;
     static final String WEST = "West";
     static final String SOUTH = "South";
     static final String SOUTHWEST = "Southwest";

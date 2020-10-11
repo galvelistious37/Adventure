@@ -2,34 +2,33 @@ package com.johnny.pack.age;
 
 import java.util.Scanner;
 
-public class UserInput {
+class UserInput {
     private Scanner scanner;
-
     private static UserInput INSTANCE = new UserInput();
 
     private UserInput(){
         this.scanner = new Scanner(System.in);
     }
 
-    public static UserInput getUserInstance(){
+    static UserInput getUserInstance(){
         return INSTANCE;
     }
 
-    public Scanner getScanner() {
+    Scanner getScanner() {
         return scanner;
     }
 
-    public Boolean isInputYes(){
+    Boolean isInputYes(){
         String eatThem = scanner.nextLine();
         return eatThem.equalsIgnoreCase("YES")
                 || eatThem.equalsIgnoreCase("Y");
     }
 
-    public Boolean scannerHasNextInt(){
+    Boolean scannerHasNextInt(){
         return scanner.hasNextInt();
     }
 
-    public void scannerNextLine(){
+    void scannerNextLine(){
         scanner.nextLine();
     }
 }

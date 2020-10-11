@@ -1,7 +1,11 @@
 package com.johnny.pack.age;
 
+import org.omg.CORBA.CODESET_INCOMPATIBLE;
+
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Fight {
 
@@ -9,10 +13,8 @@ class Fight {
      * Display Fight Menu options
      */
     private void getFightMenu(){
-        List<String> options = createOptions();
-        for(String option : options){
-            System.out.println(option);
-        }
+        createOptions().stream()
+                .forEach(System.out::println);
     }
 
     /**
@@ -29,17 +31,15 @@ class Fight {
     }
 
     void initiative(Character player, List<Character> enemiesFromLocation) {
-        if(player.getInitiative() == Constant.ZERO){
-            player.setInitiative(Dice.getInstance().rollTheDie(Constant.TWENTY));
-        }
-        for(Character enemy : enemiesFromLocation){
-            if (enemy.getInitiative() == Constant.ZERO) {
-                enemy.setInitiative(Dice.getInstance().rollTheDie(Constant.TWENTY));
-            }
-        }
+        List<Character> everyone = new ArrayList<>();
+        everyone.add(player);
+        everyone.addAll(enemiesFromLocation);
+        everyone.stream()
+                .filter(e -> e.getInitiative() == Constant.ZERO)
+                .forEach(e -> e.setInitiative(Dice.getInstance().rollTheDie(Constant.TWENTY)));
     }
 
-    void doFightinStuff(Player player, List<Character> enemiesFromLocation) {
+    void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
         boolean quit = false;
         int round = Constant.ZERO;
         while(!quit){
@@ -93,7 +93,7 @@ class Fight {
         return UserInput.getUserInstance().isInputYes();
     }
 
-    private void digestTheDead(Player player){
+    private void digestTheDead(Character player){
         System.out.println("You devour the flesh of your enemy");
         int hp = player.getHitPoints();
         hp += Constant.TEN;
@@ -122,7 +122,7 @@ class Fight {
         UserInput.getUserInstance().getScanner().nextLine();
     }
 
-    private boolean tryAction(int action, Player player, List<Character> enemiesFromLocation, int round) {
+    private boolean tryAction(int action, Character player, List<Character> enemiesFromLocation, int round) {
         switch(action){
             case Constant.ONE:
                 attackEnemySelection(player, enemiesFromLocation);
@@ -149,12 +149,9 @@ class Fight {
     }
 
     private boolean haveTheDrop(Character player, List<Character> enemiesFromLocation) {
-        for(Character enemy : enemiesFromLocation){
-            if(enemy.getInitiative() > player.getInitiative()){
-                return false;
-            }
-        }
-        return true;
+        return Constant.ZERO == enemiesFromLocation.stream()
+                .filter(e -> e.getInitiative() > player.getInitiative())
+                .count();
     }
 
     private boolean attemptSneak(List<Character> enemiesFromLocation) {
@@ -335,7 +332,7 @@ class Fight {
         }
     }
 
-    private void showDisplays(Player player, List<Character> enemiesFromLocation) {
+    private void showDisplays(Character player, List<Character> enemiesFromLocation) {
         displaySpacer();
         showPlayerStatus(player);
         displayEnemies(enemiesFromLocation);
@@ -346,7 +343,7 @@ class Fight {
         System.out.println("**************************************************");
     }
 
-    private void showPlayerStatus(Player player) {
+    private void showPlayerStatus(Character player) {
         System.out.println(Constant.SPACE);
         String message = "~Player Details~ " +
                 "\n\tHit Points: " + player.getHitPoints() +
