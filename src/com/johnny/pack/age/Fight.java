@@ -3,6 +3,7 @@ package com.johnny.pack.age;
 import org.omg.CORBA.CODESET_INCOMPATIBLE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,21 +36,21 @@ class Fight {
         everyone.add(player);
         everyone.addAll(enemiesFromLocation);
         everyone.stream()
-                .filter(e -> e.getInitiative() == Constant.ZERO)
-                .forEach(e -> e.setInitiative(Dice.getInstance().rollTheDie(Constant.TWENTY)));
+                .filter(e -> e.getInitiative() == Numbers.ZERO.getValue())
+                .forEach(e -> e.setInitiative(Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue())));
     }
 
     void doFightinStuff(Character player, List<Character> enemiesFromLocation) {
         boolean quit = false;
-        int round = Constant.ZERO;
+        int round = Numbers.ZERO.getValue();
         while(!quit){
             round++;
-            if(enemiesFromLocation.size() == Constant.ZERO){
+            if(enemiesFromLocation.size() == Numbers.ZERO.getValue()){
                 quit = true;
                 System.out.println("No more enemies in these lands");
             } else {
                 showDisplays(player, enemiesFromLocation);
-                for(int i = Constant.TWENTY; i > Constant.ZERO; i--){
+                for(int i = Numbers.TWENTY.getValue(); i > Numbers.ZERO.getValue(); i--){
                     if(player.getInitiative() == i){
                         int action = getSelection();
                         quit = tryAction(action, player, enemiesFromLocation, round);
@@ -96,9 +97,9 @@ class Fight {
     private void digestTheDead(Character player){
         System.out.println("You devour the flesh of your enemy");
         int hp = player.getHitPoints();
-        hp += Constant.TEN;
-        if(hp > Constant.ONE_HUNDRED){
-            hp = Constant.ONE_HUNDRED;
+        hp += Numbers.TEN.getValue();
+        if(hp > Numbers.ONE_HUNDRED.getValue()){
+            hp = Numbers.ONE_HUNDRED.getValue();
         }
         player.setHitPoints(hp);
         System.out.println("You have " + player.getHitPoints() + " hit points");
@@ -107,13 +108,13 @@ class Fight {
 
 
     boolean countTheDead(List<Character> enemiesFromLocation) {
-        int bodies = Constant.ZERO;
+        int bodies = Numbers.ZERO.getValue();
         for(Character enemy : enemiesFromLocation){
             if(!enemy.getIsAlive()){
                 bodies++;
             }
         }
-        return bodies == enemiesFromLocation.size() && bodies > Constant.ZERO;
+        return bodies == enemiesFromLocation.size() && bodies > Numbers.ZERO.getValue();
     }
 
     private void pressEnterKeyToContinue()
@@ -140,7 +141,7 @@ class Fight {
     }
 
     private boolean sneak(int round, List<Character> enemiesFromLocation, Character player) {
-        if(round == Constant.ONE && haveTheDrop(player, enemiesFromLocation)){
+        if(round == Numbers.ONE.getValue() && haveTheDrop(player, enemiesFromLocation)){
              return attemptSneak(enemiesFromLocation);
         } else {
             System.out.println("The enemies have already seen you. You cannot sneak.");
@@ -149,14 +150,14 @@ class Fight {
     }
 
     private boolean haveTheDrop(Character player, List<Character> enemiesFromLocation) {
-        return Constant.ZERO == enemiesFromLocation.stream()
+        return Numbers.ZERO.getValue() == enemiesFromLocation.stream()
                 .filter(e -> e.getInitiative() > player.getInitiative())
                 .count();
     }
 
     private boolean attemptSneak(List<Character> enemiesFromLocation) {
         for(Character enemy : enemiesFromLocation){
-            if(Dice.getInstance().rollTheDie(Constant.TWENTY) > Constant.SEVENTEEN){
+            if(Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue()) > Numbers.SEVENTEEN.getValue()){
                 System.out.println(enemy.getName() + " busted you trying to sneak by");
                 return false;
             }
@@ -167,17 +168,17 @@ class Fight {
 
     private void intimidate(List<Character> enemiesFromLocation) {
         int enemyToIntimidate = whichEnemy(enemiesFromLocation);
-        if(enemyToIntimidate != Constant.NEGATIVE_ONE){
+        if(enemyToIntimidate != Numbers.NEGATIVE_ONE.getValue()){
             Character currentEnemy = enemiesFromLocation.get(enemyToIntimidate);
-            int successRoll = Dice.getInstance().rollTheDie(Constant.TWENTY);
+            int successRoll = Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue());
             System.out.println("Success Roll: " + successRoll);
-            if(successRoll > Constant.TEN){
+            if(successRoll > Numbers.TEN.getValue()){
                 enemiesFromLocation.remove(currentEnemy);
                 currentEnemy.setLocation(Dice.getInstance().getRandomLocation());
                 System.out.println("You scared " + currentEnemy.getName() + " so " +
                         "bad it ran away");
-            } else if (successRoll < Constant.TEN){
-                currentEnemy.setHitPoints(currentEnemy.getHitPoints() + Constant.FIVE);
+            } else if (successRoll < Numbers.TEN.getValue()){
+                currentEnemy.setHitPoints(currentEnemy.getHitPoints() + Numbers.FIVE.getValue());
                 System.out.println("You failed at your intimidation attempt and " +
                         currentEnemy.getName() + " is definitely not scared of you");
                 System.out.println(currentEnemy.getName() + " gained 5 HP");
@@ -195,7 +196,7 @@ class Fight {
 
     private void attackEnemySelection(Character player, List<Character> enemiesFromLocation) {
         int enemyToAttack = whichEnemy(enemiesFromLocation);
-        if(enemyToAttack != Constant.NEGATIVE_ONE){
+        if(enemyToAttack != Numbers.NEGATIVE_ONE.getValue()){
             Character currentEnemy = enemiesFromLocation.get(enemyToAttack);
             attack(player, currentEnemy);
         } else {
@@ -204,7 +205,7 @@ class Fight {
     }
 
     private void attack(Character attacker, Character victim) {
-        String severity = determineSeverity(Dice.getInstance().rollTheDie(Constant.TWENTY));
+        String severity = determineSeverity(Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue()));
         int damageDealt = determineDamage(attacker, severity);
         displayAttackDetails(attacker, victim, severity, damageDealt);
         victim.setHitPoints(victim.getHitPoints() - damageDealt);
@@ -214,22 +215,22 @@ class Fight {
     private int determineDamage(Character attacker, String severity) {
         switch(severity){
             case "critical" :
-                return attacker.dealDamage() * Constant.TWO;
+                return attacker.dealDamage() * Numbers.TWO.getValue();
             case "normal" :
                 return attacker.dealDamage();
             case "low" :
-                return (int) Math.ceil(attacker.dealDamage() / Constant.TWO);
+                return (int) Math.ceil(attacker.dealDamage() / Numbers.TWO.getValue());
             default :
-                return Constant.ZERO;
+                return Numbers.ZERO.getValue();
         }
     }
 
     private String determineSeverity(int roll) {
-        if(roll >= Constant.EIGHTEEN){
+        if(roll >= Numbers.EIGHTEEN.getValue()){
             return "critical";
-        } else if(roll >= Constant.SEVEN){
+        } else if(roll >= Numbers.SEVEN.getValue()){
             return "normal";
-        }else if(roll >= Constant.THREE){
+        }else if(roll >= Numbers.THREE.getValue()){
             return "low";
         } else
             return "none";
@@ -256,30 +257,34 @@ class Fight {
     }
 
     private boolean checkStillAlive(Character victim) {
-        if (victim.getHitPoints() <= Constant.ZERO) {
-            victim.setHitPoints(Constant.ZERO);
+        if (victim.getHitPoints() <= Numbers.ZERO.getValue()) {
+            victim.setHitPoints(Numbers.ZERO.getValue());
         }
-        return victim.getHitPoints() > Constant.ZERO;
+        return victim.getHitPoints() > Numbers.ZERO.getValue();
     }
 
     private int whichEnemy(List<Character> enemiesFromLocation) {
         if(moreThanOneEnemy(enemiesFromLocation)){
             return getEnemyIndex(enemiesFromLocation);
         } else {
-            return Constant.ZERO;
+            return Numbers.ZERO.getValue();
         }
     }
 
     private int getEnemyIndex(List<Character> enemiesFromLocation) {
-        int enemyIndex = Constant.ZERO;
+        int enemyIndex = Numbers.ZERO.getValue();
         int index;
         boolean quit = false;
         while (!quit) {
             displayPrompt();
-            if (UserInput.getUserInstance().scannerHasNextInt()) {
-                index = Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
-                if(index == Constant.NINETY_NINE) {
-                    enemyIndex = Constant.NEGATIVE_ONE;
+            String test = UserInput.getUserInstance().getScanner().nextLine();
+            if(getAcceptableNumbers().stream()
+                    .anyMatch(input -> input.equalsIgnoreCase(test)))
+//            if (UserInput.getUserInstance().scannerHasNextInt())
+            {
+                index = Integer.parseInt(test);
+                if(index == Numbers.NINETY_NINE.getValue()) {
+                    enemyIndex = Numbers.NEGATIVE_ONE.getValue();
                     quit = true;
                 } else {
                     if (isValidInput(index, enemiesFromLocation)) {
@@ -291,7 +296,7 @@ class Fight {
                 }
             } else {
                 System.out.println("Choose an enemy number");
-                UserInput.getUserInstance().scannerNextLine();
+//                UserInput.getUserInstance().scannerNextLine();
             }
         }
         return enemyIndex;
@@ -306,7 +311,7 @@ class Fight {
     }
 
     private boolean isValidInput(int index, List<Character> enemiesFromLocation) {
-        return index >= Constant.ZERO && index <= enemiesFromLocation.size() - Constant.ONE;
+        return index >= Numbers.ZERO.getValue() && index <= enemiesFromLocation.size() - Numbers.ONE.getValue();
     }
 
     private void displayPrompt() {
@@ -315,7 +320,7 @@ class Fight {
     }
 
     private boolean moreThanOneEnemy(List<Character> enemiesFromLocation) {
-        return enemiesFromLocation.size() > Constant.ONE;
+        return enemiesFromLocation.size() > Numbers.ONE.getValue();
     }
 
     private int getSelection() {
@@ -323,7 +328,7 @@ class Fight {
             getFightMenu();
             if(UserInput.getUserInstance().scannerHasNextInt()){
                 int selection =  Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
-                if(selection > Constant.ZERO && selection < Constant.FIVE){
+                if(selection > Numbers.ZERO.getValue() && selection < Numbers.FIVE.getValue()){
                     return selection;
                 }
             }
@@ -358,5 +363,10 @@ class Fight {
                     enemy.getName() + ": " + enemy.getHitPoints() + " HP");
         }
         System.out.println(" ");
+    }
+
+    private List<String> getAcceptableNumbers(){
+        List<String> numList = Arrays.asList("0", "1", "2", "3", "4", "99");
+        return numList;
     }
 }

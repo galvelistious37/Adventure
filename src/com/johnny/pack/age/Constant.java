@@ -1,5 +1,7 @@
 package com.johnny.pack.age;
 
+
+
 final class Constant {
     static final String COLON_SEPARATOR = ": ";
     static final String DO_FIGHTIN = "Fight";
