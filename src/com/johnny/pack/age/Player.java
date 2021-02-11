@@ -1,30 +1,45 @@
 package com.johnny.pack.age;
 
 public class Player extends Character{
-    private Equipable equipable;
-    private Attackable attackable;
-    private Berserkable berserkable;
-    private int hitpoints;
+    private final String name;
+    private int hitPoints;
     private int strength;
     private int damage;
     private int location;
     private boolean isAlive;
     private int initiative;
-    private String name;
+    private Equipable equipable;
+    private Attackable attackable;
+    private Berserkable berserkable;
+    private final Scratchable scratchable;
 
-    private static final Player INSTANCE = new Player();
+    private static final Player INSTANCE = new Player(
+            "You", 100, 5, Fist.getInstance().getDamage(),
+            1, true, 0, Fist.getInstance(),
+            Punch.getInstance(), Pummel.getInstance(), Scratch.getInstance());
 
-    private Player() {
-        this.equipable = Fist.getInstance();
-        this.attackable = Punch.getInstance();
-        this.berserkable = Pummel.getInstance();
-        this.hitpoints = 100;
-        this.strength = 5;
-        this.damage = Fist.getInstance().getDamage();
-        this.location = 1;
-        this.isAlive = true;
-        this.initiative = 0;
-        this.name = "You";
+    private Player(String name,
+                   int hitPoints,
+                   int strength,
+                   int damage,
+                   int location,
+                   boolean isAlive,
+                   int initiative,
+                   Equipable equipable,
+                   Attackable attackable,
+                   Berserkable berserkable,
+                   Scratchable scratchable) {
+        this.name = name;
+        this.hitPoints = hitPoints;
+        this.strength = strength;
+        this.damage = damage;
+        this.location = location;
+        this.isAlive = isAlive;
+        this.initiative = initiative;
+        this.equipable = equipable;
+        this.attackable = attackable;
+        this.berserkable = berserkable;
+        this.scratchable = scratchable;
     }
 
     public static Player getInstance(){
@@ -36,14 +51,8 @@ public class Player extends Character{
         return name;
     }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String weaponType() {
-        return equipable.weaponType();
+    public Equipable getEquipable(){
+        return equipable;
     }
 
     @Override
@@ -52,8 +61,8 @@ public class Player extends Character{
     }
 
     @Override
-    public String performAttack() {
-        return attackable.attack();
+    public Attackable getAttackable() {
+        return attackable;
     }
 
     @Override
@@ -62,8 +71,8 @@ public class Player extends Character{
     }
 
     @Override
-    public String performBersek() {
-        return berserkable.goBersek();
+    public Berserkable getBerserkable() {
+        return berserkable;
     }
 
     @Override
@@ -72,13 +81,18 @@ public class Player extends Character{
     }
 
     @Override
-    public int getHitpoints() {
-        return hitpoints;
+    public Scratchable getScratchable(){
+        return scratchable;
     }
 
     @Override
-    public void setHitpoints(int hitpoints) {
-        this.hitpoints = hitpoints;
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    @Override
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
     }
 
     @Override
@@ -89,6 +103,16 @@ public class Player extends Character{
     @Override
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    @Override
+    public int getDamage() {
+        return damage;
+    }
+
+    @Override
+    public void setDamage(int damage){
+        this.damage = damage;
     }
 
     @Override
@@ -123,12 +147,24 @@ public class Player extends Character{
 
     @Override
     public String toString() {
-        return name + " have " + hitpoints + " hitpoints \n" +
-                "Weapon: " + equipable.weaponType();
+        return "Player{" +
+                "name='" + name + '\'' +
+                ", hitPoints=" + hitPoints +
+                ", strength=" + strength +
+                ", damage=" + damage +
+                ", location=" + location +
+                ", isAlive=" + isAlive +
+                ", initiative=" + initiative +
+                ", equipable=" + equipable +
+                ", attackable=" + attackable +
+                ", berserkable=" + berserkable +
+                '}';
     }
 
-    private Equipable determineEquipable(String weapon){
+    public Equipable determineEquipable(String weapon){
         switch(weapon){
+            case "fist" :
+                return Fist.getInstance();
             case "knife" :
                 return Knife.getInstance();
             case "sword" :
@@ -137,20 +173,21 @@ public class Player extends Character{
         return Fist.getInstance();
     }
 
-    private Attackable determineAttackable(Equipable equipable){
+    public Attackable determineAttackable(Equipable equipable){
         if(equipable.weaponType().equals("fist")){
             return Punch.getInstance();
         }
         return Stab.getInstance();
     }
 
-    private Berserkable determineBerserkable(Equipable equipable){
+    public Berserkable determineBerserkable(Equipable equipable){
         if(equipable.weaponType().equals("fist")){
             return Pummel.getInstance();
         }
         return Hack.getInstance();
     }
 
+    @Override
     public int dealDamage(){
         return this.strength + this.damage;
     }

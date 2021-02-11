@@ -1,42 +1,48 @@
 package com.johnny.pack.age;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class GamePlay {
 
     // Global Variables
-    private final int TOTAL_ENEMIES = 10;
-    private Scanner scanner;
     private Map<Integer, Location> locationMap;
     private List<Character> enemies;
     private Player playerOne;
     private Fight fightObj;
+    private boolean isStillPlaying;
 
     /**
      * GamePlay Constructor instantiates global variables
      */
-    GamePlay() {
+    private GamePlay() {
         fightObj = new Fight();
-        scanner = new Scanner(System.in);
         playerOne = Player.getInstance();
         locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
-        enemies = EnemyBuilder.totalEnemiesList(TOTAL_ENEMIES).getEnemyList();
+        enemies = EnemyBuilder.totalEnemiesList(Constant.TOTAL_ENEMIES).getEnemyList();
+        isStillPlaying = true;
+    }
+
+    private static final GamePlay INSTANCE = new GamePlay();
+
+    public static GamePlay getInstance(){
+        return INSTANCE;
     }
 
     /**
      * Greet and play the game
      */
     void play() {
-        displayGreeting();
+        System.out.println(displayGreeting());
         playTheGame();
     }
 
     /**
      * Print a greeting to the screen
      */
-    private void displayGreeting() {
-        String greeting = "Welcome to the Greatest Adventure Game Ever!!!";
-        System.out.println("\n" + greeting);
+    String displayGreeting() {
+        return "Welcome to the Greatest Adventure Game Ever!!!";
     }
 
     /**
@@ -44,29 +50,50 @@ class GamePlay {
      * of each round.
      */
     private void playTheGame(){
+        while (isStillPlaying) {
+            goThroughPlayActions();
+        }
+        shutDown();
+    }
+
+    private void goThroughPlayActions() {
         int locationNumber = playerOne.getLocation();
-        int nextLocationNumber;
         Map<String, Integer> exits;
-        while (true) {
-            displayLocation(locationNumber);
-            checkForEnemies(locationNumber);
-            exits = locationMap.get(locationNumber).getExits();
-            displayAvailableExits(exits);
-            String direction = scanner.nextLine().toUpperCase();
-            nextLocationNumber = moveInDirection(locationNumber, exits, direction);
-            if (locationNumber != nextLocationNumber) {
-                resetCharacterInitiative(locationNumber);
-                locationNumber = nextLocationNumber;
-            }
+        int nextLocationNumber;
+        displayLocation(locationNumber);
+        checkForEnemies(locationNumber);
+        exits = locationMap.get(locationNumber).getExits();
+        displayAvailableExits(exits);
+        String direction = UserInput.getUserInstance().getScanner().nextLine().toUpperCase();
+        nextLocationNumber = moveInDirection(locationNumber, exits, direction);
+        if (locationNumber != nextLocationNumber) {
+            resetCharacterInitiative(locationNumber);
+            locationNumber = nextLocationNumber;
+        }
+        checkNewWeapon(locationNumber);
+    }
+
+    private void checkNewWeapon(int locationNumber) {
+        if(locationNumber == Knife.getInstance().getLocation()){
+            setWeaponDetails(Knife.getInstance().weaponType());
+        }
+        if(locationNumber == Sword.getInstance().getLocation()){
+
+            setWeaponDetails(Sword.getInstance().weaponType());
         }
     }
 
+    private void setWeaponDetails(String weaponType){
+        System.out.println("You found a " + weaponType);
+        playerOne.setEquipable(playerOne.determineEquipable(weaponType));
+        playerOne.setAttackable(playerOne.determineAttackable(playerOne.getEquipable()));
+        playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
+        playerOne.setDamage(playerOne.getEquipable().getDamage());
+    }
+
     private void resetCharacterInitiative(int locationNumber){
-        List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
         playerOne.setInitiative(0);
-        for(Character enemy : localEnemies){
-            enemy.setInitiative(0);
-        }
+        getEnemiesFromLocation(locationNumber).forEach(enemy -> enemy.setInitiative(0));
     }
 
     private void checkForEnemies(int locationNumber) {
@@ -90,7 +117,6 @@ class GamePlay {
         if(exits.containsKey(direction)){
             locationNumber = exits.get(direction);
             playerOne.setLocation(locationNumber);
-            System.out.println("\n");
         } else {
             String wrongDirection = "You cannot go in that direction";
             System.out.println(wrongDirection);
@@ -105,44 +131,22 @@ class GamePlay {
     }
 
     private boolean areEnemiesPresent(int locationNumber) {
-        for(Character enemy : enemies){
-            if(enemy.getLocation() == locationNumber){
-                return true;
-            }
-        }
-        return false;
+        return enemies.stream()
+                .anyMatch(enemy -> enemy.getLocation() == locationNumber);
     }
 
     private List<Character> getEnemiesFromLocation(int locationNumber){
-        List<Character> tempList = new ArrayList<>();
-        for(Character enemy : enemies){
-            if(enemy.getLocation() == locationNumber){
-                tempList.add(enemy);
-            }
-        }
-        return tempList;
+        return enemies.stream()
+                .filter(enemy -> enemy.getLocation() == locationNumber)
+                .collect(Collectors.toList());
     }
 
-    void displayEnemies(List<Character> localEnemies){
-        System.out.println("\tEnemies in these lands:");
-        for(Character enemy : localEnemies){
-            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
-                    enemy.getName() + ": " + enemy.getHitpoints() + " HP");
-        }
-    }
 
     private void displayAvailableExits(Map<String, Integer> locationExits) {
         System.out.println("Available exits are: ");
-        int stringCounter = 1;
         System.out.print("\t");
-        for(String exit : locationExits.keySet()){
-            if(stringCounter < locationExits.size()){
-                System.out.print(exit + ", ");
-            } else {
-                System.out.print(exit);
-            }
-            stringCounter++;
-        }
+        Stream<String> stream = Stream.of(locationExits.keySet().toString());
+        stream.forEach(System.out::println);
         System.out.println();
     }
 
@@ -158,17 +162,16 @@ class GamePlay {
     }
 
     private void displayLocation(int locationNumber) {
-        System.out.println("\nLocation: " + locationMap.get(locationNumber).getDescription());
+        System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
     }
 
-    void showCharacterStatus(Character character) {
-        System.out.println(" ");
-        System.out.println(character.toString());
-        System.out.println(" ");
-    }
 
     void quit() {
-        scanner.close();
+        isStillPlaying = false;
+    }
+
+    private void shutDown(){
+        UserInput.getUserInstance().getScanner().close();
         String shutDown = "Shutting down...";
         int status = 0;
         System.out.println(shutDown);
