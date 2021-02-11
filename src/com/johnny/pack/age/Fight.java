@@ -1,21 +1,15 @@
 package com.johnny.pack.age;
 
-import org.omg.CORBA.CODESET_INCOMPATIBLE;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-
 class Fight {
 
     /**
      * Display Fight Menu options
      */
     private void getFightMenu(){
-        createOptions().stream()
-                .forEach(System.out::println);
+        createOptions().forEach(System.out::println);
     }
 
     /**
@@ -45,41 +39,68 @@ class Fight {
         int round = Numbers.ZERO.getValue();
         while(!quit){
             round++;
-            if(enemiesFromLocation.size() == Numbers.ZERO.getValue()){
+            if(isEnemyNotPresent(enemiesFromLocation)){
                 quit = true;
-                System.out.println("No more enemies in these lands");
             } else {
-                showDisplays(player, enemiesFromLocation);
-                for(int i = Numbers.TWENTY.getValue(); i > Numbers.ZERO.getValue(); i--){
-                    if(player.getInitiative() == i){
-                        int action = getSelection();
-                        quit = tryAction(action, player, enemiesFromLocation, round);
-                    }
-                    if(quit){
-                        break;
-                    }
-                    for(Character enemy : enemiesFromLocation){
-                        if(enemy.getInitiative() == i){
-                            if(enemy.getIsAlive()){
-                                attack(enemy, player);
-                                if(!player.getIsAlive()){
-                                    playerDied(enemy);
-                                }
-                            } else {
-                                System.out.println(enemy.getName() + " is dead");
-                            }
-                        }
-                    }
-                }
-                if(countTheDead(enemiesFromLocation)){
-                    System.out.println("You have painted these lands with blood of your enemies");
-                    if(eatTheDead()){
-                        digestTheDead(player);
-                    }
-                    quit = true;
+                quit = handleEnemies(player, enemiesFromLocation, round);
+            }
+        }
+    }
+
+    private boolean handleEnemies(Character player, List<Character> enemiesFromLocation, int round) {
+        boolean quit;
+        showDisplays(player, enemiesFromLocation);
+        quit = determineInitiativeOrder(player, enemiesFromLocation, round);
+        if(countTheDead(enemiesFromLocation)){
+            System.out.println("You have painted these lands with blood of your enemies");
+            if(eatTheDead()){
+                digestTheDead(player);
+            }
+            quit = true;
+        }
+        return quit;
+    }
+
+    private boolean determineInitiativeOrder(Character player, List<Character> enemiesFromLocation, int round) {
+        boolean quit = false;
+        for(int i = Numbers.TWENTY.getValue(); i > Numbers.ZERO.getValue(); i--){
+            if(isCharacterInitiative(player, i)){
+                int action = getSelection();
+                quit = tryAction(action, player, enemiesFromLocation, round);
+            }
+            if(quit){
+                break;
+            }
+            for(Character enemy : enemiesFromLocation){
+                if(isCharacterInitiative(enemy, i)){
+                    enemyAction(player, enemy);
                 }
             }
         }
+        return quit;
+    }
+
+    private void enemyAction(Character player, Character enemy) {
+        if(enemy.getIsAlive()){
+            attack(enemy, player);
+            if(!player.getIsAlive()){
+                playerDied(enemy);
+            }
+        } else {
+            System.out.println(enemy.getName() + " is dead");
+        }
+    }
+
+    private boolean isCharacterInitiative(Character character, int i) {
+        return character.getInitiative() == i;
+    }
+
+    private boolean isEnemyNotPresent(List<Character> enemiesFromLocation) {
+        boolean enemyIsPresent = enemiesFromLocation.size() == Numbers.ZERO.getValue();
+        if(enemyIsPresent){
+            System.out.println("No more enemies in these lands");
+        }
+        return enemyIsPresent;
     }
 
     private void playerDied(Character enemy) {
@@ -213,16 +234,12 @@ class Fight {
     }
 
     private int determineDamage(Character attacker, String severity) {
-        switch(severity){
-            case "critical" :
-                return attacker.dealDamage() * Numbers.TWO.getValue();
-            case "normal" :
-                return attacker.dealDamage();
-            case "low" :
-                return (int) Math.ceil(attacker.dealDamage() / Numbers.TWO.getValue());
-            default :
-                return Numbers.ZERO.getValue();
-        }
+        return switch (severity) {
+            case "critical" -> attacker.dealDamage() * Numbers.TWO.getValue();
+            case "normal" -> attacker.dealDamage();
+            case "low" -> (int) Math.ceil(attacker.dealDamage() / Numbers.TWO.getValue());
+            default -> Numbers.ZERO.getValue();
+        };
     }
 
     private String determineSeverity(int roll) {
@@ -239,17 +256,10 @@ class Fight {
     private void displayAttackDetails(Character attacker, Character victim, String severity, int damage){
         String form;
         switch(severity){
-            case "critical" :
-                form = attacker.getBerserkable().goBersek();
-                break;
-            case "normal" :
-                form = attacker.getAttackable().attack();
-                break;
-            case "low" :
-                form = attacker.getScratchable().scratch();
-                break;
-            default :
-                form = "missed";
+            case "critical" -> form = attacker.getBerserkable().goBersek();
+            case "normal" -> form = attacker.getAttackable().attack();
+            case "low" -> form = attacker.getScratchable().scratch();
+            default -> form = "missed";
         }
 
         System.out.println(attacker.getName() + " " +
@@ -366,7 +376,6 @@ class Fight {
     }
 
     private List<String> getAcceptableNumbers(){
-        List<String> numList = Arrays.asList("0", "1", "2", "3", "4", "99");
-        return numList;
+        return Arrays.asList("0", "1", "2", "3", "4", "99");
     }
 }

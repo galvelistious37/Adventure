@@ -11,6 +11,7 @@ class GamePlay {
     private List<Character> enemies;
     private Player playerOne;
     private Fight fightObj;
+    private boolean isStillPlaying;
 
     /**
      * GamePlay Constructor instantiates global variables
@@ -20,11 +21,12 @@ class GamePlay {
         playerOne = Player.getInstance();
         locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
         enemies = EnemyBuilder.totalEnemiesList(Constant.TOTAL_ENEMIES).getEnemyList();
+        isStillPlaying = true;
     }
 
     private static final GamePlay INSTANCE = new GamePlay();
 
-    public static final GamePlay getInstance(){
+    public static GamePlay getInstance(){
         return INSTANCE;
     }
 
@@ -32,15 +34,15 @@ class GamePlay {
      * Greet and play the game
      */
     void play() {
-        displayGreeting();
+        System.out.println(displayGreeting());
         playTheGame();
     }
 
     /**
      * Print a greeting to the screen
      */
-    private void displayGreeting() {
-        System.out.println("Welcome to the Greatest Adventure Game Ever!!!");
+    String displayGreeting() {
+        return "Welcome to the Greatest Adventure Game Ever!!!";
     }
 
     /**
@@ -48,22 +50,27 @@ class GamePlay {
      * of each round.
      */
     private void playTheGame(){
-        int locationNumber = playerOne.getLocation();
-        int nextLocationNumber;
-        Map<String, Integer> exits;
-        while (true) {
-            displayLocation(locationNumber);
-            checkForEnemies(locationNumber);
-            exits = locationMap.get(locationNumber).getExits();
-            displayAvailableExits(exits);
-            String direction = UserInput.getUserInstance().getScanner().nextLine().toUpperCase();
-            nextLocationNumber = moveInDirection(locationNumber, exits, direction);
-            if (locationNumber != nextLocationNumber) {
-                resetCharacterInitiative(locationNumber);
-                locationNumber = nextLocationNumber;
-            }
-            checkNewWeapon(locationNumber);
+        while (isStillPlaying) {
+            goThroughPlayActions();
         }
+        shutDown();
+    }
+
+    private void goThroughPlayActions() {
+        int locationNumber = playerOne.getLocation();
+        Map<String, Integer> exits;
+        int nextLocationNumber;
+        displayLocation(locationNumber);
+        checkForEnemies(locationNumber);
+        exits = locationMap.get(locationNumber).getExits();
+        displayAvailableExits(exits);
+        String direction = UserInput.getUserInstance().getScanner().nextLine().toUpperCase();
+        nextLocationNumber = moveInDirection(locationNumber, exits, direction);
+        if (locationNumber != nextLocationNumber) {
+            resetCharacterInitiative(locationNumber);
+            locationNumber = nextLocationNumber;
+        }
+        checkNewWeapon(locationNumber);
     }
 
     private void checkNewWeapon(int locationNumber) {
@@ -86,8 +93,7 @@ class GamePlay {
 
     private void resetCharacterInitiative(int locationNumber){
         playerOne.setInitiative(0);
-        getEnemiesFromLocation(locationNumber).stream()
-                .forEach(enemy -> enemy.setInitiative(0));
+        getEnemiesFromLocation(locationNumber).forEach(enemy -> enemy.setInitiative(0));
     }
 
     private void checkForEnemies(int locationNumber) {
@@ -140,7 +146,7 @@ class GamePlay {
         System.out.println("Available exits are: ");
         System.out.print("\t");
         Stream<String> stream = Stream.of(locationExits.keySet().toString());
-        stream.forEach(s -> System.out.println(s));
+        stream.forEach(System.out::println);
         System.out.println();
     }
 
@@ -161,6 +167,10 @@ class GamePlay {
 
 
     void quit() {
+        isStillPlaying = false;
+    }
+
+    private void shutDown(){
         UserInput.getUserInstance().getScanner().close();
         String shutDown = "Shutting down...";
         int status = 0;
