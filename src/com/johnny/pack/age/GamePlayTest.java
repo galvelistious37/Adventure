@@ -8,10 +8,14 @@ import static org.junit.Assert.*;
 public class GamePlayTest {
 
     private GamePlay gp;
+    private int validLocation;
+    private int invalidLocation;
 
     @Before
     public void setUp(){
         gp = GamePlay.getInstance();
+        validLocation = 1;
+        invalidLocation = 100;
     }
 
     @Test
@@ -25,4 +29,13 @@ public class GamePlayTest {
         assertEquals("displayGreeting does not match expected text", testString, gp.displayGreeting());
     }
 
+    @Test
+    public void testValidLocationReturnsTrue(){
+        assertTrue(gp.displayLocation(validLocation));
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testInvalidLocationThrowsNullPointerException() {
+        gp.displayLocation(invalidLocation);
+    }
 }

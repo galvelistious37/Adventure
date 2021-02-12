@@ -59,18 +59,42 @@ class GamePlay {
     private void goThroughPlayActions() {
         int locationNumber = playerOne.getLocation();
         Map<String, Integer> exits;
-        int nextLocationNumber;
-        displayLocation(locationNumber);
-        checkForEnemies(locationNumber);
-        exits = locationMap.get(locationNumber).getExits();
-        displayAvailableExits(exits);
+
+        if(displayLocation(locationNumber)){
+            exits = locationMap.get(locationNumber).getExits();
+            scanTheScene(locationNumber);
+            displayAvailableExits(exits);
+            locationNumber = determineMovement(locationNumber, exits);
+            checkNewWeapon(locationNumber);
+        }
+    }
+
+    private int determineMovement(int locationNumber, Map<String, Integer> exits) {
         String direction = UserInput.getUserInstance().getScanner().nextLine().toUpperCase();
-        nextLocationNumber = moveInDirection(locationNumber, exits, direction);
+        int nextLocationNumber = moveInDirection(locationNumber, exits, direction);
         if (locationNumber != nextLocationNumber) {
             resetCharacterInitiative(locationNumber);
             locationNumber = nextLocationNumber;
         }
-        checkNewWeapon(locationNumber);
+        return locationNumber;
+    }
+
+    private void scanTheScene(int locationNumber) {
+        List<Character> enemies = lookForEnemies(locationNumber);
+        if(enemies.size() > 0){
+            if(!fightObj.isAllEnemiesAreDead(enemies)){
+                dealWithEnemies(enemies);
+            } else {
+                System.out.println("All enemies here are dead");
+            }
+        }
+    }
+
+    private List<Character> lookForEnemies(int locationNumber) {
+        if(areEnemiesPresent(locationNumber)){
+            return getEnemiesFromLocation(locationNumber);
+        }
+        return new ArrayList<>();
     }
 
     private void checkNewWeapon(int locationNumber) {
@@ -94,17 +118,6 @@ class GamePlay {
     private void resetCharacterInitiative(int locationNumber){
         playerOne.setInitiative(0);
         getEnemiesFromLocation(locationNumber).forEach(enemy -> enemy.setInitiative(0));
-    }
-
-    private void checkForEnemies(int locationNumber) {
-        if(areEnemiesPresent(locationNumber)){
-            List<Character> localEnemies = getEnemiesFromLocation(locationNumber);
-            if(!fightObj.countTheDead(localEnemies)){
-                dealWithEnemies(localEnemies);
-            } else {
-                System.out.println("All enemies here are dead");
-            }
-        }
     }
 
     private int moveInDirection(int locationNumber, Map<String, Integer> exits, String direction) {
@@ -161,8 +174,13 @@ class GamePlay {
         return "X";
     }
 
-    private void displayLocation(int locationNumber) {
-        System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
+    boolean displayLocation(int locationNumber) {
+        try{
+            System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
+        } catch (NullPointerException e){
+            throw new NullPointerException();
+        }
+        return true;
     }
 
 

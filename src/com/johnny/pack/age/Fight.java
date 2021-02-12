@@ -51,7 +51,7 @@ class Fight {
         boolean quit;
         showDisplays(player, enemiesFromLocation);
         quit = determineInitiativeOrder(player, enemiesFromLocation, round);
-        if(countTheDead(enemiesFromLocation)){
+        if(isAllEnemiesAreDead(enemiesFromLocation)){
             System.out.println("You have painted these lands with blood of your enemies");
             if(eatTheDead()){
                 digestTheDead(player);
@@ -128,7 +128,7 @@ class Fight {
 
 
 
-    boolean countTheDead(List<Character> enemiesFromLocation) {
+    boolean isAllEnemiesAreDead(List<Character> enemiesFromLocation) {
         int bodies = Numbers.ZERO.getValue();
         for(Character enemy : enemiesFromLocation){
             if(!enemy.getIsAlive()){
