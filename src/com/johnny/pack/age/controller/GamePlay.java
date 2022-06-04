@@ -57,22 +57,47 @@ public class GamePlay {
      */
     private void playTheGame(){
         while (isStillPlaying) {
-            goThroughPlayActions();
+            isStillPlaying = goThroughPlayActions();
         }
         shutDown();
     }
 
-    private void goThroughPlayActions() {
+    private boolean goThroughPlayActions() {
+        // Get the player location
         int locationNumber = playerOne.getLocation();
-        Map<String, Integer> exits;
 
-        if(displayLocation(locationNumber)){
-            exits = locationMap.get(locationNumber).getExits();
-            scanTheScene(locationNumber);
-            displayAvailableExits(exits);
-            locationNumber = determineMovement(locationNumber, exits);
-            checkNewWeapon(locationNumber);
+        // Determine available exits from the current location
+        // and store them in a Map.
+        Map<String, Integer> exits;
+        exits = locationMap.get(locationNumber).getExits();
+
+        // Display location details
+        displayLocation(locationNumber);
+
+        // If enemies are present in current location, populate
+        // the list of enemies.
+        List<Character> enemies = new ArrayList<>();
+        if(areEnemiesPresent(locationNumber)){
+            enemies = getEnemiesFromLocation(locationNumber);
+
+            // If enemies are still alive, deal with them.
+            if(fightObj.areEnemiesAlive(enemies)) {
+                dealWithEnemies(enemies);
+            } else {
+                System.out.println("All enemies here are dead");
+            }
         }
+
+        // If player died dealing with enemies, return false and quit.
+        if(!playerOne.getIsAlive()){
+            return false;
+        }
+
+
+        displayAvailableExits(exits);
+        locationNumber = determineMovement(locationNumber, exits);
+        checkNewWeapon(locationNumber);
+        return true;
     }
 
     private int determineMovement(int locationNumber, Map<String, Integer> exits) {
@@ -83,24 +108,6 @@ public class GamePlay {
             locationNumber = nextLocationNumber;
         }
         return locationNumber;
-    }
-
-    private void scanTheScene(int locationNumber) {
-        List<Character> enemies = lookForEnemies(locationNumber);
-        if(enemies.size() > 0){
-            if(!fightObj.isAllEnemiesAreDead(enemies)){
-                dealWithEnemies(enemies);
-            } else {
-                System.out.println("All enemies here are dead");
-            }
-        }
-    }
-
-    private List<Character> lookForEnemies(int locationNumber) {
-        if(areEnemiesPresent(locationNumber)){
-            return getEnemiesFromLocation(locationNumber);
-        }
-        return new ArrayList<>();
     }
 
     private void checkNewWeapon(int locationNumber) {
@@ -149,11 +156,21 @@ public class GamePlay {
         fightObj.doFightinStuff(playerOne, localEnemies);
     }
 
+    /**
+     * Find any enemy with the same location as the given parameter
+     * @param locationNumber - int location
+     * @return - a boolean if enemies have the same location
+     */
     private boolean areEnemiesPresent(int locationNumber) {
         return enemies.stream()
                 .anyMatch(enemy -> enemy.getLocation() == locationNumber);
     }
 
+    /**
+     * Create a list of enemies by filtering on enemies in that location.
+     * @param locationNumber - int value of location
+     * @return - A list of enemies in the given location
+     */
     private List<Character> getEnemiesFromLocation(int locationNumber){
         return enemies.stream()
                 .filter(enemy -> enemy.getLocation() == locationNumber)
