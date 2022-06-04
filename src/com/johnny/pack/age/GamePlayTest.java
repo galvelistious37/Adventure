@@ -27,7 +27,7 @@ public class GamePlayTest {
     @Test
     public void testDisplayGreeting(){
         String testString = "Welcome to the Greatest Adventure Game Ever!!!";
-        assertEquals("displayGreeting does not match expected text", testString, gp.displayGreeting());
+        assertEquals("createGreeting does not match expected text", testString, gp.createGreeting());
     }
 
     @Test

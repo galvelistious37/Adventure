@@ -5,6 +5,6 @@ import com.johnny.pack.age.controller.GamePlay;
 public class Main {
 
     public static void main(String[] args) {
-        GamePlay.getInstance().play();
+        GamePlay.getInstance().initiate();
     }
 }

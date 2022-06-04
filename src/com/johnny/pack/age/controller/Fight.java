@@ -1,6 +1,5 @@
 package com.johnny.pack.age.controller;
 
-import com.johnny.pack.age.controller.Dice;
 import com.johnny.pack.age.model.Numbers;
 import com.johnny.pack.age.UserInput;
 import com.johnny.pack.age.model.Character;
@@ -31,6 +30,11 @@ class Fight {
         return generateOptions;
     }
 
+    /**
+     * Set the initiative value for all characters
+     * @param player - The player object
+     * @param enemiesFromLocation - List of enemies
+     */
     void initiative(Character player, List<Character> enemiesFromLocation) {
         List<Character> everyone = new ArrayList<>();
         everyone.add(player);
@@ -45,19 +49,15 @@ class Fight {
         int round = Numbers.ZERO.getValue();
         while(!quit){
             round++;
-            if(isEnemyNotPresent(enemiesFromLocation)){
-                quit = true;
-            } else {
-                quit = handleEnemies(player, enemiesFromLocation, round);
-            }
+            quit = handleEnemies(player, enemiesFromLocation, round);
         }
     }
 
-    private boolean handleEnemies(Character player, List<Character> enemiesFromLocation, int round) {
+    private boolean handleEnemies(Character player, List<Character> enemies, int round) {
         boolean quit;
-        showDisplays(player, enemiesFromLocation);
-        quit = determineInitiativeOrder(player, enemiesFromLocation, round);
-        if(isAllEnemiesAreDead(enemiesFromLocation)){
+        showDisplays(player, enemies);
+        quit = determineInitiativeOrder(player, enemies, round);
+        if(!areEnemiesAlive(enemies)){
             System.out.println("You have painted these lands with blood of your enemies");
             if(eatTheDead()){
                 digestTheDead(player);
@@ -79,35 +79,37 @@ class Fight {
             }
             for(Character enemy : enemiesFromLocation){
                 if(isCharacterInitiative(enemy, i)){
-                    enemyAction(player, enemy);
+                    quit = enemyAction(player, enemy);
                 }
             }
         }
         return quit;
     }
 
-    private void enemyAction(Character player, Character enemy) {
+    private boolean enemyAction(Character player, Character enemy) {
         if(enemy.getIsAlive()){
             attack(enemy, player);
             if(!player.getIsAlive()){
                 playerDied(enemy);
+                return true;
             }
         } else {
             System.out.println(enemy.getName() + " is dead");
         }
+        return false;
     }
 
     private boolean isCharacterInitiative(Character character, int i) {
         return character.getInitiative() == i;
     }
 
-    private boolean isEnemyNotPresent(List<Character> enemiesFromLocation) {
-        boolean enemyIsPresent = enemiesFromLocation.size() == Numbers.ZERO.getValue();
-        if(enemyIsPresent){
-            System.out.println("No more enemies in these lands");
-        }
-        return enemyIsPresent;
-    }
+//    private boolean isEnemyNotPresent(List<Character> enemiesFromLocation) {
+//        boolean enemyIsPresent = enemiesFromLocation.size() == Numbers.ZERO.getValue();
+//        if(enemyIsPresent){
+//            System.out.println("No more enemies in these lands");
+//        }
+//        return enemyIsPresent;
+//    }
 
     private void playerDied(Character enemy) {
         System.out.println(enemy.getName() + " killed you");
@@ -134,14 +136,13 @@ class Fight {
 
 
 
-    boolean isAllEnemiesAreDead(List<Character> enemiesFromLocation) {
-        int bodies = Numbers.ZERO.getValue();
-        for(Character enemy : enemiesFromLocation){
-            if(!enemy.getIsAlive()){
-                bodies++;
+    boolean areEnemiesAlive(List<Character> enemies) {
+        for(Character enemy : enemies){
+            if(enemy.getIsAlive()){
+                return true;
             }
         }
-        return bodies == enemiesFromLocation.size() && bodies > Numbers.ZERO.getValue();
+        return false;
     }
 
     private void pressEnterKeyToContinue()
