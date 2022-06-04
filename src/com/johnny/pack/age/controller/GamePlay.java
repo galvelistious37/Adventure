@@ -19,7 +19,6 @@ public class GamePlay {
 
     /**
      * GamePlay Constructor instantiates global variables
-     * ALso testing this new git requirement to use tokens instead of pw
      */
     private GamePlay() {
         playerOne = Player.getInstance();
