@@ -2,7 +2,7 @@ package com.johnny.pack.age;
 
 import java.util.Scanner;
 
-class UserInput {
+public class UserInput {
     private Scanner scanner;
     private static UserInput INSTANCE = new UserInput();
 
@@ -10,25 +10,25 @@ class UserInput {
         this.scanner = new Scanner(System.in);
     }
 
-    static UserInput getUserInstance(){
+    public static UserInput getUserInstance(){
         return INSTANCE;
     }
 
-    Scanner getScanner() {
+    public Scanner getScanner() {
         return scanner;
     }
 
-    Boolean isInputYes(){
+    public Boolean isInputYes(){
         String eatThem = scanner.nextLine();
         return eatThem.equalsIgnoreCase("YES")
                 || eatThem.equalsIgnoreCase("Y");
     }
 
-    Boolean scannerHasNextInt(){
+    public Boolean scannerHasNextInt(){
         return scanner.hasNextInt();
     }
 
-    void scannerNextLine(){
+    public void scannerNextLine(){
         scanner.nextLine();
     }
 }
