@@ -1,10 +1,16 @@
 package com.johnny.pack.age.controller;
 
-import com.johnny.pack.age.model.Location;
-import com.johnny.pack.age.UserInput;
-import com.johnny.pack.age.model.*;
-import com.johnny.pack.age.model.Character;
-import com.johnny.pack.age.model.Constant;
+import com.johnny.pack.age.controller.Move.Move;
+import com.johnny.pack.age.controller.attack.Fight;
+import com.johnny.pack.age.controller.builder.EnemyBuilder;
+import com.johnny.pack.age.controller.builder.LocationBuilder;
+import com.johnny.pack.age.model.location.Location;
+import com.johnny.pack.age.controller.Move.UserInput;
+import com.johnny.pack.age.model.character.Character;
+import com.johnny.pack.age.model.constant.Constant;
+import com.johnny.pack.age.model.character.Player;
+import com.johnny.pack.age.model.weapon.Knife;
+import com.johnny.pack.age.model.weapon.Sword;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -172,7 +178,7 @@ public class GamePlay {
     }
 
     /**
-     * Take user input and determine where to move or to quit.
+     * Take user input and determine where to builder or to quit.
      * @param locationNumber - current location int
      * @param exits - Map of String, Integer exit locations
      * @return - new location int value
@@ -273,7 +279,7 @@ public class GamePlay {
     /**
      * Call to quit the game
      */
-    void quit() {
+    public void quit() {
         shutDown();
     }
 
