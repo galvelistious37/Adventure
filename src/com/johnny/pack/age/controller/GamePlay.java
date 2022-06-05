@@ -1,14 +1,20 @@
 package com.johnny.pack.age.controller;
 
-import com.johnny.pack.age.model.Location;
-import com.johnny.pack.age.UserInput;
-import com.johnny.pack.age.model.*;
-import com.johnny.pack.age.model.Character;
-import com.johnny.pack.age.model.Constant;
+import com.johnny.pack.age.controller.Move.Move;
+import com.johnny.pack.age.controller.attack.Fight;
+import com.johnny.pack.age.controller.builder.EnemyBuilder;
+import com.johnny.pack.age.controller.builder.LocationBuilder;
+import com.johnny.pack.age.model.location.Location;
+import com.johnny.pack.age.controller.Move.UserInput;
+import com.johnny.pack.age.model.character.Character;
+import com.johnny.pack.age.model.constant.Constant;
+import com.johnny.pack.age.model.character.Player;
+import com.johnny.pack.age.model.weapon.Knife;
+import com.johnny.pack.age.model.weapon.Sword;
+import com.johnny.pack.age.view.Display;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GamePlay {
 
@@ -42,15 +48,8 @@ public class GamePlay {
      * Greet and initiate the game
      */
     public void initiate() {
-        System.out.println(createGreeting());
+        Display.getDisplayInstance.displayText("Welcome to the Greatest Adventure Game Ever!!!");
         playTheGame();
-    }
-
-    /**
-     * Print a greeting to the screen
-     */
-    public String createGreeting() {
-        return "Welcome to the Greatest Adventure Game Ever!!!";
     }
 
     /**
@@ -79,7 +78,8 @@ public class GamePlay {
         exits = locationMap.get(locNumber).getExits();
 
         // Display location details
-        displayLocation(locNumber);
+        Display.getDisplayInstance.displayText(
+                "Location: " + locationMap.get(locNumber).getDescription());
 
         // Determine what to do if enemies are present
         enemyLogicFlow(locNumber);
@@ -91,7 +91,7 @@ public class GamePlay {
 
         // Display the available exits based on current location.
         // Move to the newly selected location.
-        displayAvailableExits(exits);
+        Display.getDisplayInstance.displayAvailableExits(exits);
         locNumber = moveLocation(locNumber, exits);
 
         // Check new location for new weapons
@@ -99,19 +99,6 @@ public class GamePlay {
 
         // Return true to keep playing.
         return true;
-    }
-
-
-    /**
-     * Display the details of a given location
-     * @param locationNumber - current location int value
-     */
-    public void displayLocation(int locationNumber) {
-        try{
-            System.out.println("Location: " + locationMap.get(locationNumber).getDescription());
-        } catch (NullPointerException e){
-            throw new NullPointerException();
-        }
     }
 
     /**
@@ -132,23 +119,10 @@ public class GamePlay {
                 fight.initiative(playerOne, enemies);
                 fight.doFightinStuff(playerOne, enemies);
             } else {
-                System.out.println("All enemies here are dead");
+                Display.getDisplayInstance.displayText("All enemies here are dead");
             }
         }
     }
-
-    /**
-     * Display the list of available exits.
-     * @param exits - Map of available exits
-     */
-    private void displayAvailableExits(Map<String, Integer> exits) {
-        System.out.println("Available exits are: ");
-        System.out.print("\t");
-        Stream<String> stream = Stream.of(exits.keySet().toString());
-        stream.forEach(System.out::println);
-        System.out.println();
-    }
-
 
     /**
      * Find any enemy with the same location as the given parameter
@@ -172,7 +146,7 @@ public class GamePlay {
     }
 
     /**
-     * Take user input and determine where to move or to quit.
+     * Take user input and determine where to builder or to quit.
      * @param locationNumber - current location int
      * @param exits - Map of String, Integer exit locations
      * @return - new location int value
@@ -210,8 +184,7 @@ public class GamePlay {
             locationNumber = exits.get(direction);
             playerOne.setLocation(locationNumber);
         } else {
-            String wrongDirection = "You cannot go in that direction";
-            System.out.println(wrongDirection);
+            Display.getDisplayInstance.displayText("You cannot go in that direction");
         }
         return locationNumber;
     }
@@ -263,7 +236,7 @@ public class GamePlay {
      * @param weaponType - String value of weapon type
      */
     private void setWeaponDetails(String weaponType){
-        System.out.println("You found a " + weaponType);
+        Display.getDisplayInstance.displayText("You found a " + weaponType);
         playerOne.setEquipable(playerOne.determineEquipable(weaponType));
         playerOne.setAttackable(playerOne.determineAttackable(playerOne.getEquipable()));
         playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
@@ -273,7 +246,7 @@ public class GamePlay {
     /**
      * Call to quit the game
      */
-    void quit() {
+    public void quit() {
         shutDown();
     }
 
@@ -282,9 +255,8 @@ public class GamePlay {
      */
     private void shutDown(){
         UserInput.getUserInstance().getScanner().close();
-        String shutDown = "Shutting down...";
         int status = 0;
-        System.out.println(shutDown);
+        Display.getDisplayInstance.displayText("Shutting down...");
         System.exit(status);
     }
 }
