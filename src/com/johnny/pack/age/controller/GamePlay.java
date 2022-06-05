@@ -15,7 +15,6 @@ import com.johnny.pack.age.view.Display;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class GamePlay {
 
@@ -124,7 +123,6 @@ public class GamePlay {
             }
         }
     }
-
 
     /**
      * Find any enemy with the same location as the given parameter
