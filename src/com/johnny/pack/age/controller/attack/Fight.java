@@ -63,6 +63,11 @@ public class Fight {
             round++;
             quit = determineInitiativeOrder(player, enemies, round);
 
+            // if there are no enemies left
+            if(enemies.size() == Numbers.ZERO.getValue()){
+                quit = true;
+            }
+
             // Are all the enemies dead and are their bodies present
             if(!areEnemiesAlive(enemies) && enemies.size() > Numbers.ZERO.getValue()){
                 Display.getDisplayInstance.displayText("You have painted these lands " +
@@ -414,25 +419,37 @@ public class Fight {
         }
     }
 
-
+    /**
+     * Logic to select an enemy from a list from given user input.
+     * @param enemies - List of enemy objects
+     * @return - an int index value for an enemy within a list
+     */
     private int getEnemyIndex(List<Character> enemies) {
-        int enemyIndex = Numbers.ZERO.getValue();
-        int index;
+        int enemyIndex = Numbers.NEGATIVE_ONE.getValue();
         boolean quit = false;
+
         while (!quit) {
-            Display.getDisplayInstance.displayText("Which number enemy are you " +
-                    "attacking? \n\tExit attackEnemySelection: 99");
-            String test = UserInput.getUserInstance().getScanner().nextLine();
+            Display.getDisplayInstance.displayText("Select an enemy:" +
+                    "\n\tEnter 99 to leave");
+
+            // Get user input
+            String userInput = UserInput.getUserInstance().getScanner().nextLine();
+
+            // Is user input a valid selection?
             if(Display.getDisplayInstance.getAcceptableNumbers().stream()
-                    .anyMatch(input -> input.equalsIgnoreCase(test)))
-//            if (UserInput.getUserInstance().scannerHasNextInt())
+                    .anyMatch(input -> input.equalsIgnoreCase(userInput)))
             {
-                index = Integer.parseInt(test);
+
+                // Did user select to leave?
+                int index = Integer.parseInt(userInput);
                 if(index == Numbers.NINETY_NINE.getValue()) {
-                    enemyIndex = Numbers.NEGATIVE_ONE.getValue();
                     quit = true;
                 } else {
-                    if (isValidInput(index, enemies)) {
+
+                    // Is user input within List range?
+                    if (isIndexInRange(index, enemies)) {
+
+                        // Is enemy alive?
                         if (!alreadyDead(index, enemies)) {
                             enemyIndex = index;
                             quit = true;
@@ -441,14 +458,19 @@ public class Fight {
                 }
             } else {
                 Display.getDisplayInstance.displayText("Choose an enemy number");
-//                UserInput.getUserInstance().scannerNextLine();
             }
         }
         return enemyIndex;
     }
 
-    private boolean alreadyDead(int enemyIndex, List<Character> enemiesFromLocation) {
-        if(!enemiesFromLocation.get(enemyIndex).getIsAlive()){
+    /**
+     * Check if the selected enemy index from list is alive.
+     * @param index - int index value of enemy object within a list
+     * @param enemies - List of enemy objects
+     * @return - boolean enemy is dead
+     */
+    private boolean alreadyDead(int index, List<Character> enemies) {
+        if(!enemies.get(index).getIsAlive()){
             Display.getDisplayInstance.displayText("Dude, that one is " +
                     "already dead. Sicko!");
             return true;
@@ -456,14 +478,30 @@ public class Fight {
         return false;
     }
 
-    private boolean isValidInput(int index, List<Character> enemiesFromLocation) {
-        return index >= Numbers.ZERO.getValue() && index <= enemiesFromLocation.size() - Numbers.ONE.getValue();
+    /**
+     * Determine if the user input is an int value between 0 and the
+     * number of enemy objects - 1
+     * @param index - int value user input
+     * @param enemies - List of enemies
+     * @return - boolean user input is within range
+     */
+    private boolean isIndexInRange(int index, List<Character> enemies) {
+        return index >= Numbers.ZERO.getValue() && index <= enemies.size() - Numbers.ONE.getValue();
     }
 
-    private boolean moreThanOneEnemy(List<Character> enemiesFromLocation) {
-        return enemiesFromLocation.size() > Numbers.ONE.getValue();
+    /**
+     * Is there more than one enemy in the list
+     * @param enemies - List of enemy objects
+     * @return - boolean more than one enemy object in the list
+     */
+    private boolean moreThanOneEnemy(List<Character> enemies) {
+        return enemies.size() > Numbers.ONE.getValue();
     }
 
+    /**
+     * Determine whether user input is valid
+     * @return - int value of user input
+     */
     private int getSelection() {
         while(true) {
             getFightMenu();
