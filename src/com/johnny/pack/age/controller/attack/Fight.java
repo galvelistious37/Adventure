@@ -16,7 +16,6 @@ public class Fight {
 
     /**
      * Display Fight Menu options
-     * Testing git hub token - the fuck
      */
     private void getFightMenu(){
         createOptions().forEach(Display.getDisplayInstance::displayText);
