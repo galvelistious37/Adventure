@@ -42,7 +42,7 @@
     </dependencies>
 
     <build>
-        <finalName>jsf-project</finalName>
+        <finalName>adventure</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -51,7 +51,6 @@
 
                 <configuration>
                     <release>12</release>
-                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
