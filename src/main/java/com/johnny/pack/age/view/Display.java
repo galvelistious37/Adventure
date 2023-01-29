@@ -2,7 +2,6 @@ package com.johnny.pack.age.view;
 
 import com.johnny.pack.age.model.character.Character;
 import com.johnny.pack.age.model.constant.Constant;
-import com.johnny.pack.age.model.location.Location;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,14 +20,16 @@ public class Display {
     /**
      * Print a greeting to the screen
      */
-    public void displayText(String text) {
+    public boolean displayText(String text) {
         System.out.println(text);
+        return true;
     }
 
-    public void showDisplays(Character player, List<Character> enemiesFromLocation) {
+    public boolean showDisplays(Character player, List<Character> enemiesFromLocation) {
         displaySpacer();
         showPlayerStatus(player);
         displayEnemies(enemiesFromLocation);
+        return true;
     }
 
     private void displaySpacer() {
@@ -61,11 +62,12 @@ public class Display {
      * Display the list of available exits.
      * @param exits - Map of available exits
      */
-    public void displayAvailableExits(Map<String, Integer> exits) {
+    public boolean displayAvailableExits(Map<String, Integer> exits) {
         System.out.println("Available exits are: ");
         System.out.print("\t");
         Stream<String> stream = Stream.of(exits.keySet().toString());
         stream.forEach(System.out::println);
         System.out.println();
+        return true;
     }
 }

@@ -16,11 +16,21 @@ public final class Dice {
         int oneThroughFive = rollTheDie(5);
         int addLevel = 0;
         switch(rollTheDie(5)){
-            case 1 -> addLevel = 0;
-            case 2 -> addLevel = 10;
-            case 3 -> addLevel = 20;
-            case 4 -> addLevel = 30;
-            case 5 -> addLevel = 40;
+            case 1 :
+                addLevel = 0;
+                break;
+            case 2 :
+                addLevel = 10;
+                break;
+            case 3 :
+                addLevel = 20;
+                break;
+            case 4 :
+                addLevel = 30;
+                break;
+            case 5 :
+                addLevel = 40;
+                break;
         }
         return addLevel + oneThroughFive;
     }

@@ -365,12 +365,21 @@ public class Fight {
      * @return - int value attacker's damage dealt
      */
     private int determineDamage(Character attacker, String severity) {
-        return switch (severity) {
-            case "critical" -> attacker.dealDamage() * Numbers.TWO.getValue();
-            case "normal" -> attacker.dealDamage();
-            case "low" -> (int) Math.ceil(attacker.dealDamage() / Numbers.TWO.getValue());
-            default -> Numbers.ZERO.getValue();
-        };
+        int damage;
+        switch (severity) {
+            case "critical" :
+                damage = attacker.dealDamage() * Numbers.TWO.getValue();
+                break;
+            case "normal" :
+                damage = attacker.dealDamage();
+                break;
+            case "low" :
+                damage = (int) Math.ceil(attacker.dealDamage() / Numbers.TWO.getValue());
+                break;
+            default :
+                damage = Numbers.ZERO.getValue();
+        }
+        return damage;
     }
 
     /**
@@ -384,10 +393,16 @@ public class Fight {
                                       String severity, int damage){
         String form;
         switch(severity){
-            case "critical" -> form = attacker.getBerserkable().goBersek();
-            case "normal" -> form = attacker.getAttackable().attack();
-            case "low" -> form = attacker.getScratchable().scratch();
-            default -> form = "missed";
+            case "critical" :
+                form = attacker.getBerserkable().goBersek();
+                break;
+            case "normal" :
+                form = attacker.getAttackable().attack();
+                break;
+            case "low" :
+                form = attacker.getScratchable().scratch();
+                break;
+            default : form = "missed";
         }
         Display.getDisplayInstance.displayText(attacker.getName() + " " +
                 form + " " + victim.getName() + " for " + damage + " HP");
