@@ -21,14 +21,16 @@ public class Display {
     /**
      * Print a greeting to the screen
      */
-    public void displayText(String text) {
+    public boolean displayText(String text) {
         System.out.println(text);
+        return true;
     }
 
-    public void showDisplays(Character player, List<Character> enemiesFromLocation) {
+    public boolean showDisplays(Character player, List<Character> enemiesFromLocation) {
         displaySpacer();
         showPlayerStatus(player);
-        displayEnemies(enemiesFromLocation);
+//        displayEnemies(enemiesFromLocation);
+        return true;
     }
 
     private void displaySpacer() {
@@ -44,14 +46,14 @@ public class Display {
         System.out.println(message);
     }
 
-    private void displayEnemies(List<Character> localEnemies){
-        System.out.println("~Enemies~");
-        for(Character enemy : localEnemies){
-            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
-                    enemy.getName() + ": " + enemy.getHitPoints() + " HP");
-        }
-        System.out.println(" ");
-    }
+//    private void displayEnemies(List<Character> localEnemies){
+//        System.out.println("~Enemies~");
+//        for(Character enemy : localEnemies){
+//            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
+//                    enemy.getName() + ": " + enemy.getHitPoints() + " HP");
+//        }
+//        System.out.println(" ");
+//    }
 
     public List<String> getAcceptableNumbers(){
         return Arrays.asList("0", "1", "2", "3", "4", "99");
