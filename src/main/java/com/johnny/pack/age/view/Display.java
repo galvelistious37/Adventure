@@ -11,6 +11,8 @@ import java.util.stream.Stream;
 public class Display {
 
     private final static Display INSTANCE = new Display();
+    public static final String FORMAT_ENEMY_DISPLAY = "~Enemies~\n\t[%d] %s: %d HP\n";
+    public static final String FORMAT_PLAYER_DISPLAY = "\n~Player Details~\n\tHit Points: %d\n\tWeapon: %s";
 
     private Display(){
     }
@@ -38,20 +40,13 @@ public class Display {
     }
 
     private void showPlayerStatus(Character player) {
-        System.out.println(Constant.SPACE);
-        String message = "~Player Details~ " +
-                "\n\tHit Points: " + player.getHitPoints() +
-                "\n\tWeapon: " + player.getEquipable().weaponType();
-        System.out.println(message);
+        System.out.println(
+                String.format(FORMAT_PLAYER_DISPLAY, player.getHitPoints(), player.getEquipable().weaponType()));
     }
 
     private void displayEnemies(List<Character> localEnemies){
-        System.out.println("~Enemies~");
-        for(Character enemy : localEnemies){
-            System.out.println("\t" + "[" + localEnemies.indexOf(enemy) + "] " +
-                    enemy.getName() + ": " + enemy.getHitPoints() + " HP");
-        }
-        System.out.println(" ");
+        localEnemies.forEach((e) -> System.out.println(
+                String.format(FORMAT_ENEMY_DISPLAY, localEnemies.indexOf(e), e.getName(), e.getHitPoints())));
     }
 
     public List<String> getAcceptableNumbers(){

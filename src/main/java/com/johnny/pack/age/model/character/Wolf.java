@@ -1,6 +1,6 @@
 package com.johnny.pack.age.model.character;
 
-import com.johnny.pack.age.controller.attack.Equipable;
+import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.controller.attack.*;
 import com.johnny.pack.age.model.weapon.Teeth;
 

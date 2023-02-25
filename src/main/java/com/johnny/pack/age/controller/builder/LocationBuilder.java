@@ -27,9 +27,10 @@ public class LocationBuilder {
         LocationNumberBuilder locationNumberBuilder = new LocationNumberBuilder();
         Map<Integer, Location> tempLocationMap = new HashMap<>();
         List<Integer> locationNumbers = locationNumberBuilder.getLocationNumbersList();
-        for(Integer locNumber : locationNumbers){
-            tempLocationMap.put(locNumber, new Location(locNumber, generateLocationDescription(locNumber), getExits(locNumber, locationNumbers))) ;
-        }
+        locationNumbers.forEach((n) -> tempLocationMap.put(n, new Location(n, generateLocationDescription(n), getExits(n, locationNumbers))));
+//        for(Integer locNumber : locationNumbers){
+//            tempLocationMap.put(locNumber, new Location(locNumber, generateLocationDescription(locNumber), getExits(locNumber, locationNumbers))) ;
+//        }
         return tempLocationMap;
     }
 

@@ -3,7 +3,7 @@ package com.johnny.pack.age.model.character;
 import com.johnny.pack.age.controller.attack.Attackable;
 import com.johnny.pack.age.controller.attack.Berserkable;
 import com.johnny.pack.age.controller.attack.Scratchable;
-import com.johnny.pack.age.controller.attack.Equipable;
+import com.johnny.pack.age.model.weapon.Equipable;
 
 public abstract class Character {
 
