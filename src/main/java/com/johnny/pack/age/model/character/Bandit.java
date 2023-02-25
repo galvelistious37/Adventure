@@ -1,6 +1,6 @@
 package com.johnny.pack.age.model.character;
 
-import com.johnny.pack.age.controller.attack.Equipable;
+import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.controller.attack.*;
 import com.johnny.pack.age.model.weapon.Knife;
 
@@ -16,7 +16,6 @@ public class Bandit extends Character {
     private boolean isAlive;
     private int initiative;
     private String name;
-    private final String ENEMY_TYPE = "Bandit";
 
     private Bandit(int hitPoints, int strength, String name) {
         this.equipable = Knife.getInstance();

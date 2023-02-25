@@ -1,7 +1,5 @@
 package com.johnny.pack.age.model.weapon;
 
-import com.johnny.pack.age.controller.attack.Equipable;
-
 public final class Knife implements Equipable {
     private final String weapon;
     private final int damage;
