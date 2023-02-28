@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.johnny.pack.age.model.character.Character;
+import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.weapon.Sword;
 
 

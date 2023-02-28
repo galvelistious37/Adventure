@@ -1,4 +1,4 @@
-package com.johnny.pack.age.model.character;
+package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.controller.attack.Attackable;
 import com.johnny.pack.age.controller.attack.Berserkable;

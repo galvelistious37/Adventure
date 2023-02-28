@@ -24,10 +24,11 @@ public class LocationBuilder {
     }
 
     private Map<Integer, Location> generateLocationMap(){
-        LocationNumberBuilder locationNumberBuilder = new LocationNumberBuilder();
         Map<Integer, Location> tempLocationMap = new HashMap<>();
-        List<Integer> locationNumbers = locationNumberBuilder.getLocationNumbersList();
-        locationNumbers.forEach((n) -> tempLocationMap.put(n, new Location(n, generateLocationDescription(n), getExits(n, locationNumbers))));
+        List<Integer> locationNumbers =
+                new LocationNumberBuilder().getLocationNumbersList();
+        locationNumbers.forEach((n) -> tempLocationMap.put(
+                n, new Location(n, generateLocationDescription(n), getExits(n, locationNumbers))));
 //        for(Integer locNumber : locationNumbers){
 //            tempLocationMap.put(locNumber, new Location(locNumber, generateLocationDescription(locNumber), getExits(locNumber, locationNumbers))) ;
 //        }
@@ -46,11 +47,21 @@ public class LocationBuilder {
         return bearing + Constant.SPACE + terrain;
     }
 
-    private int getX(Integer locNumber) {
+    /**
+     * Return second digit of an int.
+     * @param locNumber - location number
+     * @return - seconds digit of location number
+     */
+    private int getX(int locNumber) {
         return locNumber % 10;
     }
 
-    private int getY(Integer locNumber) {
+    /**
+     * Return the first digit of an int or 0 if less than 10
+     * @param locNumber - location number
+     * @return - first digit of location number
+     */
+    private int getY(int locNumber) {
         if(locNumber < 10){
             return 0;
         } else {
@@ -63,32 +74,25 @@ public class LocationBuilder {
 
 
     private String getBearing(int x, int y) {
-        if(x == Constant.THREE && y < Constant.TWO){
-            return Constant.SOUTH;
-        } else if (x == Constant.THREE && y > Constant.TWO){
-            return Constant.NORTH;
-        } else if (x > Constant.THREE && y == Constant.TWO){
-            return Constant.EAST;
-        } else if (x < Constant.THREE && y == Constant.TWO){
-            return Constant.WEST;
-        } else if (x < Constant.THREE && y < Constant.TWO){
-            return Constant.SOUTHWEST;
-        } else if (x > Constant.THREE && y < Constant.TWO){
-            return Constant.SOUTHEAST;
-        } else if (x < Constant.THREE && y > Constant.TWO){
-            return Constant.NORTHWEST;
-        } else if (x > Constant.THREE && y > Constant.TWO){
-            return Constant.NORTHEAST;
-        } else {
+
+        if(x == Constant.THREE && y == Constant.TWO){
             return Constant.CENTER;
         }
+        String longitude = x < Constant.THREE ? Constant.WEST :
+                x > Constant.THREE ? Constant.EAST : "";
+        String lat = y < Constant.TWO ? Constant.SOUTH :
+                y > Constant.TWO ? Constant.NORTH : "";
+        return String.format("%s%s", lat, longitude);
     }
 
     private String getTerrain(String bearing) {
-        if (bearing.equals("North") || bearing.equals("Northwest") ||
-                bearing.equals("West") || bearing.equals("Southwest")){
+        if (bearing.equalsIgnoreCase("North") ||
+                bearing.equalsIgnoreCase("Northwest") ||
+                bearing.equalsIgnoreCase("West") ||
+                bearing.equalsIgnoreCase("Southwest")){
             return Constant.MOUNTAIN;
-        } else if (bearing.equals("South") || bearing.equals("Southeast")){
+        } else if (bearing.equalsIgnoreCase("South") ||
+                bearing.equalsIgnoreCase("Southeast")){
             return Constant.DESERT;
         } else {
             return Constant.FOREST;

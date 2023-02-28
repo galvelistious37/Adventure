@@ -1,10 +1,13 @@
-package com.johnny.pack.age.model.character;
+package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Knife;
+import com.johnny.pack.age.model.weapon.Equipable;
+import com.johnny.pack.age.model.weapon.Fist;
 
-public class Bandit extends Character {
+/**
+ * SuperOgre POJO class
+ */
+public class SuperOgre extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -17,26 +20,22 @@ public class Bandit extends Character {
     private int initiative;
     private String name;
 
-    private Bandit(int hitPoints, int strength, String name) {
-        this.equipable = Knife.getInstance();
-        this.attackable = Stab.getInstance();
-        this.berserkable = Impale.getInstance();
+    private SuperOgre(int hitPoints, int strength, String name) {
+        this.equipable = Fist.getInstance();
+        this.attackable = Punch.getInstance();
+        this.berserkable = Pummel.getInstance();
         this.scratchable = Scratch.getInstance();
+        this.damage = equipable.getDamage();
         this.hitPoints = hitPoints;
         this.strength = strength;
-        this.damage = equipable.getDamage();
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = name;
     }
 
-    public static Bandit normalBandit(){
-        return new Bandit(15, 6, "Normal Bandit");
-    }
-
-    public static Bandit superBandit(){
-        return new Bandit(20, 8, "Super Crazy Bandit");
+    public static SuperOgre getSuperOgre(){
+        return new SuperOgre(35, 10, "Super Crazy Ogre");
     }
 
     @Override
@@ -148,7 +147,7 @@ public class Bandit extends Character {
 
     @Override
     public String toString() {
-        return "Bandit{" +
+        return "SuperOgre{" +
                 "equipable=" + equipable +
                 ", attackable=" + attackable +
                 ", berserkable=" + berserkable +
