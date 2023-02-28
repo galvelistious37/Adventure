@@ -1,10 +1,13 @@
-package com.johnny.pack.age.model.character;
+package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Teeth;
+import com.johnny.pack.age.model.weapon.Equipable;
+import com.johnny.pack.age.model.weapon.Knife;
 
-public class Wolf extends Character {
+/**
+ * SuperBandit POJO class
+ */
+public class SuperBandit extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -17,10 +20,10 @@ public class Wolf extends Character {
     private int initiative;
     private String name;
 
-    private Wolf(int hitPoints, int strength, String name) {
-        this.equipable = Teeth.getInstance();
-        this.attackable = Bite.getInstance();
-        this.berserkable = Maul.getInstance();
+    private SuperBandit(int hitPoints, int strength, String name) {
+        this.equipable = Knife.getInstance();
+        this.attackable = Stab.getInstance();
+        this.berserkable = Impale.getInstance();
         this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
@@ -31,12 +34,8 @@ public class Wolf extends Character {
         this.name = name;
     }
 
-    public static Wolf normalWolf(){
-        return new Wolf(8, 6, "Normal Wolf");
-    }
-
-    public static Wolf superWolf(){
-        return new Wolf(12, 8, "Super Crazy Wolf");
+    public static SuperBandit getSuperBandit(){
+        return new SuperBandit(20, 8, "Super Crazy Bandit");
     }
 
     @Override
@@ -148,7 +147,7 @@ public class Wolf extends Character {
 
     @Override
     public String toString() {
-        return "Wolf{" +
+        return "SuperBandit{" +
                 "equipable=" + equipable +
                 ", attackable=" + attackable +
                 ", berserkable=" + berserkable +
@@ -157,8 +156,7 @@ public class Wolf extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", NAME='" + name + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }
-

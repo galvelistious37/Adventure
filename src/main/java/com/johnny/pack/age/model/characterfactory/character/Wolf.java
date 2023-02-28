@@ -1,10 +1,13 @@
-package com.johnny.pack.age.model.character;
+package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Fist;
+import com.johnny.pack.age.model.weapon.Teeth;
 
-public class Ogre extends Character {
+/**
+ * Wolf POJO class
+ */
+public class Wolf extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -17,26 +20,22 @@ public class Ogre extends Character {
     private int initiative;
     private String name;
 
-    private Ogre(int hitPoints, int strength, String name) {
-        this.equipable = Fist.getInstance();
-        this.attackable = Punch.getInstance();
-        this.berserkable = Pummel.getInstance();
+    private Wolf(int hitPoints, int strength, String name) {
+        this.equipable = Teeth.getInstance();
+        this.attackable = Bite.getInstance();
+        this.berserkable = Maul.getInstance();
         this.scratchable = Scratch.getInstance();
-        this.damage = equipable.getDamage();
         this.hitPoints = hitPoints;
         this.strength = strength;
+        this.damage = equipable.getDamage();
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = name;
     }
 
-    public static Ogre normalOgre(){
-        return new Ogre(25, 8, "Normal Ogre");
-    }
-
-    public static Ogre superOgre(){
-        return new Ogre(35, 10, "Super Crazy Ogre");
+    public static Wolf getWolf(){
+        return new Wolf(8, 6, "Wolf");
     }
 
     @Override
@@ -148,7 +147,7 @@ public class Ogre extends Character {
 
     @Override
     public String toString() {
-        return "Ogre{" +
+        return "Wolf{" +
                 "equipable=" + equipable +
                 ", attackable=" + attackable +
                 ", berserkable=" + berserkable +
@@ -157,7 +156,8 @@ public class Ogre extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", name='" + name + '\'' +
+                ", NAME='" + name + '\'' +
                 '}';
     }
 }
+

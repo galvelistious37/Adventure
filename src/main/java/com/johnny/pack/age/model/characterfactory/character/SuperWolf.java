@@ -1,10 +1,13 @@
-package com.johnny.pack.age.model.character;
+package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Stinger;
+import com.johnny.pack.age.model.weapon.Equipable;
+import com.johnny.pack.age.model.weapon.Teeth;
 
-public class Scorpion extends Character {
+/**
+ * SuperWolf POJO class
+ */
+public class SuperWolf extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -17,10 +20,10 @@ public class Scorpion extends Character {
     private int initiative;
     private String name;
 
-    private Scorpion(int hitPoints, int strength, String name) {
-        this.equipable = Stinger.getInstance();
-        this.attackable = Sting.getInstance();
-        this.berserkable = Impale.getInstance();
+    private SuperWolf(int hitPoints, int strength, String name) {
+        this.equipable = Teeth.getInstance();
+        this.attackable = Bite.getInstance();
+        this.berserkable = Maul.getInstance();
         this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
@@ -31,12 +34,8 @@ public class Scorpion extends Character {
         this.name = name;
     }
 
-    public static Scorpion normalScorpion(){
-        return new Scorpion(15, 8, "Normal Scorpion");
-    }
-
-    public static Scorpion superScorpion(){
-        return new Scorpion(20, 10, "Super Crazy Scorpion");
+    public static SuperWolf getSuperWolf(){
+        return new SuperWolf(12, 8, "Super Crazy Wolf");
     }
 
     @Override
@@ -148,7 +147,7 @@ public class Scorpion extends Character {
 
     @Override
     public String toString() {
-        return "Scorpion{" +
+        return "SuperWolf{" +
                 "equipable=" + equipable +
                 ", attackable=" + attackable +
                 ", berserkable=" + berserkable +
@@ -157,7 +156,8 @@ public class Scorpion extends Character {
                 ", location=" + location +
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
-                ", name='" + name + '\'' +
+                ", NAME='" + name + '\'' +
                 '}';
     }
 }
+

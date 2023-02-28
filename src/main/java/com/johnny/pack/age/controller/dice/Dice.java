@@ -8,11 +8,11 @@ public final class Dice {
         return INSTANCE;
     }
 
-    public int rollTheDie(int sides) {
+    public static int rollTheDie(int sides) {
         return (int) Math.ceil(Math.random() * sides);
     }
 
-    public int getRandomLocation(){
+    public static int getRandomLocation(){
         int oneThroughFive = rollTheDie(5);
         int addLevel = 0;
         switch(rollTheDie(5)){

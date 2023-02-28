@@ -4,7 +4,7 @@ import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.controller.GamePlay;
 import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.controller.Move.UserInput;
-import com.johnny.pack.age.model.character.Character;
+import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.view.Display;
 

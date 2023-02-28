@@ -1,19 +1,17 @@
 package com.johnny.pack.age.controller.builder;
 
 import com.johnny.pack.age.controller.dice.Dice;
-import com.johnny.pack.age.model.character.*;
-import com.johnny.pack.age.model.character.Character;
+import com.johnny.pack.age.model.characterfactory.*;
+import com.johnny.pack.age.model.characterfactory.character.Character;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyBuilder {
-    private Dice diceRoll;
     private int totalEnemies;
     private List<Character> enemyList;
 
     private EnemyBuilder(int totalEnemies){
-        diceRoll = Dice.getInstance();
         this.totalEnemies = totalEnemies;
         this.enemyList = populateEnemyList();
     }
@@ -29,32 +27,12 @@ public class EnemyBuilder {
     private List<Character> populateEnemyList(){
         List<Character> enemyList = new ArrayList<>();
         for(int i = 0; i < this.totalEnemies; i++){
-            Character tempEnemy = getEnemy();
-            tempEnemy.setLocation(diceRoll.getRandomLocation());
+            Character tempEnemy = SimpleFactoryCharacter
+                    .getCharacterFactory()
+                    .getCharacter();
+            tempEnemy.setLocation(Dice.getRandomLocation());
             enemyList.add(tempEnemy);
         }
         return enemyList;
-    }
-
-    private Character getEnemy(){
-        switch(getRandomEnemy()){
-            case 1 :
-                return isSuperCrazy() ? Ogre.superOgre() : Ogre.normalOgre();
-            case 2 :
-                return isSuperCrazy() ? Wolf.superWolf() : Wolf.normalWolf();
-            case 3 :
-                return isSuperCrazy() ? Scorpion.superScorpion() : Scorpion.normalScorpion();
-            case 4 :
-                return isSuperCrazy() ? Bandit.superBandit() : Bandit.normalBandit();
-        }
-        return null;
-    }
-
-    private int getRandomEnemy(){
-        return diceRoll.rollTheDie(4);
-    }
-
-    private boolean isSuperCrazy(){
-        return diceRoll.rollTheDie(2) > 1;
     }
 }

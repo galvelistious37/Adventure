@@ -1,7 +1,6 @@
 package com.johnny.pack.age.view;
 
-import com.johnny.pack.age.model.character.Character;
-import com.johnny.pack.age.model.constant.Constant;
+import com.johnny.pack.age.model.characterfactory.character.Character;
 
 import java.util.Arrays;
 import java.util.List;
