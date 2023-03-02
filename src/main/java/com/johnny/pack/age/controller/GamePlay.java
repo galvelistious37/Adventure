@@ -28,7 +28,7 @@ public class GamePlay {
      */
     private GamePlay() {
         playerOne = Player.getInstance();
-        locationMap = LocationBuilder.createLocationBuilder().getLocationMap();
+        locationMap = LocationBuilder.mapLocations;
         enemies = EnemyBuilder.totalEnemiesList(Constant.TOTAL_ENEMIES).getEnemyList();
     }
 
@@ -79,7 +79,7 @@ public class GamePlay {
 
         // Display location details
         Display.getDisplayInstance.displayText(
-                "Location: " + locationMap.get(locNumber).getDescription());
+                "Location: " + locationMap.get(locNumber).getTerrain());
 
         // Determine what to do if enemies are present
         enemyLogicFlow(locNumber);
