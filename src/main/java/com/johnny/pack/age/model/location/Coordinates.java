@@ -1,13 +1,11 @@
 package com.johnny.pack.age.model.location;
 
-public class Coordinates {
+class Coordinates {
     private final int TEN = 10;
-    private int id;
     private int lat;
     private int lon;
 
-    public Coordinates(int id) {
-        this.id = id;
+    Coordinates(int id) {
         this.lat = determineLat(id);
         this.lon = determineLon(id);
     }
@@ -27,11 +25,11 @@ public class Coordinates {
         return id;
     }
 
-    public int getLatitude() {
+    int getLatitude() {
         return lat;
     }
 
-    public int getLongitude() {
+    int getLongitude() {
         return lon;
     }
 }

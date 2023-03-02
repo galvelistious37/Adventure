@@ -7,17 +7,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Location {
-    private final int locationId;
     private final Map<String, Integer> exits;
 
-    private Coordinates coords;
     private Terrain terrain;
 
     public Location(int id) {
-        this.locationId = id;
         this.exits = getExits(id);
         this.exits.put("Q", 0);
-        coords = new Coordinates(id);
+        Coordinates coords = new Coordinates(id);
         terrain = new Terrain(coords.getLatitude(), coords.getLongitude());
     }
 
@@ -40,20 +37,18 @@ public class Location {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    /**
+     * Check if id is present in the gameMap
+     * @param id - location id
+     * @return - boolean value if id is in the gameMap
+     */
     private boolean isExitThere(int id){
         return GameMap.gameMap.contains(id);
     }
 
-    public int getLocationId() {
-        return locationId;
-    }
 
     public Map<String, Integer> getExits() {
         return new HashMap<>(exits);
-    }
-
-    public Coordinates getCoords() {
-        return coords;
     }
 
     public Terrain getTerrain() {

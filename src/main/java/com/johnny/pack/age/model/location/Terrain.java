@@ -1,39 +1,23 @@
 package com.johnny.pack.age.model.location;
 
 public class Terrain {
-    private final int TWO = 2;
-    private final int THREE = 3;
-    private final String NORTH = "North";
-    private final String EAST = "East";
-    private final String SOUTH = "South";
-    private final String WEST = "West";
-    private final String CENTER = "Central";
-    private final String DESERT = "Desert";
-    private final String MOUNTAIN = "Mountains";
-    private final String FOREST = "Forest";
-    private final String NOTHING = "";
 
-    private int lat;
-    private int lon;
     private String bearing;
     private String terrain;
 
-    public Terrain(int lat, int lon) {
-        this.lat = lat;
-        this.lon = lon;
+    Terrain(int lat, int lon) {
         this.bearing = determineBearing(lat, lon);
         this.terrain = determineTerrain();
     }
 
-
     private String determineBearing(int x, int y) {
-        if(x == THREE && y == TWO){
-            return CENTER;
+        if(x == 3 && y == 2){
+            return "Central";
         }
-        String longitude = x < THREE ? WEST :
-                x > THREE ? EAST : NOTHING;
-        String lat = y < TWO ? SOUTH :
-                y > TWO ? NORTH : NOTHING;
+        String longitude = x < 3 ? "West" :
+                x > 3 ? "East" : "";
+        String lat = y < 2 ? "South" :
+                y > 2 ? "North" : "";
         String temp = String.format("%s%s", lat, longitude);
         return temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase();
     }
@@ -43,12 +27,12 @@ public class Terrain {
                 bearing.equalsIgnoreCase("Northwest") ||
                 bearing.equalsIgnoreCase("West") ||
                 bearing.equalsIgnoreCase("Southwest")){
-            return MOUNTAIN;
+            return "Mountains";
         } else if (bearing.equalsIgnoreCase("South") ||
                 bearing.equalsIgnoreCase("Southeast")){
-            return DESERT;
+            return "Desert";
         } else {
-            return FOREST;
+            return "Forest";
         }
     }
 
