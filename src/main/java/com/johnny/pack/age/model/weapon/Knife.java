@@ -5,8 +5,6 @@ public final class Knife implements Equipable {
     private final int damage;
     private int location;
 
-    private static final Knife INSTANCE = new Knife();
-
     private Knife() {
         this.weapon = "knife";
         this.damage = 8;
@@ -14,7 +12,7 @@ public final class Knife implements Equipable {
     }
 
     public static final Knife getInstance(){
-        return INSTANCE;
+        return new Knife();
     }
 
     @Override
