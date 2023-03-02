@@ -1,33 +1,57 @@
 package com.johnny.pack.age.model.location;
 
+import com.johnny.pack.age.controller.GameMap;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Location {
-    private final int locationId;
-    private final String description;
     private final Map<String, Integer> exits;
 
-    public Location(int locationId, String description, Map<String, Integer> exits) {
-        this.locationId = locationId;
-        this.description = description;
-        if(exits != null){
-            this.exits = new HashMap<String, Integer>(exits);
-        } else {
-            this.exits = new HashMap<>();
-        }
+    private Terrain terrain;
+
+    public Location(int id) {
+        this.exits = getExits(id);
         this.exits.put("Q", 0);
+        Coordinates coords = new Coordinates(id);
+        terrain = new Terrain(coords.getLatitude(), coords.getLongitude());
     }
 
-    public int getLocationId() {
-        return locationId;
+    /**
+     * Return a map of available exits for a given location
+     * @param locationId - current map location
+     * @return - map of available exits
+     */
+    private Map<String, Integer> getExits(int locationId) {
+        // Populate a temp map with all directions
+        Map<String, Integer> mapExits = new HashMap<>();
+        mapExits.put("N", locationId + 10);
+        mapExits.put("E", locationId + 1);
+        mapExits.put("S", locationId - 10);
+        mapExits.put("W", locationId - 1);
+
+        // Filter out exits which are not available
+        return mapExits.entrySet().stream()
+                .filter(id -> isExitThere(id.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public String getDescription() {
-        return description;
+    /**
+     * Check if id is present in the gameMap
+     * @param id - location id
+     * @return - boolean value if id is in the gameMap
+     */
+    private boolean isExitThere(int id){
+        return GameMap.gameMap.contains(id);
     }
+
 
     public Map<String, Integer> getExits() {
         return new HashMap<>(exits);
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
     }
 }
