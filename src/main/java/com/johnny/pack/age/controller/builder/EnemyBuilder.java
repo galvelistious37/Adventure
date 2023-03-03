@@ -30,7 +30,7 @@ public class EnemyBuilder {
             Character tempEnemy = SimpleFactoryCharacter
                     .getCharacterFactory()
                     .getCharacter();
-            tempEnemy.setLocation(Dice.getRandomLocation());
+            tempEnemy.setLocation(LocationBuilder.getRandomLocation());
             enemyList.add(tempEnemy);
         }
         return enemyList;

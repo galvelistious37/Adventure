@@ -1,5 +1,6 @@
 package com.johnny.pack.age.controller.attack;
 
+import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.controller.GamePlay;
 import com.johnny.pack.age.model.constant.Numbers;
@@ -295,7 +296,7 @@ public class Fight {
             // Did player succeed in intimidating the enemy
             if(successRoll > Numbers.TEN.getValue()){
                 enemies.remove(enemy);
-                enemy.setLocation(Dice.getInstance().getRandomLocation());
+                enemy.setLocation(LocationBuilder.getRandomLocation());
                 Display.getDisplayInstance.displayText("You scared "
                         + enemy.getName() + " so bad it ran away");
             } else {
