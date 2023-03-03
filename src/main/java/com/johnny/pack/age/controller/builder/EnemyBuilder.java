@@ -1,6 +1,5 @@
 package com.johnny.pack.age.controller.builder;
 
-import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.model.characterfactory.*;
 import com.johnny.pack.age.model.characterfactory.character.Character;
 
@@ -8,16 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnemyBuilder {
-    private int totalEnemies;
     private List<Character> enemyList;
 
-    private EnemyBuilder(int totalEnemies){
-        this.totalEnemies = totalEnemies;
+    private EnemyBuilder(){
         this.enemyList = populateEnemyList();
     }
 
-    public static EnemyBuilder totalEnemiesList(int totalEnemies){
-        return new EnemyBuilder(totalEnemies);
+    public static EnemyBuilder getInstance(){
+        return new EnemyBuilder();
     }
 
     public List<Character> getEnemyList() {
@@ -25,12 +22,13 @@ public class EnemyBuilder {
     }
 
     private List<Character> populateEnemyList(){
+        int totalEnemies = 15;
         List<Character> enemyList = new ArrayList<>();
-        for(int i = 0; i < this.totalEnemies; i++){
+        for(int i = 0; i < totalEnemies; i++){
             Character tempEnemy = SimpleFactoryCharacter
                     .getCharacterFactory()
                     .getCharacter();
-            tempEnemy.setLocation(Dice.getRandomLocation());
+            tempEnemy.setLocation(LocationBuilder.getRandomLocation());
             enemyList.add(tempEnemy);
         }
         return enemyList;

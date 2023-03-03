@@ -1,1 +1,7 @@
+com\johnny\pack\age\model\weapon\SwordTest.class
+com\johnny\pack\age\model\weapon\TeethTest.class
+com\johnny\pack\age\model\weapon\KnifeTest.class
 com\johnny\pack\age\view\DisplayTest.class
+com\johnny\pack\age\model\weapon\StingerTest.class
+com\johnny\pack\age\model\weapon\FistTest.class
+com\johnny\pack\age\controller\builder\LocationBuilderTest.class

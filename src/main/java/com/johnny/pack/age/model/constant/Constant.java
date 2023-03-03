@@ -12,7 +12,6 @@ public final class Constant {
     public static final int INTIMIDATE = 2;
     public static final int SNEAK_PAST = 3;
     public static final int RUN_AWAY = 4;
-    public static final int TOTAL_ENEMIES = 15;
     public static final int NEGATIVE_ONE = -1;
     public static final int ZERO = 0;
     public static final int ONE = 1;
