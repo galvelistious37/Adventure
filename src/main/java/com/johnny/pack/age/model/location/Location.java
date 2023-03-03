@@ -9,12 +9,14 @@ import java.util.stream.Collectors;
 public class Location {
     private final Map<String, Integer> exits;
 
+    private int id;
     private Terrain terrain;
 
     public Location(int id) {
-        this.exits = getExits(id);
+        this.id = id;
+        this.exits = getExits(this.id);
         this.exits.put("Q", 0);
-        Coordinates coords = new Coordinates(id);
+        Coordinates coords = new Coordinates(this.id);
         terrain = new Terrain(coords.getLatitude(), coords.getLongitude());
     }
 
@@ -53,5 +55,9 @@ public class Location {
 
     public Terrain getTerrain() {
         return terrain;
+    }
+
+    public int getId(){
+        return id;
     }
 }

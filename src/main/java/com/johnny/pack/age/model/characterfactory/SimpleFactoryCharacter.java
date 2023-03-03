@@ -5,10 +5,17 @@ import com.johnny.pack.age.controller.dice.Dice;
 public class SimpleFactoryCharacter {
     private static final int CHARACTER_TYPES = 8;
 
+    /**
+     * Call simple factory to genereate a new character type
+     * @return - CharacterFactory object of an enemy creator
+     */
     public static CharacterFactory getCharacterFactory(){
         return getCharacterCreator();
     }
 
+    /**
+     * @return - A random enemy creator
+     */
     private static CharacterFactory getCharacterCreator(){
         switch(Dice.rollTheDie(CHARACTER_TYPES)){
             case 1 :

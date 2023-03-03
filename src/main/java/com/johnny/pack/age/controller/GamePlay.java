@@ -7,7 +7,6 @@ import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Character;
-import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.characterfactory.character.Player;
 import com.johnny.pack.age.model.weapon.Knife;
 import com.johnny.pack.age.model.weapon.Sword;
@@ -19,17 +18,15 @@ import java.util.stream.Collectors;
 public class GamePlay {
 
     // Global Variables
-    private Map<Integer, Location> locationMap;
     private List<Character> enemies;
-    private Player playerOne;
+    private Player player;
 
     /**
      * GamePlay Constructor instantiates global variables
      */
     private GamePlay() {
-        playerOne = Player.getInstance();
-        locationMap = LocationBuilder.mapLocations;
-        enemies = EnemyBuilder.totalEnemiesList(Constant.TOTAL_ENEMIES).getEnemyList();
+        player = Player.getInstance();
+        enemies = EnemyBuilder.getInstance().getEnemyList();
     }
 
     // Create one and only one instance of GamePlay
@@ -69,30 +66,27 @@ public class GamePlay {
      * @return - A boolean value of whether to keep playing
      */
     private boolean goThroughPlayActions() {
-        // Get the player location int value
-        int locNumber = playerOne.getLocation();
-
-        // Determine available exits from the current location
-        // and store them in a Map.
-        Map<String, Integer> exits;
-        exits = locationMap.get(locNumber).getExits();
+        // Get the Location
+        Location location = LocationBuilder.mapLocations
+                .get(player.getLocation());
 
         // Display location details
         Display.getDisplayInstance.displayText(
-                "Location: " + locationMap.get(locNumber).getTerrain());
+                "Location: " + location.getTerrain());
 
         // Determine what to do if enemies are present
-        enemyLogicFlow(locNumber);
+        enemyLogicFlow(location.getId());
 
         // If player not alive, return false.
-        if(!playerOne.getIsAlive()){
+        if(!player.getIsAlive()){
             return false;
         }
 
         // Display the available exits based on current location.
+        Display.getDisplayInstance.displayAvailableExits(location.getExits());
+
         // Move to the newly selected location.
-        Display.getDisplayInstance.displayAvailableExits(exits);
-        locNumber = moveLocation(locNumber, exits);
+        int locNumber = moveLocation(location.getId());
 
         // Check new location for new weapons
         checkNewWeapon(locNumber);
@@ -116,8 +110,8 @@ public class GamePlay {
             // If enemies are still alive, deal with them.
             Fight fight = new Fight();
             if(fight.areEnemiesAlive(enemies)) {
-                fight.initiative(playerOne, enemies);
-                fight.doFightinStuff(playerOne, enemies);
+                fight.initiative(player, enemies);
+                fight.doFightinStuff(player, enemies);
             } else {
                 Display.getDisplayInstance.displayText("All enemies here are dead");
             }
@@ -146,47 +140,66 @@ public class GamePlay {
     }
 
     /**
-     * Take user input and determine where to builder or to quit.
-     * @param locationNumber - current location int
-     * @param exits - Map of String, Integer exit locations
+     * Take user input and determine where to go or to quit.
+     * @param id - current location id
      * @return - new location int value
      */
-    private int moveLocation(int locationNumber, Map<String, Integer> exits) {
+    private int moveLocation(int id) {
         // Take user input for direction
-        String direction = UserInput.getUserInstance().getScanner().nextLine().toUpperCase();
-        // Get new location int value from input
-        int nextLocationNumber = moveInDirection(locationNumber, exits, direction);
-        // reset initiative and set new location
-        if (locationNumber != nextLocationNumber) {
-            resetCharacterInitiative(locationNumber);
-            locationNumber = nextLocationNumber;
+        String direction = getUserSelection();
+        // Is a valid selection
+        if(isValidSelection(id, direction)){
+            // Get new location int value from input
+            int nextLocationNumber = moveInDirection(id, direction);
+            // moved to new location
+            if (id != nextLocationNumber) {
+                // reset initiative and set new location
+                resetCharacterInitiative(id);
+                id = nextLocationNumber;
+            }
         }
-        return locationNumber;
+        return id;
     }
 
-    /**
-     * Determine if a location can be updated given the value of user input.
-     * If user input matches a String value of an available exit, update
-     * the location int value to the int value of the new location.
-     * @param locationNumber - current location int value
-     * @param exits - Map of available exits
-     * @param direction - String value user input for chosen direction
-     * @return - the updated int value of the selected new location
-     */
-    private int moveInDirection(int locationNumber, Map<String, Integer> exits, String direction) {
+    private boolean isValidSelection(int id, String direction) {
+        return LocationBuilder.mapLocations
+                .get(id).getExits().containsKey(direction);
+
+    }
+
+    private String getUserSelection() {
+        String direction = UserInput.getUserInstance()
+                .getScanner().nextLine().toUpperCase();
+
         if(direction.length() > 1){
             direction = getDirectionFromWord(direction);
         }
+
         if(direction.equals("Q")){
             quit();
         }
+
+        return direction;
+    }
+
+    /**
+     * Determine if a location is valid and update
+     * the location int value to the int value of the new location.
+     * @param id - current location int value
+     * @param direction - String value user input for chosen direction
+     * @return - the updated int value of the selected new location
+     */
+    private int moveInDirection(int id, String direction) {
+        Map<String, Integer> exits = LocationBuilder.mapLocations
+                .get(id).getExits();
+
         if(exits.containsKey(direction)){
-            locationNumber = exits.get(direction);
-            playerOne.setLocation(locationNumber);
+            id = exits.get(direction);
+            player.setLocation(id);
         } else {
             Display.getDisplayInstance.displayText("You cannot go in that direction");
         }
-        return locationNumber;
+        return id;
     }
 
     /**
@@ -209,11 +222,11 @@ public class GamePlay {
     /**
      * Set the initiative for all characters in a given location
      * to zero.
-     * @param locationNumber - current location int value
+     * @param id - current location id
      */
-    private void resetCharacterInitiative(int locationNumber){
-        playerOne.setInitiative(0);
-        getEnemiesFromLocation(locationNumber).forEach(enemy -> enemy.setInitiative(0));
+    private void resetCharacterInitiative(int id){
+        player.setInitiative(0);
+        getEnemiesFromLocation(id).forEach(enemy -> enemy.setInitiative(0));
     }
 
     /**
@@ -222,6 +235,7 @@ public class GamePlay {
      * @param locationNumber - current location int value
      */
     private void checkNewWeapon(int locationNumber) {
+        // TODO: This should probably be a map<locationId, Weapon>???
         if(locationNumber == Knife.getInstance().getLocation()){
             setWeaponDetails(Knife.getInstance().weaponType());
         }
@@ -237,10 +251,10 @@ public class GamePlay {
      */
     private void setWeaponDetails(String weaponType){
         Display.getDisplayInstance.displayText("You found a " + weaponType);
-        playerOne.setEquipable(playerOne.determineEquipable(weaponType));
-        playerOne.setAttackable(playerOne.determineAttackable(playerOne.getEquipable()));
-        playerOne.setBerserkable(playerOne.determineBerserkable(playerOne.getEquipable()));
-        playerOne.setDamage(playerOne.getEquipable().getDamage());
+        player.setEquipable(player.determineEquipable(weaponType));
+        player.setAttackable(player.determineAttackable(player.getEquipable()));
+        player.setBerserkable(player.determineBerserkable(player.getEquipable()));
+        player.setDamage(player.getEquipable().getDamage());
     }
 
     /**
