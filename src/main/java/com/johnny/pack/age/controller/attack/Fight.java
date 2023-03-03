@@ -46,7 +46,7 @@ public class Fight {
         everyone.addAll(enemiesFromLocation);
         everyone.stream()
                 .filter(e -> e.getInitiative() == Numbers.ZERO.getValue())
-                .forEach(e -> e.setInitiative(Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue())));
+                .forEach(e -> e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
     }
 
     /**
@@ -67,10 +67,7 @@ public class Fight {
             // if there are no enemies left
             if(enemies.size() == Numbers.ZERO.getValue()){
                 quit = true;
-            }
-
-            // Are all the enemies dead and are their bodies present
-            if(!areEnemiesAlive(enemies) && enemies.size() > Numbers.ZERO.getValue()){
+            } else if (!areEnemiesAlive(enemies)){
                 Display.getDisplayInstance.displayText("You have painted these lands " +
                         "with blood of your enemies");
                 if(eatTheDead()){
@@ -162,7 +159,7 @@ public class Fight {
     }
 
     /**
-     * Logic to increase player objects hitpoints after eating the dead
+     * Logic to increase player object's hitpoints after eating the dead
      * @param player - player object
      */
     private void digestTheDead(Character player){
@@ -180,18 +177,12 @@ public class Fight {
     }
 
     /**
-     * Loop through each enemy object in location and check
-     * if they any are live
+     * stream through enemies and find any alive
      * @param enemies - List of enemy objects
-     * @return - boolean an enemy object is alive
+     * @return - boolean an enemy is alive
      */
     public boolean areEnemiesAlive(List<Character> enemies) {
-        for(Character enemy : enemies){
-            if(enemy.getIsAlive()){
-                return true;
-            }
-        }
-        return false;
+        return enemies.stream().anyMatch(Character::getIsAlive);
     }
 
     /**
@@ -265,7 +256,7 @@ public class Fight {
      */
     private boolean attemptSneak(List<Character> enemies) {
         for(Character enemy : enemies){
-            if(Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue()) > Numbers.SEVENTEEN.getValue()){
+            if(Dice.rollTheDie(Numbers.TWENTY.getValue()) > Numbers.SEVENTEEN.getValue()){
                 Display.getDisplayInstance.displayText(enemy.getName() +
                         " busted you trying to sneak by");
                 return false;
@@ -276,8 +267,7 @@ public class Fight {
     }
 
     /**
-     * Work through the logic to determine whether an intimidation attemp
-     * was successful.
+     * Determine whether an intimidation attempt was successful.
      * @param enemies - List of enemy objects
      */
     private void intimidate(List<Character> enemies) {
@@ -290,7 +280,7 @@ public class Fight {
             Character enemy = enemies.get(enemyIndex);
 
             // Get intimidation value
-            int successRoll = Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue());
+            int successRoll = Dice.rollTheDie(Numbers.TWENTY.getValue());
             Display.getDisplayInstance.displayText("Success Roll: " + successRoll);
 
             // Did player succeed in intimidating the enemy
@@ -314,7 +304,7 @@ public class Fight {
     }
 
     /**
-     * Logic to select an enemy to attack and perform the attack.
+     * Select an enemy to attack and perform the attack.
      * @param player - player object
      * @param enemies - List of enemy objects
      */
@@ -348,7 +338,7 @@ public class Fight {
      * @return - String value of severity
      */
     private String determineSeverity() {
-        int roll = Dice.getInstance().rollTheDie(Numbers.TWENTY.getValue());
+        int roll = Dice.rollTheDie(Numbers.TWENTY.getValue());
         if(roll >= Numbers.EIGHTEEN.getValue()){
             return "critical";
         } else if(roll >= Numbers.SEVEN.getValue()){
@@ -453,8 +443,7 @@ public class Fight {
 
             // Is user input a valid selection?
             if(Display.getDisplayInstance.getAcceptableNumbers().stream()
-                    .anyMatch(input -> input.equalsIgnoreCase(userInput)))
-            {
+                    .anyMatch(input -> input.equalsIgnoreCase(userInput))) {
 
                 // Did user select to leave?
                 int index = Integer.parseInt(userInput);

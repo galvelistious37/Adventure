@@ -98,14 +98,14 @@ public class GamePlay {
     /**
      * This method progresses through the flow of working
      * with enemies if they are present.
-     * @param locNumber - current location int value
+     * @param id - current location int value
      */
-    private void enemyLogicFlow(int locNumber) {
+    private void enemyLogicFlow(int id) {
         // If enemies are present in current location, populate
         // the list of enemies.
         List<Character> enemies;
-        if(areEnemiesPresent(locNumber)){
-            enemies = getEnemiesFromLocation(locNumber);
+        if(areEnemiesPresent(id)){
+            enemies = getEnemiesFromLocation(id);
 
             // If enemies are still alive, deal with them.
             Fight fight = new Fight();
