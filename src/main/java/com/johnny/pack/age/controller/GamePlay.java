@@ -1,24 +1,21 @@
 package com.johnny.pack.age.controller;
 
 import com.johnny.pack.age.controller.Move.Move;
-import com.johnny.pack.age.controller.attack.Fight;
 import com.johnny.pack.age.controller.builder.EnemyBuilder;
 import com.johnny.pack.age.controller.builder.LocationBuilder;
+import com.johnny.pack.age.controller.runner.FightRunner;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
-import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.characterfactory.character.Player;
 import com.johnny.pack.age.model.weapon.Knife;
 import com.johnny.pack.age.model.weapon.Sword;
 import com.johnny.pack.age.view.Display;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class GamePlay {
 
     // Global Variables
-    private List<Character> enemies;
     private Player player;
 
     /**
@@ -26,7 +23,6 @@ public class GamePlay {
      */
     private GamePlay() {
         player = Player.getInstance();
-        enemies = EnemyBuilder.getInstance().getEnemyList();
     }
 
     // Create one and only one instance of GamePlay
@@ -74,8 +70,11 @@ public class GamePlay {
         Display.getDisplayInstance.displayText(
                 "Location: " + location.getTerrain());
 
-        // Determine what to do if enemies are present
-        enemyLogicFlow(location.getId());
+        // Are enemies in this area?
+        if(areEnemiesPresent(location.getId())){
+            FightRunner fightRunner = new FightRunner(location.getId());
+            fightRunner.runFightTask();
+        }
 
         // If player not alive, return false.
         if(!player.getIsAlive()){
@@ -96,47 +95,15 @@ public class GamePlay {
     }
 
     /**
-     * This method progresses through the flow of working
-     * with enemies if they are present.
-     * @param id - current location int value
-     */
-    private void enemyLogicFlow(int id) {
-        // If enemies are present in current location, populate
-        // the list of enemies.
-        List<Character> enemies;
-        if(areEnemiesPresent(id)){
-            enemies = getEnemiesFromLocation(id);
-
-            // If enemies are still alive, deal with them.
-            Fight fight = new Fight();
-            if(fight.areEnemiesAlive(enemies)) {
-                fight.initiative(player, enemies);
-                fight.doFightinStuff(player, enemies);
-            } else {
-                Display.getDisplayInstance.displayText("All enemies here are dead");
-            }
-        }
-    }
-
-    /**
      * Find any enemy with the same location as the given parameter
      * @param locationNumber - int location
      * @return - a boolean if enemies have the same location
      */
     private boolean areEnemiesPresent(int locationNumber) {
-        return enemies.stream()
+        return EnemyBuilder.getInstance()
+                .getAllEnemies()
+                .stream()
                 .anyMatch(enemy -> enemy.getLocation() == locationNumber);
-    }
-
-    /**
-     * Create a list of enemies by filtering on enemies in that location.
-     * @param locationNumber - int value of location
-     * @return - A list of enemies in the given location
-     */
-    private List<Character> getEnemiesFromLocation(int locationNumber){
-        return enemies.stream()
-                .filter(enemy -> enemy.getLocation() == locationNumber)
-                .collect(Collectors.toList());
     }
 
     /**
@@ -154,7 +121,7 @@ public class GamePlay {
             // moved to new location
             if (id != nextLocationNumber) {
                 // reset initiative and set new location
-                resetCharacterInitiative(id);
+//                resetCharacterInitiative(id);
                 id = nextLocationNumber;
             }
         }
@@ -217,16 +184,6 @@ public class GamePlay {
             }
         }
         return "X";
-    }
-
-    /**
-     * Set the initiative for all characters in a given location
-     * to zero.
-     * @param id - current location id
-     */
-    private void resetCharacterInitiative(int id){
-        player.setInitiative(0);
-        getEnemiesFromLocation(id).forEach(enemy -> enemy.setInitiative(0));
     }
 
     /**

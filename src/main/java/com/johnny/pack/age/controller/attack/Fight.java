@@ -36,20 +36,6 @@ public class Fight {
     }
 
     /**
-     * Set the initiative value for all characters
-     * @param player - The player object
-     * @param enemiesFromLocation - List of enemies
-     */
-    public void initiative(Character player, List<Character> enemiesFromLocation) {
-        List<Character> everyone = new ArrayList<>();
-        everyone.add(player);
-        everyone.addAll(enemiesFromLocation);
-        everyone.stream()
-                .filter(e -> e.getInitiative() == Numbers.ZERO.getValue())
-                .forEach(e -> e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
-    }
-
-    /**
      * Loop over the call to determine initiative and the fight
      * logic until the return value to quit is true. Keep track
      * on the number of loops iterations as the rounds indicator.
