@@ -4,6 +4,7 @@ import com.johnny.pack.age.controller.Move.Move;
 import com.johnny.pack.age.controller.builder.EnemyBuilder;
 import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.runner.FightRunner;
+import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Player;
@@ -12,11 +13,13 @@ import com.johnny.pack.age.model.weapon.Sword;
 import com.johnny.pack.age.view.Display;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GamePlay {
 
     // Global Variables
     private Player player;
+    private List<Character> enemies = EnemyBuilder.getInstance().getAllEnemies();
 
     /**
      * GamePlay Constructor instantiates global variables
@@ -72,7 +75,7 @@ public class GamePlay {
 
         // Are enemies in this area?
         if(areEnemiesPresent(location.getId())){
-            FightRunner fightRunner = new FightRunner(location.getId());
+            FightRunner fightRunner = new FightRunner(location.getId(), filterOnLocation(location.getId()));
             fightRunner.runFightTask();
         }
 
@@ -100,10 +103,21 @@ public class GamePlay {
      * @return - a boolean if enemies have the same location
      */
     private boolean areEnemiesPresent(int locationNumber) {
-        return EnemyBuilder.getInstance()
-                .getAllEnemies()
+        return enemies
                 .stream()
                 .anyMatch(enemy -> enemy.getLocation() == locationNumber);
+    }
+
+    /**
+     * Create a list of enemies by filtering on enemies in that location.
+     * @param locationNumber - int value of location
+     * @return - A list of enemies in the given location
+     */
+    private List<Character> filterOnLocation(int locationNumber){
+        return enemies
+                .stream()
+                .filter(enemy -> enemy.getLocation() == locationNumber)
+                .collect(Collectors.toList());
     }
 
     /**

@@ -17,17 +17,17 @@ public class FightRunner {
     private Character player;
     private List<Character> enemies;
 
-    public FightRunner(int id){
+    public FightRunner(int id, List<Character> enemies){
         this.id = id;
+        this.enemies = enemies;
         player = Player.getInstance();
-        enemies = filterOnLocation(this.id);
     }
 
     public void runFightTask(){
-        Fight fight = new Fight();
-        if(fight.areEnemiesAlive(enemies)) {
-            setCharacterInitiatives();
-            fight.doFightinStuff(player, enemies);
+        setCharacterInitiatives();
+        Fight fight = new Fight(enemies);
+        if(fight.areEnemiesAlive()) {
+            fight.doFightinStuff();
         } else {
             Display.getDisplayInstance.displayText("All enemies here are dead");
         }
@@ -42,21 +42,6 @@ public class FightRunner {
         everyone.addAll(enemies);
         everyone.forEach(e ->
                 e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
-    }
-
-
-
-    /**
-     * Create a list of enemies by filtering on enemies in that location.
-     * @param locationNumber - int value of location
-     * @return - A list of enemies in the given location
-     */
-    private List<Character> filterOnLocation(int locationNumber){
-        return EnemyBuilder.getInstance()
-                .getAllEnemies()
-                .stream()
-                .filter(enemy -> enemy.getLocation() == locationNumber)
-                .collect(Collectors.toList());
     }
 
 
