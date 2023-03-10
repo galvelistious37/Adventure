@@ -1,26 +1,20 @@
 package com.johnny.pack.age.controller.Move;
 
+import com.johnny.pack.age.model.constant.Constant;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Move {
-    private Map<String, String> moveOptionsMap;
+    public static final Map<String, String> moveOptionsMap = createMoveOptions();
 
-    public Move() {
-        this.moveOptionsMap = createMoveOptions();
-    }
-
-    private Map<String, String> createMoveOptions(){
+    private static Map<String, String> createMoveOptions(){
         Map<String, String> tempMap = new HashMap<>();
-        tempMap.put("QUIT", "Q");
-        tempMap.put("NORTH", "N");
-        tempMap.put("SOUTH", "S");
-        tempMap.put("WEST", "W");
-        tempMap.put("EAST", "E");
+        tempMap.put(Constant.QUIT, Constant.Q);
+        tempMap.put(Constant.NORTH, Constant.N);
+        tempMap.put(Constant.SOUTH, Constant.S);
+        tempMap.put(Constant.WEST, Constant.W);
+        tempMap.put(Constant.EAST, Constant.E);
         return tempMap;
-    }
-
-    public Map<String, String> getMoveOptionsMap() {
-        return moveOptionsMap;
     }
 }
