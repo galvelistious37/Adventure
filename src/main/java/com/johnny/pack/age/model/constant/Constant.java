@@ -26,5 +26,21 @@ public final class Constant {
     public static final int TWENTY = 20;
     public static final int NINETY_NINE = 99;
     public static final int ONE_HUNDRED = 100;
+    public static final String WELCOME_TEXT = "Welcome to the Greatest Adventure Game Ever!!!";
+    public static final String LOCATION_LABEL = "Location: ";
+    public static final String YOU_FOUND = "You found a ";
     public static final String SPACE = " ";
+    public static final String YOU_SHALL_NOT_PASS = "You cannot go in that direction";
+    public static final String SHUTTING_DOWN = "Shutting down...";
+    public static final String X = "X";
+    public static final String QUIT = "QUIT";
+    public static final String Q = "Q";
+    public static final String NORTH = "NORTH";
+    public static final String N = "N";
+    public static final String EAST = "EAST";
+    public static final String E = "E";
+    public static final String SOUTH = "SOUT";
+    public static final String S = "S";
+    public static final String WEST = "WEST";
+    public static final String W = "W";
 }

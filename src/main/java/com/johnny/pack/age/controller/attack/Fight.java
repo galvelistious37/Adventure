@@ -3,6 +3,7 @@ package com.johnny.pack.age.controller.attack;
 import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.controller.GamePlay;
+import com.johnny.pack.age.model.characterfactory.character.Player;
 import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Character;
@@ -14,6 +15,12 @@ import java.util.List;
 
 public class Fight {
 
+    private Player player = Player.getInstance();
+    private List<Character> enemies;
+
+    public Fight(List<Character> enemies){
+        this.enemies = enemies;
+    }
 
     /**
      * Display Fight Menu options
@@ -36,38 +43,30 @@ public class Fight {
     }
 
     /**
-     * Set the initiative value for all characters
-     * @param player - The player object
-     * @param enemiesFromLocation - List of enemies
+     * stream through enemies and find any alive
+     * @return - boolean an enemy is alive
      */
-    public void initiative(Character player, List<Character> enemiesFromLocation) {
-        List<Character> everyone = new ArrayList<>();
-        everyone.add(player);
-        everyone.addAll(enemiesFromLocation);
-        everyone.stream()
-                .filter(e -> e.getInitiative() == Numbers.ZERO.getValue())
-                .forEach(e -> e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
+    public boolean areEnemiesAlive() {
+        return enemies.stream().anyMatch(Character::getIsAlive);
     }
 
     /**
-     * Loop over the call to determine initiative and the fight
+     * Loop over the call to determine fight order and the fight
      * logic until the return value to quit is true. Keep track
      * on the number of loops iterations as the rounds indicator.
-     * @param player - The player object
-     * @param enemies - List of enemies in this location
      */
-    public void doFightinStuff(Character player, List<Character> enemies) {
-        boolean quit = false;
+    public void doFightinStuff() {
         int round = Numbers.ZERO.getValue();
+        boolean quit = false;
         while(!quit){
             Display.getDisplayInstance.showDisplays(player, enemies);
             round++;
-            quit = determineInitiativeOrder(player, enemies, round);
+            quit = goThroughFightOrder(round);
 
             // if there are no enemies left
             if(enemies.size() == Numbers.ZERO.getValue()){
                 quit = true;
-            } else if (!areEnemiesAlive(enemies)){
+            } else if (!areEnemiesAlive()){
                 Display.getDisplayInstance.displayText("You have painted these lands " +
                         "with blood of your enemies");
                 if(eatTheDead()){
@@ -80,18 +79,15 @@ public class Fight {
 
     /**
      * Countdown from 20 to determine initiative order for player and
-     * enemies. Return whether the player has quit/finished the fight.
-     * @param player - player object
-     * @param enemies - List of enemies in current location
      * @param round - int value of round number
      * @return - boolean quit
      */
-    private boolean determineInitiativeOrder(Character player, List<Character> enemies, int round) {
+    private boolean goThroughFightOrder(int round) {
         boolean quit = false;
 
         // Counting down from 20, check player initiative
         for(int i = Numbers.TWENTY.getValue(); i > Numbers.ZERO.getValue(); i--){
-            if(isCharacterInitiative(player, i)){
+            if(player.getInitiative() == i){
                 int action = getSelection();
                 quit = tryAction(action, player, enemies, round);
             }
@@ -101,22 +97,12 @@ public class Fight {
             }
             // Get enemies initiative
             for(Character enemy : enemies){
-                if(isCharacterInitiative(enemy, i)){
+                if(enemy.getInitiative() == i){
                     quit = enemyAction(player, enemy);
                 }
             }
         }
         return quit;
-    }
-
-    /**
-     * Check character initiative against integer value
-     * @param character - character object
-     * @param i - int value
-     * @return - boolean character object initiative == i
-     */
-    private boolean isCharacterInitiative(Character character, int i) {
-        return character.getInitiative() == i;
     }
 
     /**
@@ -174,15 +160,6 @@ public class Fight {
         player.setHitPoints(hp);
         Display.getDisplayInstance.displayText("You have " +
                 player.getHitPoints() + " hit points");
-    }
-
-    /**
-     * stream through enemies and find any alive
-     * @param enemies - List of enemy objects
-     * @return - boolean an enemy is alive
-     */
-    public boolean areEnemiesAlive(List<Character> enemies) {
-        return enemies.stream().anyMatch(Character::getIsAlive);
     }
 
     /**

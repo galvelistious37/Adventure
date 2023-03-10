@@ -17,7 +17,7 @@ public class EnemyBuilder {
         return new EnemyBuilder();
     }
 
-    public List<Character> getEnemyList() {
+    public List<Character> getAllEnemies() {
         return enemyList;
     }
 

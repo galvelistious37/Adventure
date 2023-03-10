@@ -1,6 +1,7 @@
 package com.johnny.pack.age.view;
 
 import com.johnny.pack.age.model.characterfactory.character.Character;
+import com.johnny.pack.age.model.constant.Constant;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.stream.Stream;
 public class Display {
 
     private final static Display INSTANCE = new Display();
-    public static final String FORMAT_ENEMY_DISPLAY = "~Enemies~\n\t[%d] %s: %d HP\n";
+    public static final String FORMAT_ENEMY_DISPLAY = "\t[%d] %s: %d HP";
     public static final String FORMAT_PLAYER_DISPLAY = "\n~Player Details~\n\tHit Points: %d\n\tWeapon: %s";
 
     private Display(){
@@ -44,8 +45,10 @@ public class Display {
     }
 
     private void displayEnemies(List<Character> localEnemies){
+        System.out.println("~Enemies~");
         localEnemies.forEach((e) -> System.out.println(
                 String.format(FORMAT_ENEMY_DISPLAY, localEnemies.indexOf(e), e.getName(), e.getHitPoints())));
+        System.out.println("\n");
     }
 
     public List<String> getAcceptableNumbers(){
