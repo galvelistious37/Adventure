@@ -1,7 +1,6 @@
 package com.johnny.pack.age.controller.runner;
 
 import com.johnny.pack.age.controller.attack.Fight;
-import com.johnny.pack.age.controller.builder.EnemyBuilder;
 import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.characterfactory.character.Player;
@@ -10,7 +9,6 @@ import com.johnny.pack.age.view.Display;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FightRunner {
     private int id;
