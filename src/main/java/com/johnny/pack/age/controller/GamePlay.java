@@ -5,9 +5,11 @@ import com.johnny.pack.age.controller.builder.EnemyBuilder;
 import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.runner.FightRunner;
 import com.johnny.pack.age.model.characterfactory.character.Character;
+import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Player;
+import com.johnny.pack.age.model.weapon.Equipable;
 import com.johnny.pack.age.model.weapon.Knife;
 import com.johnny.pack.age.model.weapon.Sword;
 import com.johnny.pack.age.view.Display;
@@ -18,23 +20,17 @@ import java.util.stream.Collectors;
 public class GamePlay {
 
     // Global Variables
-    private Player player;
+    private Player player = Player.getInstance();
     private List<Character> enemies = EnemyBuilder.getInstance().getAllEnemies();
 
     /**
-     * GamePlay Constructor instantiates global variables
+     *  Create only one instance of GamePlay
      */
-    private GamePlay() {
-        player = Player.getInstance();
-    }
-
-    // Create one and only one instance of GamePlay
     private static final GamePlay INSTANCE = new GamePlay();
 
     /**
-     * Getter for the one and only instance of the GamePlay
-     * Object.
-     * @return - The GamePlay object instance.
+     * Get the one instance of GamePlay Object.
+     * @return - The static GamePlay object instance.
      */
     public static GamePlay getInstance(){
         return INSTANCE;
@@ -44,13 +40,12 @@ public class GamePlay {
      * Greet and initiate the game
      */
     public void initiate() {
-        Display.getDisplayInstance.displayText("Welcome to the Greatest Adventure Game Ever!!!");
+        Display.getDisplayInstance.displayText(Constant.WELCOME_TEXT);
         playTheGame();
     }
 
     /**
-     * Use a boolean value to determine whether to continue
-     * playing the game
+     * While true, continue playing the game
      */
     private void playTheGame(){
         boolean isStillPlaying = true;
@@ -61,7 +56,9 @@ public class GamePlay {
     }
 
     /**
-     * This method loops through the logic of game initiate.
+     * Set location and enemy details based on player's location id.
+     * If enemies are in this location, run fight code block.
+     * Display available exits.
      * @return - A boolean value of whether to keep playing
      */
     private boolean goThroughPlayActions() {
@@ -71,11 +68,12 @@ public class GamePlay {
 
         // Display location details
         Display.getDisplayInstance.displayText(
-                "Location: " + location.getTerrain());
+                Constant.LOCATION_LABEL + location.getTerrain());
 
         // Are enemies in this area?
         if(areEnemiesPresent(location.getId())){
-            FightRunner fightRunner = new FightRunner(location.getId(), filterOnLocation(location.getId()));
+            FightRunner fightRunner = new FightRunner(
+                    location.getId(), filterOnLocation(location.getId()));
             fightRunner.runFightTask();
         }
 
@@ -134,33 +132,70 @@ public class GamePlay {
             int nextLocationNumber = moveInDirection(id, direction);
             // moved to new location
             if (id != nextLocationNumber) {
-                // reset initiative and set new location
-//                resetCharacterInitiative(id);
+                // Set id to new location id
                 id = nextLocationNumber;
             }
+        }  else {
+            Display.getDisplayInstance.displayText(Constant.YOU_SHALL_NOT_PASS);
         }
         return id;
     }
 
+    /**
+     * Validate user input contains acceptable input and that
+     * the exit contains the user input value.
+     * @param id - location id
+     * @param direction - User input direction to move in
+     * @return - boolean value is acceptable input and valid movement
+     */
     private boolean isValidSelection(int id, String direction) {
         return LocationBuilder.mapLocations
-                .get(id).getExits().containsKey(direction);
-
+                .get(id)
+                .getExits()
+                .containsKey(direction);
     }
 
+    /**
+     * Take user input and determine if valid direction or if user
+     * opted to quit
+     * @return - A single character string for user selection
+     */
     private String getUserSelection() {
+        // Store user input as String variable
         String direction = UserInput.getUserInstance()
-                .getScanner().nextLine().toUpperCase();
+                .getScanner()
+                .nextLine()
+                .toUpperCase();
 
+        // Is user entered more than one character, check
+        // for acceptable word
         if(direction.length() > 1){
             direction = getDirectionFromWord(direction);
         }
 
-        if(direction.equals("Q")){
+        // If user entered "Q" then quit
+        if(direction.equals(Constant.Q)){
             quit();
         }
 
+        // Return single character String for direction
         return direction;
+    }
+
+    /**
+     * Break down the String value of words from user input to
+     * determine if they have selected an exit.
+     * @param direction - String value user input
+     * @return - A single character String value used for exit selection
+     */
+    private String getDirectionFromWord(String direction) {
+        String[] words = direction.split(Constant.SPACE);
+        for(String word : words){
+            if(Move.moveOptionsMap.containsKey(word)){
+                return Move.moveOptionsMap.get(word);
+            }
+        }
+        return Constant.X;
     }
 
     /**
@@ -171,48 +206,28 @@ public class GamePlay {
      * @return - the updated int value of the selected new location
      */
     private int moveInDirection(int id, String direction) {
-        Map<String, Integer> exits = LocationBuilder.mapLocations
-                .get(id).getExits();
+        id = LocationBuilder
+                .mapLocations
+                .get(id)
+                .getExits()
+                .get(direction);
 
-        if(exits.containsKey(direction)){
-            id = exits.get(direction);
-            player.setLocation(id);
-        } else {
-            Display.getDisplayInstance.displayText("You cannot go in that direction");
-        }
+        player.setLocation(id);
         return id;
-    }
-
-    /**
-     * Break down the String value of words from user input to
-     * determine if they have selected an exit.
-     * @param direction - String value user input
-     * @return - A single character String value used for exit selection
-     */
-    private String getDirectionFromWord(String direction) {
-        Move moveDirections = new Move();
-        String[] words = direction.split(" ");
-        for(String word : words){
-            if(moveDirections.getMoveOptionsMap().containsKey(word)){
-                return moveDirections.getMoveOptionsMap().get(word);
-            }
-        }
-        return "X";
     }
 
     /**
      * WIP progress method: Working on the ability to find and switch
      * player's set weapon and attacks.
-     * @param locationNumber - current location int value
+     * @param id - current location int value
      */
-    private void checkNewWeapon(int locationNumber) {
-        // TODO: This should probably be a map<locationId, Weapon>???
-        if(locationNumber == Knife.getInstance().getLocation()){
-            setWeaponDetails(Knife.getInstance().weaponType());
-        }
-        if(locationNumber == Sword.getInstance().getLocation()){
-
-            setWeaponDetails(Sword.getInstance().weaponType());
+    private void checkNewWeapon(int id) {
+        // TODO: Make a weaponLocation map builder type thing
+        Map<Integer, Equipable> weaponLocation = new HashMap<>();
+        weaponLocation.put(Knife.getInstance().getLocation(), Knife.getInstance());
+        weaponLocation.put(Sword.getInstance().getLocation(), Sword.getInstance());
+        if(weaponLocation.containsKey(id)){
+            setWeaponDetails(weaponLocation.get(id).weaponType());
         }
     }
 
@@ -221,7 +236,7 @@ public class GamePlay {
      * @param weaponType - String value of weapon type
      */
     private void setWeaponDetails(String weaponType){
-        Display.getDisplayInstance.displayText("You found a " + weaponType);
+        Display.getDisplayInstance.displayText(Constant.YOU_FOUND + weaponType);
         player.setEquipable(player.determineEquipable(weaponType));
         player.setAttackable(player.determineAttackable(player.getEquipable()));
         player.setBerserkable(player.determineBerserkable(player.getEquipable()));
@@ -239,9 +254,9 @@ public class GamePlay {
      * Close the open Scanner object and shut down the app
      */
     private void shutDown(){
+        Display.getDisplayInstance.displayText(Constant.SHUTTING_DOWN);
         UserInput.getUserInstance().getScanner().close();
         int status = 0;
-        Display.getDisplayInstance.displayText("Shutting down...");
         System.exit(status);
     }
 }
