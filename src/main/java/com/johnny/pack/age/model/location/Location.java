@@ -14,7 +14,7 @@ public class Location {
 
     public Location(int id) {
         this.id = id;
-        this.exits = getExits(this.id);
+        this.exits = getLocationExits(this.id);
         this.exits.put("Q", 0);
         Coordinates coords = new Coordinates(this.id);
         terrain = new Terrain(coords.getLatitude(), coords.getLongitude());
@@ -25,7 +25,7 @@ public class Location {
      * @param locationId - current map location
      * @return - map of available exits
      */
-    private Map<String, Integer> getExits(int locationId) {
+    private Map<String, Integer> getLocationExits(int locationId) {
         // Populate a temp map with all directions
         Map<String, Integer> mapExits = new HashMap<>();
         mapExits.put("N", locationId + 10);
@@ -34,7 +34,8 @@ public class Location {
         mapExits.put("W", locationId - 1);
 
         // Filter out exits which are not available
-        return mapExits.entrySet().stream()
+        return mapExits.entrySet()
+                .stream()
                 .filter(id -> isExitThere(id.getValue()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
