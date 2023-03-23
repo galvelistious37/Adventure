@@ -4,7 +4,6 @@ import com.johnny.pack.age.controller.attack.attack.Stab;
 import com.johnny.pack.age.controller.attack.berserk.Hack;
 import com.johnny.pack.age.controller.attack.scratch.Scratch;
 import com.johnny.pack.age.controller.attack.weapon.Knife;
-import com.johnny.pack.age.controller.attack.weapon.Sword;
 
 public class KnifeAttackFactory implements AttackFactory {
     @Override

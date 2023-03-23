@@ -2,10 +2,6 @@ package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.controller.attack.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.controller.attack.attack.Sting;
-import com.johnny.pack.age.controller.attack.berserk.Impale;
-import com.johnny.pack.age.controller.attack.scratch.Scratch;
-import com.johnny.pack.age.controller.attack.weapon.Stinger;
 
 /**
  * Scorpion POJO class

@@ -2,14 +2,7 @@ package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.controller.attack.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.controller.attack.attack.Punch;
-import com.johnny.pack.age.controller.attack.attack.Stab;
-import com.johnny.pack.age.controller.attack.berserk.Hack;
-import com.johnny.pack.age.controller.attack.berserk.Pummel;
-import com.johnny.pack.age.controller.attack.scratch.Scratch;
 import com.johnny.pack.age.controller.attack.weapon.Fist;
-import com.johnny.pack.age.controller.attack.weapon.Knife;
-import com.johnny.pack.age.controller.attack.weapon.Sword;
 
 public class Player extends Character {
     private AttackFactory attackFactory;
@@ -197,6 +190,7 @@ public class Player extends Character {
 
     private void updatePlayerAttack(AttackFactory attackFactory){
         System.out.println("why you no update? " + attackFactory.getEquipable().weaponType());
+        setAttackFactory(attackFactory);
         setEquipable(attackFactory.getEquipable());
         setAttackable(attackFactory.getAttack());
         setBerserkable(attackFactory.getBerserk());
