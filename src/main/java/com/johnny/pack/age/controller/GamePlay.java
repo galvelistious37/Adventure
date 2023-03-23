@@ -9,9 +9,9 @@ import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Player;
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.model.weapon.Knife;
-import com.johnny.pack.age.model.weapon.Sword;
+import com.johnny.pack.age.controller.attack.Equipable;
+import com.johnny.pack.age.controller.attack.weapon.Knife;
+import com.johnny.pack.age.controller.attack.weapon.Sword;
 import com.johnny.pack.age.view.Display;
 
 import java.util.*;
@@ -237,10 +237,7 @@ public class GamePlay {
      */
     private void setWeaponDetails(String weaponType){
         Display.getDisplayInstance.displayText(Constant.YOU_FOUND + weaponType);
-        player.setEquipable(player.determineEquipable(weaponType));
-        player.setAttackable(player.determineAttackable(player.getEquipable()));
-        player.setBerserkable(player.determineBerserkable(player.getEquipable()));
-        player.setDamage(player.getEquipable().getDamage());
+        player.equipNewWeapon(weaponType);
     }
 
     /**

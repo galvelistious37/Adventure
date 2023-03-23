@@ -1,13 +1,13 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.model.weapon.Teeth;
+import com.johnny.pack.age.controller.attack.Equipable;
 
 /**
  * SuperWolf POJO class
  */
 public class SuperWolf extends Character {
+    private AttackFactory attackFactory = new TeethAttackFactory();
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -21,17 +21,17 @@ public class SuperWolf extends Character {
     private String name;
 
     private SuperWolf(int hitPoints, int strength, String name) {
-        this.equipable = Teeth.getInstance();
-        this.attackable = Bite.getInstance();
-        this.berserkable = Maul.getInstance();
-        this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
         this.name = name;
+        equipable = attackFactory.getEquipable();
+        attackable = attackFactory.getAttack();
+        berserkable = attackFactory.getBerserk();
+        scratchable = attackFactory.getScratch();
+        damage = equipable.getDamage();
+        location = 0;
+        isAlive = true;
+        initiative = 0;
     }
 
     public static SuperWolf getSuperWolf(){
@@ -77,8 +77,6 @@ public class SuperWolf extends Character {
     public Scratchable getScratchable(){
         return scratchable;
     }
-
-
 
     @Override
     public int getHitPoints() {

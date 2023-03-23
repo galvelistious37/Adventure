@@ -1,13 +1,17 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.model.weapon.Knife;
+import com.johnny.pack.age.controller.attack.Equipable;
+import com.johnny.pack.age.controller.attack.attack.Stab;
+import com.johnny.pack.age.controller.attack.berserk.Impale;
+import com.johnny.pack.age.controller.attack.scratch.Scratch;
+import com.johnny.pack.age.controller.attack.weapon.Knife;
 
 /**
  * SuperBandit POJO class
  */
 public class SuperBandit extends Character {
+    private AttackFactory attackFactory = new KnifeAttackFactory();
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -21,17 +25,17 @@ public class SuperBandit extends Character {
     private String name;
 
     private SuperBandit(int hitPoints, int strength, String name) {
-        this.equipable = Knife.getInstance();
-        this.attackable = Stab.getInstance();
-        this.berserkable = Impale.getInstance();
-        this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
         this.name = name;
+        equipable = attackFactory.getEquipable();
+        attackable = attackFactory.getAttack();
+        berserkable = attackFactory.getBerserk();
+        scratchable = attackFactory.getScratch();
+        damage = equipable.getDamage();
+        location = 0;
+        isAlive = true;
+        initiative = 0;
     }
 
     public static SuperBandit getSuperBandit(){

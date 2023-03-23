@@ -1,13 +1,17 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.model.weapon.Equipable;
+import com.johnny.pack.age.controller.attack.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Fist;
+import com.johnny.pack.age.controller.attack.attack.Punch;
+import com.johnny.pack.age.controller.attack.berserk.Pummel;
+import com.johnny.pack.age.controller.attack.scratch.Scratch;
+import com.johnny.pack.age.controller.attack.weapon.Fist;
 
 /**
  * Ogre POJO class
  */
 public class Ogre extends Character {
+    private AttackFactory attackFactory = new FistAttackFactory();
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -21,17 +25,17 @@ public class Ogre extends Character {
     private String name;
 
     private Ogre(int hitPoints, int strength, String name) {
-        this.equipable = Fist.getInstance();
-        this.attackable = Punch.getInstance();
-        this.berserkable = Pummel.getInstance();
-        this.scratchable = Scratch.getInstance();
-        this.damage = equipable.getDamage();
         this.hitPoints = hitPoints;
         this.strength = strength;
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
         this.name = name;
+        equipable = attackFactory.getEquipable();
+        attackable = attackFactory.getAttack();
+        berserkable = attackFactory.getBerserk();
+        scratchable = attackFactory.getScratch();
+        damage = equipable.getDamage();
+        location = 0;
+        isAlive = true;
+        initiative = 0;
     }
 
     public static Ogre getOgre(){

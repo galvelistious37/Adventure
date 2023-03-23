@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.johnny.pack.age.model.characterfactory.character.Character;
-import com.johnny.pack.age.model.weapon.Sword;
+import com.johnny.pack.age.controller.attack.weapon.Sword;
 
 
 @ExtendWith(MockitoExtension.class)

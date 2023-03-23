@@ -1,12 +1,18 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.model.weapon.Equipable;
+import com.johnny.pack.age.controller.attack.Equipable;
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Fist;
-import com.johnny.pack.age.model.weapon.Knife;
-import com.johnny.pack.age.model.weapon.Sword;
+import com.johnny.pack.age.controller.attack.attack.Punch;
+import com.johnny.pack.age.controller.attack.attack.Stab;
+import com.johnny.pack.age.controller.attack.berserk.Hack;
+import com.johnny.pack.age.controller.attack.berserk.Pummel;
+import com.johnny.pack.age.controller.attack.scratch.Scratch;
+import com.johnny.pack.age.controller.attack.weapon.Fist;
+import com.johnny.pack.age.controller.attack.weapon.Knife;
+import com.johnny.pack.age.controller.attack.weapon.Sword;
 
 public class Player extends Character {
+    private AttackFactory attackFactory;
     private final String name;
     private int hitPoints;
     private int strength;
@@ -17,12 +23,11 @@ public class Player extends Character {
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
-    private final Scratchable scratchable;
+    private Scratchable scratchable;
 
     private static final Player INSTANCE = new Player(
             "You", 100, 5, Fist.getInstance().getDamage(),
-            1, true, 0, Fist.getInstance(),
-            Punch.getInstance(), Pummel.getInstance(), Scratch.getInstance());
+            1, true, 0, new FistAttackFactory());
 
     private Player(String name,
                    int hitPoints,
@@ -31,10 +36,7 @@ public class Player extends Character {
                    int location,
                    boolean isAlive,
                    int initiative,
-                   Equipable equipable,
-                   Attackable attackable,
-                   Berserkable berserkable,
-                   Scratchable scratchable) {
+                   AttackFactory af) {
         this.name = name;
         this.hitPoints = hitPoints;
         this.strength = strength;
@@ -42,10 +44,11 @@ public class Player extends Character {
         this.location = location;
         this.isAlive = isAlive;
         this.initiative = initiative;
-        this.equipable = equipable;
-        this.attackable = attackable;
-        this.berserkable = berserkable;
-        this.scratchable = scratchable;
+        this.attackFactory = af;
+        equipable = attackFactory.getEquipable();
+        attackable = attackFactory.getAttack();
+        berserkable = attackFactory.getBerserk();
+        scratchable = attackFactory.getScratch();
     }
 
     public static Player getInstance(){
@@ -89,6 +92,10 @@ public class Player extends Character {
     @Override
     public Scratchable getScratchable(){
         return scratchable;
+    }
+
+    private void setScratchable(Scratchable scratchable) {
+        this.scratchable = scratchable;
     }
 
     @Override
@@ -167,35 +174,43 @@ public class Player extends Character {
                 '}';
     }
 
-    public Equipable determineEquipable(String weapon){
+    public void equipNewWeapon(String weapon){
         switch(weapon){
-            case "fist" :
-                return Fist.getInstance();
             case "knife" :
-                return Knife.getInstance();
+                System.out.println("myeah... knife");
+                updatePlayerAttack(new KnifeAttackFactory());
+                System.out.println("myeah.... getWeapon: " + getEquipable().weaponType());
+                break;
             case "sword" :
-                return Sword.getInstance();
+                updatePlayerAttack(new SwordAttackFactory());
+                break;
+            case "stinger" :
+                updatePlayerAttack(new StingerAttackFactory());
+                break;
+            case "teeth" :
+                updatePlayerAttack(new TeethAttackFactory());
+                break;
+            default:
+                updatePlayerAttack(new FistAttackFactory());
         }
-        return Fist.getInstance();
     }
 
-    public Attackable determineAttackable(Equipable equipable){
-        if(equipable.weaponType().equals("fist")){
-            return Punch.getInstance();
-        }
-        return Stab.getInstance();
-    }
-
-    public Berserkable determineBerserkable(Equipable equipable){
-        if(equipable.weaponType().equals("fist")){
-            return Pummel.getInstance();
-        }
-        return Hack.getInstance();
+    private void updatePlayerAttack(AttackFactory attackFactory){
+        System.out.println("why you no update? " + attackFactory.getEquipable().weaponType());
+        setEquipable(attackFactory.getEquipable());
+        setAttackable(attackFactory.getAttack());
+        setBerserkable(attackFactory.getBerserk());
+        setScratchable(attackFactory.getScratch());
+        setDamage(attackFactory.getEquipable().getDamage());
     }
 
     @Override
     public int dealDamage(){
         return this.strength + this.damage;
+    }
+
+    public void setAttackFactory(AttackFactory attackFactory){
+        this.attackFactory = attackFactory;
     }
 
 

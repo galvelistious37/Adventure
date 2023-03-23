@@ -1,13 +1,17 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.model.weapon.Stinger;
+import com.johnny.pack.age.controller.attack.Equipable;
+import com.johnny.pack.age.controller.attack.attack.Sting;
+import com.johnny.pack.age.controller.attack.berserk.Impale;
+import com.johnny.pack.age.controller.attack.scratch.Scratch;
+import com.johnny.pack.age.controller.attack.weapon.Stinger;
 
 /**
  * SuperScorpion POJO class
  */
 public class SuperScorpion extends Character {
+    private AttackFactory attackFactory = new StingerAttackFactory();
     private Equipable equipable;
     private Attackable attackable;
     private Berserkable berserkable;
@@ -21,17 +25,17 @@ public class SuperScorpion extends Character {
     private String name;
 
     private SuperScorpion(int hitPoints, int strength, String name) {
-        this.equipable = Stinger.getInstance();
-        this.attackable = Sting.getInstance();
-        this.berserkable = Impale.getInstance();
-        this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
         this.name = name;
+        equipable = attackFactory.getEquipable();
+        attackable = attackFactory.getAttack();
+        berserkable = attackFactory.getBerserk();
+        scratchable = attackFactory.getScratch();
+        damage = equipable.getDamage();
+        location = 0;
+        isAlive = true;
+        initiative = 0;
     }
 
     public static SuperScorpion getSuperScorpion(){

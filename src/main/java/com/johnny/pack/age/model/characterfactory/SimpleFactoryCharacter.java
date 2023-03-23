@@ -6,7 +6,7 @@ public class SimpleFactoryCharacter {
     private static final int CHARACTER_TYPES = 8;
 
     /**
-     * Call simple factory to genereate a new character type
+     * Call simple factory to generate a new character type
      * @return - CharacterFactory object of an enemy creator
      */
     public static CharacterFactory getCharacterFactory(){
