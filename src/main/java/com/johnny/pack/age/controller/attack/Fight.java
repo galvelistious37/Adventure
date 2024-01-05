@@ -180,18 +180,22 @@ public class Fight {
      * @return - boolean quit
      */
     private boolean tryAction(int action, Character player, List<Character> enemies, int round) {
-        switch(action){
-            case Constant.ONE:
+        switch (action) {
+            case Constant.ONE -> {
                 attackEnemySelection(player, enemies);
                 return false;
-            case Constant.TWO:
+            }
+            case Constant.TWO -> {
                 intimidate(enemies);
                 return false;
-            case Constant.THREE:
+            }
+            case Constant.THREE -> {
                 return sneak(round, enemies, player);
-            case Constant.FOUR:
+            }
+            case Constant.FOUR -> {
                 Display.getDisplayInstance.displayText("You run away like some kind of wuss");
                 return true;
+            }
         }
         return false;
     }
@@ -251,32 +255,32 @@ public class Fight {
         // select enemy from list
         int enemyIndex = whichEnemy(enemies);
 
-        // does enemy exist in the list?
-        if(enemyIndex != Numbers.NEGATIVE_ONE.getValue()){
-            // get enemy object from list
-            Character enemy = enemies.get(enemyIndex);
-
-            // Get intimidation value
-            int successRoll = Dice.rollTheDie(Numbers.TWENTY.getValue());
-            Display.getDisplayInstance.displayText("Success Roll: " + successRoll);
-
-            // Did player succeed in intimidating the enemy
-            if(successRoll > Numbers.TEN.getValue()){
-                enemies.remove(enemy);
-                enemy.setLocation(LocationBuilder.getRandomLocation());
-                Display.getDisplayInstance.displayText("You scared "
-                        + enemy.getName() + " so bad it ran away");
-            } else {
-                // if intimidation failed, enemy gets a boost of hp
-                enemy.setHitPoints(enemy.getHitPoints() + Numbers.FIVE.getValue());
-                Display.getDisplayInstance.displayText("You failed at your intimidation attempt and " +
-                        enemy.getName() + " is definitely not scared of you" +
-                        "\n" + enemy.getName() + " gained 5 HP");
-            }
-        } else {
+        // Did you select an enemy?
+        if(enemyIndex == Numbers.NEGATIVE_ONE.getValue()){
             // User input invalid option.
             Display.getDisplayInstance.displayText("You have chosen not to " +
                     "intimidate and have lost your turn");
+        }
+
+        // get enemy object from list
+        Character enemy = enemies.get(enemyIndex);
+
+        // Get intimidation value
+        int successRoll = Dice.rollTheDie(Numbers.TWENTY.getValue());
+        Display.getDisplayInstance.displayText("Success Roll: " + successRoll);
+
+        // Did player succeed in intimidating the enemy
+        if(successRoll > Numbers.TEN.getValue()){
+            enemies.remove(enemy);
+            enemy.setLocation(LocationBuilder.getRandomLocation());
+            Display.getDisplayInstance.displayText("You scared "
+                    + enemy.getName() + " so bad it ran away");
+        } else {
+            // if intimidation failed, enemy gets a boost of hp
+            enemy.setHitPoints(enemy.getHitPoints() + Numbers.FIVE.getValue());
+            Display.getDisplayInstance.displayText("You failed at your intimidation attempt and " +
+                    enemy.getName() + " is definitely not scared of you" +
+                    "\n" + enemy.getName() + " gained 5 HP");
         }
     }
 
@@ -333,21 +337,12 @@ public class Fight {
      * @return - int value attacker's damage dealt
      */
     private int determineDamage(Character attacker, String severity) {
-        int damage;
-        switch (severity) {
-            case "critical" :
-                damage = attacker.dealDamage() * Numbers.TWO.getValue();
-                break;
-            case "normal" :
-                damage = attacker.dealDamage();
-                break;
-            case "low" :
-                damage = (int) Math.ceil(attacker.dealDamage() / Numbers.TWO.getValue());
-                break;
-            default :
-                damage = Numbers.ZERO.getValue();
-        }
-        return damage;
+        return switch (severity) {
+            case "critical" -> attacker.dealDamage() * Numbers.TWO.getValue();
+            case "normal" -> attacker.dealDamage();
+            case "low" -> (int) Math.ceil((double) attacker.dealDamage() / Numbers.TWO.getValue());
+            default -> Numbers.ZERO.getValue();
+        };
     }
 
     /**
@@ -359,19 +354,13 @@ public class Fight {
      */
     private void displayAttackDetails(Character attacker, Character victim,
                                       String severity, int damage){
-        String form;
-        switch(severity){
-            case "critical" :
-                form = attacker.getBerserkable().goBersek();
-                break;
-            case "normal" :
-                form = attacker.getAttackable().attack();
-                break;
-            case "low" :
-                form = attacker.getScratchable().scratch();
-                break;
-            default : form = "missed";
-        }
+        String form = switch(severity){
+            case "critical" -> attacker.getBerserkable().goBersek();
+            case "normal" -> attacker.getAttackable().attack();
+            case "low" -> attacker.getScratchable().scratch();
+            default -> form = "missed";
+        };
+
         Display.getDisplayInstance.displayText(attacker.getName() + " " +
                 form + " " + victim.getName() + " for " + damage + " HP");
     }
@@ -408,41 +397,43 @@ public class Fight {
      * @return - an int index value for an enemy within a list
      */
     private int getEnemyIndex(List<Character> enemies) {
-        int enemyIndex = Numbers.NEGATIVE_ONE.getValue();
-        boolean quit = false;
-
-        while (!quit) {
+        while (true) {
             Display.getDisplayInstance.displayText("Select an enemy:" +
                     "\n\tEnter 99 to leave");
 
             // Get user input
             String userInput = UserInput.getUserInstance().getScanner().nextLine();
 
-            // Is user input a valid selection?
+            // Did user select a valid option?
             if(Display.getDisplayInstance.getAcceptableNumbers().stream()
-                    .anyMatch(input -> input.equalsIgnoreCase(userInput))) {
-
-                // Did user select to leave?
-                int index = Integer.parseInt(userInput);
-                if(index == Numbers.NINETY_NINE.getValue()) {
-                    quit = true;
-                } else {
-
-                    // Is user input within List range?
-                    if (isIndexInRange(index, enemies)) {
-
-                        // Is enemy alive?
-                        if (!alreadyDead(index, enemies)) {
-                            enemyIndex = index;
-                            quit = true;
-                        }
-                    }
-                }
-            } else {
+                    .noneMatch(input -> input.equalsIgnoreCase(userInput))){
                 Display.getDisplayInstance.displayText("Choose an enemy number");
+                // No - next loop iteration and try again
+                continue;
             }
+
+            // Did user select to leave?
+            int index = Integer.parseInt(userInput);
+            if(index == Numbers.NINETY_NINE.getValue()) {
+                // Yes - Return index and leave
+                return index;
+            }
+
+            // Is user input within List range?
+            if (!isIndexInRange(index, enemies)) {
+                // No - next loop iteration and try again
+                continue;
+            }
+
+            // Is enemy already dead?
+            if (alreadyDead(index, enemies)) {
+                // Yes - next loop iteration and try again
+                continue;
+            }
+
+            // User picked a valid enemy - return enemy index value
+            return index;
         }
-        return enemyIndex;
     }
 
     /**
