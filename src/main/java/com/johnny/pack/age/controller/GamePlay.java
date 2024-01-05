@@ -126,19 +126,16 @@ public class GamePlay {
     private int moveLocation(int id) {
         // Take user input for direction
         String direction = getUserSelection();
-        // Is a valid selection
-        if(isValidSelection(id, direction)){
-            // Get new location int value from input
-            int nextLocationNumber = moveInDirection(id, direction);
-            // moved to new location
-            if (id != nextLocationNumber) {
-                // Set id to new location id
-                id = nextLocationNumber;
-            }
-        }  else {
+
+        // Is user selection valid?
+        if(!isValidSelection(id, direction)){
             Display.getDisplayInstance.displayText(Constant.YOU_SHALL_NOT_PASS);
+            // Return current location id
+            return id;
         }
-        return id;
+
+        // Return new location id
+        return moveInDirection(id, direction);
     }
 
     /**
