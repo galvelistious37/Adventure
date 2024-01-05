@@ -257,7 +257,7 @@ public class Fight {
 
         // Did you select an enemy?
         if(enemyIndex == Numbers.NEGATIVE_ONE.getValue()){
-            // User input invalid option.
+            // User selected to leave
             Display.getDisplayInstance.displayText("You have chosen not to " +
                     "intimidate and have lost your turn");
             return;

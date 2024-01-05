@@ -17,25 +17,16 @@ public class SimpleFactoryCharacter {
      * @return - A random enemy creator
      */
     private static CharacterFactory getCharacterCreator(){
-        switch(Dice.rollTheDie(CHARACTER_TYPES)){
-            case 1 :
-                return new BanditCreator();
-            case 2 :
-                return new OgreCreator();
-            case 3 :
-                return new ScorpionCreator();
-            case 4 :
-                return new WolfCreator();
-            case 5 :
-                return new SuperBanditCreator();
-            case 6 :
-                return new SuperOgreCreator();
-            case 7 :
-                return new SuperScorpionCreator();
-            case 8 :
-                return new SuperWolfCreator();
-            default:
-                throw new IllegalArgumentException("Value used in switch statement not valid");
-        }
+        return switch (Dice.rollTheDie(CHARACTER_TYPES)) {
+            case 1 -> new BanditCreator();
+            case 2 -> new OgreCreator();
+            case 3 -> new ScorpionCreator();
+            case 4 -> new WolfCreator();
+            case 5 -> new SuperBanditCreator();
+            case 6 -> new SuperOgreCreator();
+            case 7 -> new SuperScorpionCreator();
+            case 8 -> new SuperWolfCreator();
+            default -> throw new IllegalArgumentException("Value used in switch statement not valid");
+        };
     }
 }
