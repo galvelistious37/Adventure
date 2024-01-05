@@ -260,6 +260,7 @@ public class Fight {
             // User input invalid option.
             Display.getDisplayInstance.displayText("You have chosen not to " +
                     "intimidate and have lost your turn");
+            return;
         }
 
         // get enemy object from list
@@ -415,8 +416,8 @@ public class Fight {
             // Did user select to leave?
             int index = Integer.parseInt(userInput);
             if(index == Numbers.NINETY_NINE.getValue()) {
-                // Yes - Return index and leave
-                return index;
+                // Yes - Return -1 and leave
+                return Numbers.NEGATIVE_ONE.getValue();
             }
 
             // Is user input within List range?
