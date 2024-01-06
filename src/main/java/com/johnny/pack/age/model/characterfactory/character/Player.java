@@ -6,17 +6,12 @@ import com.johnny.pack.age.controller.attack.baseattack.Stab;
 import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
 import com.johnny.pack.age.controller.attack.heavyattack.Hack;
 import com.johnny.pack.age.controller.attack.heavyattack.Pummel;
-import com.johnny.pack.age.controller.attack.scratch.Scratch;
-import com.johnny.pack.age.controller.attack.scratch.Scratchable;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.SwordFactory;
-import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.WeaponFactory;
 
 public class Player extends Character {
     private final String name;

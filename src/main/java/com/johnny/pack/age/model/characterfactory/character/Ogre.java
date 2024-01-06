@@ -1,14 +1,7 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.attack.baseattack.Attackable;
-import com.johnny.pack.age.controller.attack.baseattack.Punch;
-import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
-import com.johnny.pack.age.controller.attack.heavyattack.Pummel;
-import com.johnny.pack.age.controller.attack.scratch.Scratch;
-import com.johnny.pack.age.controller.attack.scratch.Scratchable;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
 
 /**

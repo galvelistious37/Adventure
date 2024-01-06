@@ -1,14 +1,7 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.attack.baseattack.Attackable;
-import com.johnny.pack.age.controller.attack.baseattack.Stab;
-import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
-import com.johnny.pack.age.controller.attack.heavyattack.Impale;
-import com.johnny.pack.age.controller.attack.scratch.Scratch;
-import com.johnny.pack.age.controller.attack.scratch.Scratchable;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
 
 /**
@@ -16,9 +9,6 @@ import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactor
  */
 public class Bandit extends Character {
     private Equipable equipable;
-    private Attackable attackable;
-    private Berserkable berserkable;
-    private Scratchable scratchable;
     private int hitPoints;
     private int strength;
     private int damage;
@@ -126,8 +116,6 @@ public class Bandit extends Character {
     public String toString() {
         return "Bandit{" +
                 "equipable=" + equipable +
-                ", attackable=" + attackable +
-                ", berserkable=" + berserkable +
                 ", hitPoints=" + hitPoints +
                 ", strength=" + strength +
                 ", location=" + location +
