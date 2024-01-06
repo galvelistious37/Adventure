@@ -1,4 +1,4 @@
-package com.johnny.pack.age.model.weapon;
+package com.johnny.pack.age.model.weaponabstractfactory.weapon;
 
 public final class Stinger implements Equipable {
     private final String weapon;

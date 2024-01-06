@@ -1,9 +1,9 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.attack.Attackable;
-import com.johnny.pack.age.controller.attack.Berserkable;
-import com.johnny.pack.age.controller.attack.Scratchable;
-import com.johnny.pack.age.model.weapon.Equipable;
+import com.johnny.pack.age.controller.attack.baseattack.Attackable;
+import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
+import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 
 public abstract class Character {
 

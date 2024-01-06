@@ -1,10 +1,17 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Fist;
-import com.johnny.pack.age.model.weapon.Knife;
-import com.johnny.pack.age.model.weapon.Sword;
+import com.johnny.pack.age.controller.attack.baseattack.Attackable;
+import com.johnny.pack.age.controller.attack.baseattack.Punch;
+import com.johnny.pack.age.controller.attack.baseattack.Stab;
+import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
+import com.johnny.pack.age.controller.attack.heavyattack.Hack;
+import com.johnny.pack.age.controller.attack.heavyattack.Pummel;
+import com.johnny.pack.age.controller.attack.scratch.Scratch;
+import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
 
 public class Player extends Character {
     private final String name;
@@ -19,33 +26,20 @@ public class Player extends Character {
     private Berserkable berserkable;
     private final Scratchable scratchable;
 
-    private static final Player INSTANCE = new Player(
-            "You", 100, 5, Fist.getInstance().getDamage(),
-            1, true, 0, Fist.getInstance(),
-            Punch.getInstance(), Pummel.getInstance(), Scratch.getInstance());
+    private static final Player INSTANCE = new Player();
 
-    private Player(String name,
-                   int hitPoints,
-                   int strength,
-                   int damage,
-                   int location,
-                   boolean isAlive,
-                   int initiative,
-                   Equipable equipable,
-                   Attackable attackable,
-                   Berserkable berserkable,
-                   Scratchable scratchable) {
-        this.name = name;
-        this.hitPoints = hitPoints;
-        this.strength = strength;
-        this.damage = damage;
-        this.location = location;
-        this.isAlive = isAlive;
-        this.initiative = initiative;
-        this.equipable = equipable;
-        this.attackable = attackable;
-        this.berserkable = berserkable;
-        this.scratchable = scratchable;
+    private Player() {
+        this.name = "You";
+        this.hitPoints = 100;
+        this.strength = 5;
+        this.damage = Fist.getInstance().getDamage();
+        this.location = 1;
+        this.isAlive = true;
+        this.initiative = 0;
+        this.equipable = Fist.getInstance();
+        this.attackable = Punch.getInstance();
+        this.berserkable = Pummel.getInstance();
+        this.scratchable = Scratch.getInstance();
     }
 
     public static Player getInstance(){

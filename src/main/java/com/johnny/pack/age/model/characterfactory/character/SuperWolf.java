@@ -1,8 +1,13 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.attack.*;
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.model.weapon.Teeth;
+import com.johnny.pack.age.controller.attack.baseattack.Attackable;
+import com.johnny.pack.age.controller.attack.baseattack.Bite;
+import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
+import com.johnny.pack.age.controller.attack.heavyattack.Maul;
+import com.johnny.pack.age.controller.attack.scratch.Scratch;
+import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Teeth;
 
 /**
  * SuperWolf POJO class
