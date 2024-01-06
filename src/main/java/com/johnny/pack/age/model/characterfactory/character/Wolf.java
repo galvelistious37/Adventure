@@ -2,7 +2,6 @@ package com.johnny.pack.age.model.characterfactory.character;
 
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Teeth;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.TeethFactory;
 
 /**
