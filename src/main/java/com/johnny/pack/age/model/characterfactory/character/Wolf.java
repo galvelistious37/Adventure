@@ -1,7 +1,8 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Teeth;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.TeethFactory;
 
 /**
  * Wolf POJO class
@@ -17,7 +18,7 @@ public class Wolf extends Character {
     private String name;
 
     private Wolf(int hitPoints, int strength, String name) {
-        this.equipable = Teeth.getInstance();
+        this.equipable = WeaponFactoryRunner.createEquipable(new TeethFactory());
         this.hitPoints = hitPoints;
         this.strength = strength;
         this.damage = equipable.getDamage();
