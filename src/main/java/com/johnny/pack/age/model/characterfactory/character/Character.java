@@ -17,10 +17,6 @@ public abstract class Character {
     public abstract void setDamage(int damage);
     public abstract Equipable getEquipable();
     public abstract void setEquipable(Equipable equipable);
-    public abstract Attackable getAttackable();
-    public abstract void setAttackable(Attackable attackable);
-    public abstract Berserkable getBerserkable();
-    public abstract void setBerserkable(Berserkable berserkable);
     public abstract int getLocation();
     public abstract void setLocation(int location);
     public abstract boolean getIsAlive();
@@ -28,5 +24,4 @@ public abstract class Character {
     public abstract int getInitiative();
     public abstract void setInitiative(int initiative);
     public abstract int dealDamage();
-    public abstract Scratchable getScratchable();
 }

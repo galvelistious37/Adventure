@@ -6,17 +6,16 @@ import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
 import com.johnny.pack.age.controller.attack.heavyattack.Pummel;
 import com.johnny.pack.age.controller.attack.scratch.Scratch;
 import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
 
 /**
  * SuperOgre POJO class
  */
 public class SuperOgre extends Character {
     private Equipable equipable;
-    private Attackable attackable;
-    private Berserkable berserkable;
-    private Scratchable scratchable;
     private int hitPoints;
     private int strength;
     private int damage;
@@ -26,10 +25,7 @@ public class SuperOgre extends Character {
     private String name;
 
     private SuperOgre(int hitPoints, int strength, String name) {
-        this.equipable = Fist.getInstance();
-        this.attackable = Punch.getInstance();
-        this.berserkable = Pummel.getInstance();
-        this.scratchable = Scratch.getInstance();
+        this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
         this.damage = equipable.getDamage();
         this.hitPoints = hitPoints;
         this.strength = strength;
@@ -57,33 +53,6 @@ public class SuperOgre extends Character {
     public void setEquipable(Equipable equipable) {
         this.equipable = equipable;
     }
-
-    @Override
-    public Attackable getAttackable() {
-        return attackable;
-    }
-
-    @Override
-    public void setAttackable(Attackable attackable) {
-        this.attackable = attackable;
-    }
-
-    @Override
-    public Berserkable getBerserkable() {
-        return berserkable;
-    }
-
-    @Override
-    public void setBerserkable(Berserkable berserkable) {
-        this.berserkable = berserkable;
-    }
-
-    @Override
-    public Scratchable getScratchable(){
-        return scratchable;
-    }
-
-
 
     @Override
     public int getHitPoints() {
@@ -154,8 +123,6 @@ public class SuperOgre extends Character {
     public String toString() {
         return "SuperOgre{" +
                 "equipable=" + equipable +
-                ", attackable=" + attackable +
-                ", berserkable=" + berserkable +
                 ", hitPoints=" + hitPoints +
                 ", strength=" + strength +
                 ", location=" + location +

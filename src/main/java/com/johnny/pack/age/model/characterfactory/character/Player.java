@@ -8,10 +8,15 @@ import com.johnny.pack.age.controller.attack.heavyattack.Hack;
 import com.johnny.pack.age.controller.attack.heavyattack.Pummel;
 import com.johnny.pack.age.controller.attack.scratch.Scratch;
 import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.SwordFactory;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.WeaponFactory;
 
 public class Player extends Character {
     private final String name;
@@ -22,9 +27,6 @@ public class Player extends Character {
     private boolean isAlive;
     private int initiative;
     private Equipable equipable;
-    private Attackable attackable;
-    private Berserkable berserkable;
-    private final Scratchable scratchable;
 
     private static final Player INSTANCE = new Player();
 
@@ -36,10 +38,7 @@ public class Player extends Character {
         this.location = 1;
         this.isAlive = true;
         this.initiative = 0;
-        this.equipable = Fist.getInstance();
-        this.attackable = Punch.getInstance();
-        this.berserkable = Pummel.getInstance();
-        this.scratchable = Scratch.getInstance();
+        this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
     }
 
     public static Player getInstance(){
@@ -58,31 +57,6 @@ public class Player extends Character {
     @Override
     public void setEquipable(Equipable equipable) {
         this.equipable = equipable;
-    }
-
-    @Override
-    public Attackable getAttackable() {
-        return attackable;
-    }
-
-    @Override
-    public void setAttackable(Attackable attackable) {
-        this.attackable = attackable;
-    }
-
-    @Override
-    public Berserkable getBerserkable() {
-        return berserkable;
-    }
-
-    @Override
-    public void setBerserkable(Berserkable berserkable) {
-        this.berserkable = berserkable;
-    }
-
-    @Override
-    public Scratchable getScratchable(){
-        return scratchable;
     }
 
     @Override
@@ -156,21 +130,16 @@ public class Player extends Character {
                 ", isAlive=" + isAlive +
                 ", initiative=" + initiative +
                 ", equipable=" + equipable +
-                ", attackable=" + attackable +
-                ", berserkable=" + berserkable +
                 '}';
     }
 
     public Equipable determineEquipable(String weapon){
-        switch(weapon){
-            case "fist" :
-                return Fist.getInstance();
-            case "knife" :
-                return Knife.getInstance();
-            case "sword" :
-                return Sword.getInstance();
-        }
-        return Fist.getInstance();
+        return switch (weapon) {
+            case "fist" -> WeaponFactoryRunner.createEquipable(new FistFactory());
+            case "knife" -> WeaponFactoryRunner.createEquipable(new KnifeFactory());
+            case "sword" -> WeaponFactoryRunner.createEquipable(new SwordFactory());
+            default -> Fist.getInstance();
+        };
     }
 
     public Attackable determineAttackable(Equipable equipable){
