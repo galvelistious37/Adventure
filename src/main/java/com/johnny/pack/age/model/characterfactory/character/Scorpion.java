@@ -6,17 +6,16 @@ import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
 import com.johnny.pack.age.controller.attack.heavyattack.Impale;
 import com.johnny.pack.age.controller.attack.scratch.Scratch;
 import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Stinger;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.StingerFactory;
 
 /**
  * Scorpion POJO class
  */
 public class Scorpion extends Character {
     private Equipable equipable;
-    private Attackable attackable;
-    private Berserkable berserkable;
-    private Scratchable scratchable;
     private int hitPoints;
     private int strength;
     private int damage;
@@ -26,10 +25,7 @@ public class Scorpion extends Character {
     private String name;
 
     private Scorpion(int hitPoints, int strength, String name) {
-        this.equipable = Stinger.getInstance();
-        this.attackable = Sting.getInstance();
-        this.berserkable = Impale.getInstance();
-        this.scratchable = Scratch.getInstance();
+        this.equipable = WeaponFactoryRunner.createEquipable(new StingerFactory());
         this.hitPoints = hitPoints;
         this.strength = strength;
         this.damage = equipable.getDamage();
@@ -56,31 +52,6 @@ public class Scorpion extends Character {
     @Override
     public void setEquipable(Equipable equipable) {
         this.equipable = equipable;
-    }
-
-    @Override
-    public Attackable getAttackable() {
-        return attackable;
-    }
-
-    @Override
-    public void setAttackable(Attackable attackable) {
-        this.attackable = attackable;
-    }
-
-    @Override
-    public Berserkable getBerserkable() {
-        return berserkable;
-    }
-
-    @Override
-    public void setBerserkable(Berserkable berserkable) {
-        this.berserkable = berserkable;
-    }
-
-    @Override
-    public Scratchable getScratchable(){
-        return scratchable;
     }
 
     @Override
@@ -152,8 +123,6 @@ public class Scorpion extends Character {
     public String toString() {
         return "Scorpion{" +
                 "equipable=" + equipable +
-                ", attackable=" + attackable +
-                ", berserkable=" + berserkable +
                 ", hitPoints=" + hitPoints +
                 ", strength=" + strength +
                 ", location=" + location +

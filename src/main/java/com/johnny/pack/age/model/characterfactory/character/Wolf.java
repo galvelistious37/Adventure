@@ -14,9 +14,6 @@ import com.johnny.pack.age.model.weaponabstractfactory.weapon.Teeth;
  */
 public class Wolf extends Character {
     private Equipable equipable;
-    private Attackable attackable;
-    private Berserkable berserkable;
-    private Scratchable scratchable;
     private int hitPoints;
     private int strength;
     private int damage;
@@ -27,9 +24,6 @@ public class Wolf extends Character {
 
     private Wolf(int hitPoints, int strength, String name) {
         this.equipable = Teeth.getInstance();
-        this.attackable = Bite.getInstance();
-        this.berserkable = Maul.getInstance();
-        this.scratchable = Scratch.getInstance();
         this.hitPoints = hitPoints;
         this.strength = strength;
         this.damage = equipable.getDamage();
@@ -57,33 +51,6 @@ public class Wolf extends Character {
     public void setEquipable(Equipable equipable) {
         this.equipable = equipable;
     }
-
-    @Override
-    public Attackable getAttackable() {
-        return attackable;
-    }
-
-    @Override
-    public void setAttackable(Attackable attackable) {
-        this.attackable = attackable;
-    }
-
-    @Override
-    public Berserkable getBerserkable() {
-        return berserkable;
-    }
-
-    @Override
-    public void setBerserkable(Berserkable berserkable) {
-        this.berserkable = berserkable;
-    }
-
-    @Override
-    public Scratchable getScratchable(){
-        return scratchable;
-    }
-
-
 
     @Override
     public int getHitPoints() {
@@ -154,8 +121,6 @@ public class Wolf extends Character {
     public String toString() {
         return "Wolf{" +
                 "equipable=" + equipable +
-                ", attackable=" + attackable +
-                ", berserkable=" + berserkable +
                 ", hitPoints=" + hitPoints +
                 ", strength=" + strength +
                 ", location=" + location +

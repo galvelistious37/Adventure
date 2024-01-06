@@ -235,8 +235,6 @@ public class GamePlay {
     private void setWeaponDetails(String weaponType){
         Display.getDisplayInstance.displayText(Constant.YOU_FOUND + weaponType);
         player.setEquipable(player.determineEquipable(weaponType));
-        player.setAttackable(player.determineAttackable(player.getEquipable()));
-        player.setBerserkable(player.determineBerserkable(player.getEquipable()));
         player.setDamage(player.getEquipable().getDamage());
     }
 

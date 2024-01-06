@@ -6,8 +6,10 @@ import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
 import com.johnny.pack.age.controller.attack.heavyattack.Impale;
 import com.johnny.pack.age.controller.attack.scratch.Scratch;
 import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
 
 /**
  * Bandit POJO class
@@ -26,10 +28,7 @@ public class Bandit extends Character {
     private String name;
 
     private Bandit(int hitPoints, int strength, String name) {
-        this.equipable = Knife.getInstance();
-        this.attackable = Stab.getInstance();
-        this.berserkable = Impale.getInstance();
-        this.scratchable = Scratch.getInstance();
+        this.equipable = WeaponFactoryRunner.createEquipable(new KnifeFactory());
         this.hitPoints = hitPoints;
         this.strength = strength;
         this.damage = equipable.getDamage();
@@ -56,31 +55,6 @@ public class Bandit extends Character {
     @Override
     public void setEquipable(Equipable equipable) {
         this.equipable = equipable;
-    }
-
-    @Override
-    public Attackable getAttackable() {
-        return attackable;
-    }
-
-    @Override
-    public void setAttackable(Attackable attackable) {
-        this.attackable = attackable;
-    }
-
-    @Override
-    public Berserkable getBerserkable() {
-        return berserkable;
-    }
-
-    @Override
-    public void setBerserkable(Berserkable berserkable) {
-        this.berserkable = berserkable;
-    }
-
-    @Override
-    public Scratchable getScratchable(){
-        return scratchable;
     }
 
     @Override

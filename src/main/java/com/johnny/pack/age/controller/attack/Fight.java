@@ -356,9 +356,9 @@ public class Fight {
     private void displayAttackDetails(Character attacker, Character victim,
                                       String severity, int damage){
         String form = switch(severity){
-            case "critical" -> attacker.getBerserkable().goBerserk();
-            case "normal" -> attacker.getAttackable().attack();
-            case "low" -> attacker.getScratchable().scratch();
+            case "critical" -> attacker.getEquipable().getBerserkable().goBerserk();
+            case "normal" -> attacker.getEquipable().getAttackable().attack();
+            case "low" -> attacker.getEquipable().getScratchable().scratch();
             default -> form = "missed";
         };
 
