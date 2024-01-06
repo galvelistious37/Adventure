@@ -1,4 +1,4 @@
-package com.johnny.pack.age.controller.attack;
+package com.johnny.pack.age.controller.attack.scratch;
 
 public final class Scratch implements Scratchable {
     private final String attack;

@@ -1,4 +1,4 @@
-package com.johnny.pack.age.controller.attack;
+package com.johnny.pack.age.controller.attack.baseattack;
 
 public final class Punch implements Attackable {
     private final String attack;

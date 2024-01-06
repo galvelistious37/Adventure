@@ -9,9 +9,9 @@ import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Player;
-import com.johnny.pack.age.model.weapon.Equipable;
-import com.johnny.pack.age.model.weapon.Knife;
-import com.johnny.pack.age.model.weapon.Sword;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
 import com.johnny.pack.age.view.Display;
 
 import java.util.*;

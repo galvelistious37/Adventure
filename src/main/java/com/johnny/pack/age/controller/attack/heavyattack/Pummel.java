@@ -1,4 +1,4 @@
-package com.johnny.pack.age.controller.attack;
+package com.johnny.pack.age.controller.attack.heavyattack;
 
 public final class Pummel implements Berserkable {
     private final String berserk;
@@ -14,7 +14,7 @@ public final class Pummel implements Berserkable {
     }
 
     @Override
-    public String goBersek() {
+    public String goBerserk() {
         return this.berserk;
     }
 }
