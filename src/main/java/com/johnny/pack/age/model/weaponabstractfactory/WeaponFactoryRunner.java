@@ -3,11 +3,29 @@ package com.johnny.pack.age.model.weaponabstractfactory;
 import com.johnny.pack.age.controller.attack.baseattack.Attackable;
 import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
 import com.johnny.pack.age.controller.attack.scratch.Scratchable;
+import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.*;
 
 public class WeaponFactoryRunner {
 
+
+    /**
+     * Simple factory method to determine an Equipable weapon type based on
+     * a given String input.
+     * @param weapon - String input weapon type
+     * @return - Equipable object of weapon type
+     */
+    public static Equipable determineEquipable(String weapon){
+        return switch (weapon) {
+            case Constant.FIST -> createEquipable(new FistFactory());
+            case Constant.KNIFE -> createEquipable(new KnifeFactory());
+            case Constant.STINGER -> createEquipable(new StingerFactory());
+            case Constant.SWORD -> createEquipable(new SwordFactory());
+            case Constant.TEETH -> createEquipable(new TeethFactory());
+            default -> throw new RuntimeException("No Equipable weapon of type: " + weapon);
+        };
+    }
 
     /**
      * An abstract factory which creates an Equipable object and sets
@@ -27,36 +45,4 @@ public class WeaponFactoryRunner {
         equipable.attachBerserkable(berserkable);
         return equipable;
     }
-//
-//    public static void main(String[] args) {
-//        Equipable equipable = createEquipable(new FistFactory());
-//        System.out.println("*****");
-//        System.out.println(equipable.getScratchable().scratch());
-//        System.out.println(equipable.getAttackable().attack());
-//        System.out.println(equipable.getBerserkable().goBerserk());
-//
-//        equipable = createEquipable(new KnifeFactory());
-//        System.out.println("*****");
-//        System.out.println(equipable.getScratchable().scratch());
-//        System.out.println(equipable.getAttackable().attack());
-//        System.out.println(equipable.getBerserkable().goBerserk());
-//
-//        equipable = createEquipable(new StingerFactory());
-//        System.out.println("*****");
-//        System.out.println(equipable.getScratchable().scratch());
-//        System.out.println(equipable.getAttackable().attack());
-//        System.out.println(equipable.getBerserkable().goBerserk());
-//
-//        equipable = createEquipable(new SwordFactory());
-//        System.out.println("*****");
-//        System.out.println(equipable.getScratchable().scratch());
-//        System.out.println(equipable.getAttackable().attack());
-//        System.out.println(equipable.getBerserkable().goBerserk());
-//
-//        equipable = createEquipable(new TeethFactory());
-//        System.out.println("*****");
-//        System.out.println(equipable.getScratchable().scratch());
-//        System.out.println(equipable.getAttackable().attack());
-//        System.out.println(equipable.getBerserkable().goBerserk());
-//    }
 }

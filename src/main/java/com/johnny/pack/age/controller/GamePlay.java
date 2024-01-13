@@ -9,6 +9,7 @@ import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Player;
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
@@ -234,7 +235,7 @@ public class GamePlay {
      */
     private void setWeaponDetails(String weaponType){
         Display.getDisplayInstance.displayText(Constant.YOU_FOUND + weaponType);
-        player.setEquipable(player.determineEquipable(weaponType));
+        player.setEquipable(WeaponFactoryRunner.determineEquipable(weaponType));
         player.setDamage(player.getEquipable().getDamage());
     }
 

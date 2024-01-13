@@ -122,15 +122,6 @@ public class Player extends Character {
                 '}';
     }
 
-    public Equipable determineEquipable(String weapon){
-        return switch (weapon) {
-            case "fist" -> WeaponFactoryRunner.createEquipable(new FistFactory());
-            case "knife" -> WeaponFactoryRunner.createEquipable(new KnifeFactory());
-            case "sword" -> WeaponFactoryRunner.createEquipable(new SwordFactory());
-            default -> Fist.getInstance();
-        };
-    }
-
     @Override
     public int dealDamage(){
         return this.strength + this.damage;
