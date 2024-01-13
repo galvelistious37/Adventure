@@ -6,8 +6,6 @@ import com.johnny.pack.age.controller.attack.scratch.Scratchable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 
 public abstract class Character {
-
-
     public abstract String getName();
     public abstract int getHitPoints();
     public abstract void setHitPoints(int hitPoints);

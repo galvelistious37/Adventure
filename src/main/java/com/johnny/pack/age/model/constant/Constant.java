@@ -43,4 +43,21 @@ public final class Constant {
     public static final String S = "S";
     public static final String WEST = "WEST";
     public static final String W = "W";
+
+    // Enemy types
+    public static final String BANDIT = "Bandit";
+    public static final String OGRE = "Ogre";
+    public static final String SCORPION = "Scorpion";
+    public static final String WOLF = "Wolf";
+    public static final String SUPER_BANDIT = "Super Crazy Bandit";
+    public static final String SUPER_OGRE = "Super Crazy Ogre";
+    public static final String SUPER_SCORPION = "Super Crazy Scorpion";
+    public static final String SUPER_WOLF = "Super Crazy Wolf";
+
+    // Weapon types
+    public static final String FIST = "fist";
+    public static final String KNIFE = "knife";
+    public static final String STINGER = "stinger";
+    public static final String SWORD = "sword";
+    public static final String TEETH = "teeth";
 }

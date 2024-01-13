@@ -1,5 +1,6 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.TeethFactory;
@@ -17,19 +18,19 @@ public class Wolf extends Character {
     private int initiative;
     private String name;
 
-    private Wolf(int hitPoints, int strength, String name) {
+    private Wolf() {
         this.equipable = WeaponFactoryRunner.createEquipable(new TeethFactory());
-        this.hitPoints = hitPoints;
-        this.strength = strength;
+        this.hitPoints = 8;
+        this.strength = 6;
         this.damage = equipable.getDamage();
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = name;
+        this.name = Constant.WOLF;
     }
 
     public static Wolf getWolf(){
-        return new Wolf(8, 6, "Wolf");
+        return new Wolf();
     }
 
     @Override

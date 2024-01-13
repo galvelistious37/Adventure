@@ -22,67 +22,14 @@ public class Fight {
         this.enemies = enemies;
     }
 
-    /**
-     * Display Fight Menu options
-     */
-    private void getFightMenu(){
-        createOptions().forEach(Display.getDisplayInstance::displayText);
-    }
 
-    /**
-     * Create Fight Menu.
-     * @return List of String Fight Menu options.
-     */
-    private List<String> createOptions() {
-        List<String> generateOptions = new ArrayList<>();
-        generateOptions.add(Constant.FIGHT + Constant.COLON_SEPARATOR + Constant.DO_FIGHTIN);
-        generateOptions.add(Constant.INTIMIDATE + Constant.COLON_SEPARATOR + Constant.INTIMIDATE_THEM);
-        generateOptions.add(Constant.SNEAK_PAST + Constant.COLON_SEPARATOR + Constant.SNEAKY_LIKE);
-        generateOptions.add(Constant.RUN_AWAY + Constant.COLON_SEPARATOR + Constant.RUN_FORREST);
-        return generateOptions;
-    }
-
-    /**
-     * stream through enemies and find any alive
-     * @return - boolean an enemy is alive
-     */
-    public boolean areEnemiesAlive() {
-        return enemies.stream().anyMatch(Character::getIsAlive);
-    }
-
-    /**
-     * Loop over the call to determine fight order and the fight
-     * logic until the return value to quit is true. Keep track
-     * on the number of loops iterations as the rounds indicator.
-     */
-    public void doFightinStuff() {
-        int round = Numbers.ZERO.getValue();
-        boolean quit = false;
-        while(!quit){
-            Display.getDisplayInstance.showDisplays(player, enemies);
-            round++;
-            quit = goThroughFightOrder(round);
-
-            // if there are no enemies left
-            if(enemies.size() == Numbers.ZERO.getValue()){
-                quit = true;
-            } else if (!areEnemiesAlive()){
-                Display.getDisplayInstance.displayText("You have painted these lands " +
-                        "with blood of your enemies");
-                if(eatTheDead()){
-                    digestTheDead(player);
-                }
-                quit = true;
-            }
-        }
-    }
 
     /**
      * Countdown from 20 to determine initiative order for player and
      * @param round - int value of round number
      * @return - boolean quit
      */
-    private boolean goThroughFightOrder(int round) {
+    public boolean goThroughFightOrder(int round) {
         boolean quit = false;
 
         // Counting down from 20, check player initiative
@@ -139,7 +86,7 @@ public class Fight {
      * Get user input on whether they should eat the dead
      * @return - boolean yes
      */
-    private boolean eatTheDead() {
+    public boolean eatTheDead() {
         Display.getDisplayInstance.displayText("Enter \"Yes\" to eat the dead");
         return UserInput.getUserInstance().isInputYes();
     }
@@ -148,7 +95,7 @@ public class Fight {
      * Logic to increase player object's hitpoints after eating the dead
      * @param player - player object
      */
-    private void digestTheDead(Character player){
+    public void digestTheDead(Character player){
         Display.getDisplayInstance.displayText("You devour the flesh of your enemy");
         int hp = player.getHitPoints();
         hp += Numbers.TEN.getValue();
@@ -478,7 +425,7 @@ public class Fight {
      */
     private int getSelection() {
         while(true) {
-            getFightMenu();
+            Display.getDisplayInstance.getFightMenu();
             if(UserInput.getUserInstance().scannerHasNextInt()){
                 int selection =  Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
                 if(selection > Numbers.ZERO.getValue() && selection < Numbers.FIVE.getValue()){

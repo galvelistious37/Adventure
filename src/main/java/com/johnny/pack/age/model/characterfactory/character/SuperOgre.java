@@ -1,5 +1,6 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
@@ -17,19 +18,19 @@ public class SuperOgre extends Character {
     private int initiative;
     private String name;
 
-    private SuperOgre(int hitPoints, int strength, String name) {
+    private SuperOgre() {
         this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
         this.damage = equipable.getDamage();
-        this.hitPoints = hitPoints;
-        this.strength = strength;
+        this.hitPoints = 35;
+        this.strength = 10;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = name;
+        this.name = Constant.SUPER_OGRE;
     }
 
     public static SuperOgre getSuperOgre(){
-        return new SuperOgre(35, 10, "Super Crazy Ogre");
+        return new SuperOgre();
     }
 
     @Override

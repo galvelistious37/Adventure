@@ -9,6 +9,7 @@ import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.location.Location;
 import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.characterfactory.character.Player;
+import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
@@ -63,7 +64,8 @@ public class GamePlay {
      */
     private boolean goThroughPlayActions() {
         // Get the Location
-        Location location = LocationBuilder.mapLocations
+        Location location = LocationBuilder
+                .mapLocations
                 .get(player.getLocation());
 
         // Display location details
@@ -71,9 +73,9 @@ public class GamePlay {
                 Constant.LOCATION_LABEL + location.getTerrain());
 
         // Are enemies in this area?
-        if(areEnemiesPresent(location.getId())){
-            FightRunner fightRunner = new FightRunner(
-                    location.getId(), filterOnLocation(location.getId()));
+        List<Character> locationCharacters = getEnemiesInLocation(location.getId());
+        if(locationCharacters.size() > 0){
+            FightRunner fightRunner = FightRunner.getFightRunner(locationCharacters);
             fightRunner.runFightTask();
         }
 
@@ -83,7 +85,7 @@ public class GamePlay {
         }
 
         // Display the available exits based on current location.
-        Display.getDisplayInstance.displayAvailableExits(location.getExits());
+        Display.getDisplayInstance.showExits(location.getExits());
 
         // Move to the newly selected location.
         int locNumber = moveLocation(location.getId());
@@ -95,26 +97,26 @@ public class GamePlay {
         return true;
     }
 
-    /**
-     * Find any enemy with the same location as the given parameter
-     * @param locationNumber - int location
-     * @return - a boolean if enemies have the same location
-     */
-    private boolean areEnemiesPresent(int locationNumber) {
-        return enemies
-                .stream()
-                .anyMatch(enemy -> enemy.getLocation() == locationNumber);
-    }
+//    /**
+//     * Find any enemy with the same location as the given parameter
+//     * @param locationNumber - int location
+//     * @return - a boolean if enemies have the same location
+//     */
+//    private boolean areEnemiesPresent(int locationNumber) {
+//        return enemies
+//                .stream()
+//                .anyMatch(enemy -> enemy.getLocation() == locationNumber);
+//    }
 
     /**
-     * Create a list of enemies by filtering on enemies in that location.
-     * @param locationNumber - int value of location
+     * Filter the list of enemies by locationId.
+     * @param locationId - int value of location
      * @return - A list of enemies in the given location
      */
-    private List<Character> filterOnLocation(int locationNumber){
+    private List<Character> getEnemiesInLocation(int locationId){
         return enemies
                 .stream()
-                .filter(enemy -> enemy.getLocation() == locationNumber)
+                .filter(enemy -> enemy.getLocation() == locationId)
                 .collect(Collectors.toList());
     }
 
@@ -234,7 +236,7 @@ public class GamePlay {
      */
     private void setWeaponDetails(String weaponType){
         Display.getDisplayInstance.displayText(Constant.YOU_FOUND + weaponType);
-        player.setEquipable(player.determineEquipable(weaponType));
+        player.setEquipable(WeaponFactoryRunner.determineEquipable(weaponType));
         player.setDamage(player.getEquipable().getDamage());
     }
 

@@ -1,11 +1,5 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.attack.baseattack.Attackable;
-import com.johnny.pack.age.controller.attack.baseattack.Punch;
-import com.johnny.pack.age.controller.attack.baseattack.Stab;
-import com.johnny.pack.age.controller.attack.heavyattack.Berserkable;
-import com.johnny.pack.age.controller.attack.heavyattack.Hack;
-import com.johnny.pack.age.controller.attack.heavyattack.Pummel;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
@@ -126,29 +120,6 @@ public class Player extends Character {
                 ", initiative=" + initiative +
                 ", equipable=" + equipable +
                 '}';
-    }
-
-    public Equipable determineEquipable(String weapon){
-        return switch (weapon) {
-            case "fist" -> WeaponFactoryRunner.createEquipable(new FistFactory());
-            case "knife" -> WeaponFactoryRunner.createEquipable(new KnifeFactory());
-            case "sword" -> WeaponFactoryRunner.createEquipable(new SwordFactory());
-            default -> Fist.getInstance();
-        };
-    }
-
-    public Attackable determineAttackable(Equipable equipable){
-        if(equipable.weaponType().equals("fist")){
-            return Punch.getInstance();
-        }
-        return Stab.getInstance();
-    }
-
-    public Berserkable determineBerserkable(Equipable equipable){
-        if(equipable.weaponType().equals("fist")){
-            return Pummel.getInstance();
-        }
-        return Hack.getInstance();
     }
 
     @Override
