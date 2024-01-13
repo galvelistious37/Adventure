@@ -23,26 +23,6 @@ public class Fight {
     }
 
     /**
-     * Display Fight Menu options
-     */
-    private void getFightMenu(){
-        createOptions().forEach(Display.getDisplayInstance::displayText);
-    }
-
-    /**
-     * Create Fight Menu.
-     * @return List of String Fight Menu options.
-     */
-    private List<String> createOptions() {
-        List<String> generateOptions = new ArrayList<>();
-        generateOptions.add(Constant.FIGHT + Constant.COLON_SEPARATOR + Constant.DO_FIGHTIN);
-        generateOptions.add(Constant.INTIMIDATE + Constant.COLON_SEPARATOR + Constant.INTIMIDATE_THEM);
-        generateOptions.add(Constant.SNEAK_PAST + Constant.COLON_SEPARATOR + Constant.SNEAKY_LIKE);
-        generateOptions.add(Constant.RUN_AWAY + Constant.COLON_SEPARATOR + Constant.RUN_FORREST);
-        return generateOptions;
-    }
-
-    /**
      * stream through enemies and find any alive
      * @return - boolean an enemy is alive
      */
@@ -478,7 +458,7 @@ public class Fight {
      */
     private int getSelection() {
         while(true) {
-            getFightMenu();
+            Display.getDisplayInstance.getFightMenu();
             if(UserInput.getUserInstance().scannerHasNextInt()){
                 int selection =  Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
                 if(selection > Numbers.ZERO.getValue() && selection < Numbers.FIVE.getValue()){

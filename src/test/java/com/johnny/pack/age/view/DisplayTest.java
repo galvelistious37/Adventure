@@ -74,7 +74,7 @@ class DisplayTest {
         actualMap.put("E", 2);
         actualMap.put("S", 3);
         actualMap.put("W", 4);
-        assertTrue(classUnderTest.displayAvailableExits(actualMap));
+        assertTrue(classUnderTest.showExits(actualMap));
     }
 
 }

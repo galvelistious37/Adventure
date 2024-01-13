@@ -11,19 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FightRunner {
-    private int id;
     private Character player;
-    private List<Character> enemies;
+    private List<Character> locationCharacters;
 
-    public FightRunner(int id, List<Character> enemies){
-        this.id = id;
-        this.enemies = enemies;
+    public static FightRunner getFightRunner(List<Character> locationCharacters){
+        return new FightRunner(locationCharacters);
+    }
+
+    private FightRunner(List<Character> enemies){
+        this.locationCharacters = enemies;
         player = Player.getInstance();
     }
 
     public void runFightTask(){
         setCharacterInitiatives();
-        Fight fight = new Fight(enemies);
+        Fight fight = new Fight(locationCharacters);
         if(fight.areEnemiesAlive()) {
             fight.doFightinStuff();
         } else {
@@ -37,10 +39,8 @@ public class FightRunner {
     public void setCharacterInitiatives() {
         List<Character> everyone = new ArrayList<>();
         everyone.add(player);
-        everyone.addAll(enemies);
+        everyone.addAll(locationCharacters);
         everyone.forEach(e ->
                 e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
     }
-
-
 }
