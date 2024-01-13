@@ -1,5 +1,6 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.StingerFactory;
@@ -17,19 +18,19 @@ public class SuperScorpion extends Character {
     private int initiative;
     private String name;
 
-    private SuperScorpion(int hitPoints, int strength, String name) {
+    private SuperScorpion() {
         this.equipable = WeaponFactoryRunner.createEquipable(new StingerFactory());
-        this.hitPoints = hitPoints;
-        this.strength = strength;
+        this.hitPoints = 20;
+        this.strength = 10;
         this.damage = equipable.getDamage();
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = name;
+        this.name = Constant.SUPER_SCORPION;
     }
 
     public static SuperScorpion getSuperScorpion(){
-        return new SuperScorpion(20, 10, "Super Crazy Scorpion");
+        return new SuperScorpion();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
@@ -17,19 +18,19 @@ public class Ogre extends Character {
     private int initiative;
     private String name;
 
-    private Ogre(int hitPoints, int strength, String name) {
+    private Ogre() {
         this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
         this.damage = equipable.getDamage();
-        this.hitPoints = hitPoints;
-        this.strength = strength;
+        this.hitPoints = 25;
+        this.strength = 8;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = name;
+        this.name = Constant.OGRE;
     }
 
     public static Ogre getOgre(){
-        return new Ogre(25, 8, "Ogre");
+        return new Ogre();
     }
 
     @Override

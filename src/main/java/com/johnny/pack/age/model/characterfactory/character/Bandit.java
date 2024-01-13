@@ -1,5 +1,7 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.model.constant.Constant;
+import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
@@ -17,19 +19,19 @@ public class Bandit extends Character {
     private int initiative;
     private String name;
 
-    private Bandit(int hitPoints, int strength, String name) {
+    private Bandit() {
         this.equipable = WeaponFactoryRunner.createEquipable(new KnifeFactory());
-        this.hitPoints = hitPoints;
-        this.strength = strength;
         this.damage = equipable.getDamage();
+        this.hitPoints = 15;
+        this.strength = 6;
         this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
-        this.name = name;
+        this.name = Constant.BANDIT;
     }
 
     public static Bandit getBandit(){
-        return new Bandit(15, 6, "Bandit");
+        return new Bandit();
     }
 
     @Override

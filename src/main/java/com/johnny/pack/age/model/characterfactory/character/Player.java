@@ -137,20 +137,6 @@ public class Player extends Character {
         };
     }
 
-    public Attackable determineAttackable(Equipable equipable){
-        if(equipable.weaponType().equals("fist")){
-            return Punch.getInstance();
-        }
-        return Stab.getInstance();
-    }
-
-    public Berserkable determineBerserkable(Equipable equipable){
-        if(equipable.weaponType().equals("fist")){
-            return Pummel.getInstance();
-        }
-        return Hack.getInstance();
-    }
-
     @Override
     public int dealDamage(){
         return this.strength + this.damage;
