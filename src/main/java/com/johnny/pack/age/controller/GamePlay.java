@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 public class GamePlay {
 
     // Global Variables
-    private Player player = Player.getInstance();
-    private List<Character> enemies = EnemyBuilder.getInstance().getAllEnemies();
+    private final Player player = Player.getInstance();
+    private final List<Character> enemies = EnemyBuilder.getInstance().getAllEnemies();
 
     /**
      *  Create only one instance of GamePlay
@@ -38,17 +38,10 @@ public class GamePlay {
     }
 
     /**
-     * Greet and initiate the game
-     */
-    public void initiate() {
-        Display.getDisplayInstance.displayText(Constant.WELCOME_TEXT);
-        playTheGame();
-    }
-
-    /**
      * While true, continue playing the game
      */
-    private void playTheGame(){
+    public void playTheGame(){
+        Display.displayText(Constant.WELCOME_TEXT);
         boolean isStillPlaying = true;
         while (isStillPlaying) {
             isStillPlaying = goThroughPlayActions();
@@ -64,30 +57,17 @@ public class GamePlay {
      */
     private boolean goThroughPlayActions() {
         // Get the Location
-        Location location = LocationBuilder
-                .mapLocations
-                .get(player.getLocation());
-
-        // Display location details
-        Display.getDisplayInstance.displayText(
-                Constant.LOCATION_LABEL + location.getTerrain());
+        Location location = getLocation(player.getLocation());
+        Display.displayText(Constant.LOCATION_LABEL + location.getTerrain());
 
         // Are enemies in this area?
-        List<Character> locationCharacters = getEnemiesInLocation(location.getId());
-        if(locationCharacters.size() > 0){
-            FightRunner fightRunner = FightRunner.getFightRunner(locationCharacters);
-            fightRunner.runFightTask();
-        }
+        enemyCheck(location.getId());
 
         // If player not alive, return false.
-        if(!player.getIsAlive()){
-            return false;
-        }
+        if (!stillAlive()) return false;
 
-        // Display the available exits based on current location.
-        Display.getDisplayInstance.showExits(location.getExits());
-
-        // Move to the newly selected location.
+        // Display exits and move
+        Display.showExits(location.getExits());
         int locNumber = moveLocation(location.getId());
 
         // Check new location for new weapons
@@ -97,16 +77,26 @@ public class GamePlay {
         return true;
     }
 
-//    /**
-//     * Find any enemy with the same location as the given parameter
-//     * @param locationNumber - int location
-//     * @return - a boolean if enemies have the same location
-//     */
-//    private boolean areEnemiesPresent(int locationNumber) {
-//        return enemies
-//                .stream()
-//                .anyMatch(enemy -> enemy.getLocation() == locationNumber);
-//    }
+    private boolean stillAlive() {
+        return player.getIsAlive();
+    }
+
+    private void enemyCheck(int locationId) {
+        List<Character> enemyList = getEnemiesInLocation(locationId);
+        if(enemyList.size() > 0){
+            FightRunner.getFightRunner(enemyList).runFightTask();
+        }
+    }
+
+    /**
+     * Get the location from a map of locations
+     * @return The map value for key player location id
+     */
+    private Location getLocation(int locationId) {
+        return LocationBuilder
+                .mapLocations
+                .get(locationId);
+    }
 
     /**
      * Filter the list of enemies by locationId.
@@ -131,7 +121,7 @@ public class GamePlay {
 
         // Is user selection valid?
         if(!isValidSelection(id, direction)){
-            Display.getDisplayInstance.displayText(Constant.YOU_SHALL_NOT_PASS);
+            Display.displayText(Constant.YOU_SHALL_NOT_PASS);
             // Return current location id
             return id;
         }
@@ -235,7 +225,7 @@ public class GamePlay {
      * @param weaponType - String value of weapon type
      */
     private void setWeaponDetails(String weaponType){
-        Display.getDisplayInstance.displayText(Constant.YOU_FOUND + weaponType);
+        Display.displayText(Constant.YOU_FOUND + weaponType);
         player.setEquipable(WeaponFactoryRunner.determineEquipable(weaponType));
         player.setDamage(player.getEquipable().getDamage());
     }
@@ -251,7 +241,7 @@ public class GamePlay {
      * Close the open Scanner object and shut down the app
      */
     private void shutDown(){
-        Display.getDisplayInstance.displayText(Constant.SHUTTING_DOWN);
+        Display.displayText(Constant.SHUTTING_DOWN);
         UserInput.getUserInstance().getScanner().close();
         int status = 0;
         System.exit(status);
