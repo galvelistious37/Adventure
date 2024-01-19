@@ -3,6 +3,7 @@ package com.johnny.pack.age.controller.attack;
 import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.controller.GamePlay;
+import com.johnny.pack.age.controller.status.CharacterStatus;
 import com.johnny.pack.age.model.characterfactory.character.Player;
 import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.controller.Move.UserInput;
@@ -22,64 +23,25 @@ public class Fight {
         this.enemies = enemies;
     }
 
-
-
-    /**
-     * Countdown from 20 to determine initiative order for player and
-     * @param round - int value of round number
-     * @return - boolean quit
-     */
-    public boolean goThroughFightOrder(int round) {
-        boolean quit = false;
-
-        // Counting down from 20, check player initiative
-        for(int i = Numbers.TWENTY.getValue(); i > Numbers.ZERO.getValue(); i--){
-            if(player.getInitiative() == i){
-                int action = getSelection();
-                quit = tryAction(action, player, enemies, round);
-            }
-            // Did player quit or enemies leave?
-            if(quit || enemies.size() == 0){
-                break;
-            }
-            // Get enemies initiative
-            for(Character enemy : enemies){
-                if(enemy.getInitiative() == i){
-                    quit = enemyAction(player, enemy);
-                }
-            }
-        }
-        return quit;
-    }
+//    /**
+//     * Countdown from 20 to determine initiative order for player and
+//     * @param round - int value of round number
+//     * @return - boolean quit
+//     */
+//    public boolean goThroughFightOrder(int round) {
+//        boolean quit = false;
+//
+//
+//        return quit;
+//    }
 
     /**
      * Check if the enemy is alive and attack player if true.
      * @param player - player object
      * @param enemy - enemy object
-     * @return - boolean is player dead
      */
-    private boolean enemyAction(Character player, Character enemy) {
-        if(enemy.getIsAlive()){
-            attack(enemy, player);
-            if(!player.getIsAlive()){
-                playerDied(enemy);
-                return true;
-            }
-        } else {
-            Display.getDisplayInstance.displayText(enemy.getName() + " is dead");
-        }
-        return false;
-    }
-
-    /**
-     * Logic to end game when player dies
-     * @param enemy - enemy object
-     */
-    private void playerDied(Character enemy) {
-        Display.getDisplayInstance.displayText(
-                enemy.getName() + " killed you!\nGame Over");
-        pressEnterKeyToContinue();
-        GamePlay.getInstance().quit();
+    public void enemyAction(Character player, Character enemy) {
+        attack(enemy, player);
     }
 
     /**
@@ -87,7 +49,7 @@ public class Fight {
      * @return - boolean yes
      */
     public boolean eatTheDead() {
-        Display.getDisplayInstance.displayText("Enter \"Yes\" to eat the dead");
+        Display.displayText("Enter \"Yes\" to eat the dead");
         return UserInput.getUserInstance().isInputYes();
     }
 
@@ -96,7 +58,7 @@ public class Fight {
      * @param player - player object
      */
     public void digestTheDead(Character player){
-        Display.getDisplayInstance.displayText("You devour the flesh of your enemy");
+        Display.displayText("You devour the flesh of your enemy");
         int hp = player.getHitPoints();
         hp += Numbers.TEN.getValue();
 
@@ -105,46 +67,24 @@ public class Fight {
             hp = Numbers.ONE_HUNDRED.getValue();
         }
         player.setHitPoints(hp);
-        Display.getDisplayInstance.displayText("You have " +
+        Display.displayText("You have " +
                 player.getHitPoints() + " hit points");
-    }
-
-    /**
-     * Press enter to continue
-     */
-    private void pressEnterKeyToContinue()
-    {
-        Display.getDisplayInstance.displayText("Press Enter key to quit...");
-        UserInput.getUserInstance().getScanner().nextLine();
     }
 
     /**
      * Switch case for logic based on user input
      * @param action - int value user input
-     * @param player - player object
-     * @param enemies - List of enemy objects
      * @param round - int value for round number
      * @return - boolean quit
      */
-    private boolean tryAction(int action, Character player, List<Character> enemies, int round) {
-        switch (action) {
-            case Constant.ONE -> {
-                attackEnemySelection(player, enemies);
-                return false;
-            }
-            case Constant.TWO -> {
-                intimidate(enemies);
-                return false;
-            }
-            case Constant.THREE -> {
-                return sneak(round, enemies, player);
-            }
-            case Constant.FOUR -> {
-                Display.getDisplayInstance.displayText("You run away like some kind of wuss");
-                return true;
-            }
-        }
-        return false;
+    public boolean tryAction(int action, int round) {
+        return switch (action) {
+            case Constant.ONE -> {attackEnemySelection(player, enemies); yield false;}
+            case Constant.TWO -> {intimidate(enemies); yield false;}
+            case Constant.THREE -> sneak(round, enemies, player);
+            case Constant.FOUR -> {Display.displayText("You run away like some kind of wuss"); yield true;}
+            default ->  false;
+        };
     }
 
     /**
@@ -156,13 +96,11 @@ public class Fight {
      * @return - boolean successful sneak attempt
      */
     private boolean sneak(int round, List<Character> enemies, Character player) {
-        if(round == Numbers.ONE.getValue() && haveTheDrop(player.getInitiative(), enemies)){
-             return attemptSneak(enemies);
-        } else {
-            Display.getDisplayInstance.displayText("The enemies have " +
-                    "already seen you. You cannot sneak.");
+        if(round > Numbers.ONE.getValue() || !haveTheDrop(player.getInitiative(), enemies)){
+            Display.displayText("The enemies have already seen you. You cannot sneak.");
             return false;
         }
+        return attemptSneak(enemies);
     }
 
     /**
@@ -185,12 +123,11 @@ public class Fight {
     private boolean attemptSneak(List<Character> enemies) {
         for(Character enemy : enemies){
             if(Dice.rollTheDie(Numbers.TWENTY.getValue()) > Numbers.SEVENTEEN.getValue()){
-                Display.getDisplayInstance.displayText(enemy.getName() +
-                        " busted you trying to sneak by");
+                Display.displayText(enemy.getName() + " busted you trying to sneak by");
                 return false;
             }
         }
-        Display.getDisplayInstance.displayText("You sneak passed the enemies");
+        Display.displayText("You sneak passed the enemies");
         return true;
     }
 
@@ -205,7 +142,7 @@ public class Fight {
         // Did you select an enemy?
         if(enemyIndex == Numbers.NEGATIVE_ONE.getValue()){
             // User selected to leave
-            Display.getDisplayInstance.displayText("You have chosen not to " +
+            Display.displayText("You have chosen not to " +
                     "intimidate and have lost your turn");
             return;
         }
@@ -215,18 +152,18 @@ public class Fight {
 
         // Get intimidation value
         int successRoll = Dice.rollTheDie(Numbers.TWENTY.getValue());
-        Display.getDisplayInstance.displayText("Success Roll: " + successRoll);
+        Display.displayText("Success Roll: " + successRoll);
 
         // Did player succeed in intimidating the enemy
         if(successRoll > Numbers.TEN.getValue()){
             enemies.remove(enemy);
             enemy.setLocation(LocationBuilder.getRandomLocation());
-            Display.getDisplayInstance.displayText("You scared "
+            Display.displayText("You scared "
                     + enemy.getName() + " so bad it ran away");
         } else {
             // if intimidation failed, enemy gets a boost of hp
-            enemy.setHitPoints(enemy.getHitPoints() + Numbers.FIVE.getValue());
-            Display.getDisplayInstance.displayText("You failed at your intimidation attempt and " +
+            enemy.setHitPoints(CharacterStatus.increaseHealth(enemy, Numbers.FIVE.getValue()));
+            Display.displayText("You failed at your intimidation attempt and " +
                     enemy.getName() + " is definitely not scared of you" +
                     "\n" + enemy.getName() + " gained 5 HP");
         }
@@ -243,7 +180,7 @@ public class Fight {
             Character enemy = enemies.get(enemyIndex);
             attack(player, enemy);
         } else {
-            Display.getDisplayInstance.displayText("You did not pick an " +
+            Display.displayText("You did not pick an " +
                     "enemy and lost your turn");
         }
     }
@@ -309,7 +246,7 @@ public class Fight {
             default -> form = "missed";
         };
 
-        Display.getDisplayInstance.displayText(attacker.getName() + " " +
+        Display.displayText(attacker.getName() + " " +
                 form + " " + victim.getName() + " for " + damage + " HP");
     }
 
@@ -319,9 +256,9 @@ public class Fight {
      * @return - boolean isAlive
      */
     private boolean checkStillAlive(Character victim) {
-        if (victim.getHitPoints() <= Numbers.ZERO.getValue()) {
-            victim.setHitPoints(Numbers.ZERO.getValue());
-        }
+//        if (victim.getHitPoints() <= Numbers.ZERO.getValue()) {
+//            victim.setHitPoints(Numbers.ZERO.getValue());
+//        }
         return victim.getHitPoints() > Numbers.ZERO.getValue();
     }
 
@@ -346,16 +283,15 @@ public class Fight {
      */
     private int getEnemyIndex(List<Character> enemies) {
         while (true) {
-            Display.getDisplayInstance.displayText("Select an enemy:" +
+            Display.displayText("Select an enemy:" +
                     "\n\tEnter 99 to leave");
 
             // Get user input
             String userInput = UserInput.getUserInstance().getScanner().nextLine();
 
             // Did user select a valid option?
-            if(Display.getDisplayInstance.getAcceptableNumbers().stream()
-                    .noneMatch(input -> input.equalsIgnoreCase(userInput))){
-                Display.getDisplayInstance.displayText("Choose an enemy number");
+            if(UserInput.getUserInstance().validateEnemySelection(userInput)){
+                Display.displayText("Choose an enemy number");
                 // No - next loop iteration and try again
                 continue;
             }
@@ -372,6 +308,7 @@ public class Fight {
                 // No - next loop iteration and try again
                 continue;
             }
+
 
             // Is enemy already dead?
             if (alreadyDead(index, enemies)) {
@@ -392,7 +329,7 @@ public class Fight {
      */
     private boolean alreadyDead(int index, List<Character> enemies) {
         if(!enemies.get(index).getIsAlive()){
-            Display.getDisplayInstance.displayText("Dude, that one is " +
+            Display.displayText("Dude, that one is " +
                     "already dead. Sicko!");
             return true;
         }
@@ -417,23 +354,5 @@ public class Fight {
      */
     private boolean moreThanOneEnemy(List<Character> enemies) {
         return enemies.size() > Numbers.ONE.getValue();
-    }
-
-    /**
-     * Determine whether user input is valid
-     * @return - int value of user input
-     */
-    private int getSelection() {
-        while(true) {
-            Display.getDisplayInstance.getFightMenu();
-            if(UserInput.getUserInstance().scannerHasNextInt()){
-                int selection =  Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
-                if(selection > Numbers.ZERO.getValue() && selection < Numbers.FIVE.getValue()){
-                    return selection;
-                }
-            }
-            Display.getDisplayInstance.displayText("Select a valid option");
-            UserInput.getUserInstance().getScanner().nextLine();
-        }
     }
 }

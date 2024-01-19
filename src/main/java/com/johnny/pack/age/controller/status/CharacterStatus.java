@@ -30,4 +30,8 @@ public class CharacterStatus {
         everyone.forEach(e ->
                 e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
     }
+
+    public static int increaseHealth(Character character, int amount){
+        return character.getHitPoints() + amount;
+    }
 }

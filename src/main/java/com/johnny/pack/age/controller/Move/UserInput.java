@@ -1,5 +1,10 @@
 package com.johnny.pack.age.controller.Move;
 
+import com.johnny.pack.age.model.characterfactory.character.Character;
+import com.johnny.pack.age.model.constant.Numbers;
+import com.johnny.pack.age.view.Display;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class UserInput {
@@ -30,5 +35,10 @@ public class UserInput {
 
     public void scannerNextLine(){
         scanner.nextLine();
+    }
+
+    public boolean validateEnemySelection(String userInput) {
+        return Display.getAcceptableNumbers().stream()
+                .noneMatch(input -> input.equalsIgnoreCase(userInput));
     }
 }
