@@ -2,7 +2,6 @@ package com.johnny.pack.age.controller.attack;
 
 import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.dice.Dice;
-import com.johnny.pack.age.controller.GamePlay;
 import com.johnny.pack.age.controller.status.CharacterStatus;
 import com.johnny.pack.age.model.characterfactory.character.Player;
 import com.johnny.pack.age.model.constant.Numbers;
@@ -11,13 +10,23 @@ import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.view.Display;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Fight {
 
     private Player player = Player.getInstance();
     private List<Character> enemies;
+    private final Predicate<Integer> playerQuit = i -> i == 99;
+    private final Predicate<Integer> indexInRange = i -> i >= 0 && i <= enemies.size() - 1;
+    private final Predicate<Character> isCharacterAlive = Character::getIsAlive;
+    private final Predicate<Integer> isFirstRound = i -> i == 0;
+    private final Predicate<Integer> haveTheDrop = i -> enemies.stream().noneMatch(e -> e.getInitiative() > i);
+    private final Predicate<Integer> bustedSneaking = i -> i > 17;
+    private final Predicate<Integer> belowZero = i -> i < 0;
+    private final Predicate<Integer> hasHitPoints = i -> i > 0;
 
     public Fight(List<Character> enemies){
         this.enemies = enemies;
@@ -45,33 +54,6 @@ public class Fight {
     }
 
     /**
-     * Get user input on whether they should eat the dead
-     * @return - boolean yes
-     */
-    public boolean eatTheDead() {
-        Display.displayText("Enter \"Yes\" to eat the dead");
-        return UserInput.getUserInstance().isInputYes();
-    }
-
-    /**
-     * Logic to increase player object's hitpoints after eating the dead
-     * @param player - player object
-     */
-    public void digestTheDead(Character player){
-        Display.displayText("You devour the flesh of your enemy");
-        int hp = player.getHitPoints();
-        hp += Numbers.TEN.getValue();
-
-        // if hp would increase above 100, set hp to 100
-        if(hp > Numbers.ONE_HUNDRED.getValue()){
-            hp = Numbers.ONE_HUNDRED.getValue();
-        }
-        player.setHitPoints(hp);
-        Display.displayText("You have " +
-                player.getHitPoints() + " hit points");
-    }
-
-    /**
      * Switch case for logic based on user input
      * @param action - int value user input
      * @param round - int value for round number
@@ -81,7 +63,7 @@ public class Fight {
         return switch (action) {
             case Constant.ONE -> {attackEnemySelection(player, enemies); yield false;}
             case Constant.TWO -> {intimidate(enemies); yield false;}
-            case Constant.THREE -> sneak(round, enemies, player);
+            case Constant.THREE -> sneak(round, player);
             case Constant.FOUR -> {Display.displayText("You run away like some kind of wuss"); yield true;}
             default ->  false;
         };
@@ -91,29 +73,28 @@ public class Fight {
      * Check if player has the option to sneak passed the enemies
      * based on round number and initiative checks.
      * @param round - int value round number
-     * @param enemies - List of enemy objects
      * @param player - player object
      * @return - boolean successful sneak attempt
      */
-    private boolean sneak(int round, List<Character> enemies, Character player) {
-        if(round > Numbers.ONE.getValue() || !haveTheDrop(player.getInitiative(), enemies)){
+    private boolean sneak(int round, Character player) {
+        if(isFirstRound.test(round) || !haveTheDrop.test(player.getInitiative())){
             Display.displayText("The enemies have already seen you. You cannot sneak.");
             return false;
         }
         return attemptSneak(enemies);
     }
 
-    /**
-     * Check if any enemies have a greater initiative than the player
-     * @param playerInitiative - int value player initiative
-     * @param enemies - enemy object
-     * @return - boolean player has greater initiative than all enemies
-     */
-    private boolean haveTheDrop(int playerInitiative, List<Character> enemies) {
-        return Numbers.ZERO.getValue() == enemies.stream()
-                .filter(e -> e.getInitiative() > playerInitiative)
-                .count();
-    }
+//    /**
+//     * Check if any enemies have a greater initiative than the player
+//     * @param playerInitiative - int value player initiative
+//     * @param enemies - enemy object
+//     * @return - boolean player has greater initiative than all enemies
+//     */
+//    private boolean haveTheDrop(int playerInitiative, List<Character> enemies) {
+//        return Numbers.ZERO.getValue() == enemies.stream()
+//                .filter(e -> e.getInitiative() > playerInitiative)
+//                .count();
+//    }
 
     /**
      * Check if any enemy in the location noticed you trying to sneak
@@ -122,7 +103,7 @@ public class Fight {
      */
     private boolean attemptSneak(List<Character> enemies) {
         for(Character enemy : enemies){
-            if(Dice.rollTheDie(Numbers.TWENTY.getValue()) > Numbers.SEVENTEEN.getValue()){
+            if(bustedSneaking.test(Dice.rollTheDie(Numbers.TWENTY.getValue()))){
                 Display.displayText(enemy.getName() + " busted you trying to sneak by");
                 return false;
             }
@@ -243,7 +224,7 @@ public class Fight {
             case "critical" -> attacker.getEquipable().getBerserkable().goBerserk();
             case "normal" -> attacker.getEquipable().getAttackable().attack();
             case "low" -> attacker.getEquipable().getScratchable().scratch();
-            default -> form = "missed";
+            default -> "missed";
         };
 
         Display.displayText(attacker.getName() + " " +
@@ -256,10 +237,11 @@ public class Fight {
      * @return - boolean isAlive
      */
     private boolean checkStillAlive(Character victim) {
-//        if (victim.getHitPoints() <= Numbers.ZERO.getValue()) {
-//            victim.setHitPoints(Numbers.ZERO.getValue());
-//        }
-        return victim.getHitPoints() > Numbers.ZERO.getValue();
+        Consumer<Integer> setHitPoints = victim::setHitPoints;
+        if (belowZero.test(victim.getHitPoints())) {
+            setHitPoints.accept(Numbers.ZERO.getValue());
+        }
+        return hasHitPoints.test(victim.getHitPoints());
     }
 
     /**
@@ -296,55 +278,14 @@ public class Fight {
                 continue;
             }
 
-            // Did user select to leave?
             int index = Integer.parseInt(userInput);
-            if(index == Numbers.NINETY_NINE.getValue()) {
-                // Yes - Return -1 and leave
-                return Numbers.NEGATIVE_ONE.getValue();
-            }
-
-            // Is user input within List range?
-            if (!isIndexInRange(index, enemies)) {
-                // No - next loop iteration and try again
-                continue;
-            }
-
-
-            // Is enemy already dead?
-            if (alreadyDead(index, enemies)) {
-                // Yes - next loop iteration and try again
-                continue;
-            }
+            if(playerQuit.test(index)) return Numbers.NEGATIVE_ONE.getValue(); // Yes - return -1 and leave
+            if (!indexInRange.test(index)) continue; // No - next loop iteration
+            if (!isCharacterAlive.test(enemies.get(index))) continue; // NO - next loop iteration
 
             // User picked a valid enemy - return enemy index value
             return index;
         }
-    }
-
-    /**
-     * Check if the selected enemy index from list is alive.
-     * @param index - int index value of enemy object within a list
-     * @param enemies - List of enemy objects
-     * @return - boolean enemy is dead
-     */
-    private boolean alreadyDead(int index, List<Character> enemies) {
-        if(!enemies.get(index).getIsAlive()){
-            Display.displayText("Dude, that one is " +
-                    "already dead. Sicko!");
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Determine if the user input is an int value between 0 and the
-     * number of enemy objects - 1
-     * @param index - int value user input
-     * @param enemies - List of enemies
-     * @return - boolean user input is within range
-     */
-    private boolean isIndexInRange(int index, List<Character> enemies) {
-        return index >= Numbers.ZERO.getValue() && index <= enemies.size() - Numbers.ONE.getValue();
     }
 
     /**
