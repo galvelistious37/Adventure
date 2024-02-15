@@ -75,7 +75,6 @@ public class Display {
     public static void getFightMenu(){
         List<String> menu = new ArrayList<>();
         menu.add(Constant.FIGHT + Constant.COLON_SEPARATOR + Constant.DO_FIGHTIN);
-        menu.add(Constant.INTIMIDATE + Constant.COLON_SEPARATOR + Constant.INTIMIDATE_THEM);
         menu.add(Constant.SNEAK_PAST + Constant.COLON_SEPARATOR + Constant.SNEAKY_LIKE);
         menu.add(Constant.RUN_AWAY + Constant.COLON_SEPARATOR + Constant.RUN_FORREST);
         menu.forEach(System.out::println);
