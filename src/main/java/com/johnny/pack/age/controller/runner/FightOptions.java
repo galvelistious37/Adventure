@@ -4,7 +4,11 @@ import com.johnny.pack.age.controller.Move.UserInput;
 import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.view.Display;
 
+import java.util.function.Predicate;
+
 public class FightOptions {
+    private final Predicate<Integer> isValidSelection = i ->
+            i > Numbers.ZERO.getValue() && i < Numbers.FOUR.getValue();
 
     /**
      * Determine whether user input is valid
