@@ -1,8 +1,6 @@
 package com.johnny.pack.age.controller.attack;
 
-import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.dice.Dice;
-import com.johnny.pack.age.controller.status.CharacterStatus;
 import com.johnny.pack.age.model.characterfactory.character.Player;
 import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.controller.Move.UserInput;
@@ -16,7 +14,7 @@ import java.util.function.Predicate;
 
 public class Fight {
 
-    private Player player = Player.getInstance();
+    private final Player player = Player.getInstance();
     private List<Character> enemies;
     private final Predicate<Integer> playerQuit = i -> i == 99;
     private final Predicate<Integer> indexInRange = i -> i >= 0 && i <= enemies.size() - 1;
@@ -26,27 +24,11 @@ public class Fight {
     private final Predicate<Integer> bustedSneaking = i -> i > 17;
     private final Predicate<Integer> belowZero = i -> i < 0;
     private final Predicate<Integer> hasHitPoints = i -> i > 0;
-    private final Predicate<Integer> isIntimidated = i -> i > Numbers.TEN.getValue();
 
     public Fight(List<Character> enemies){
         this.enemies = enemies;
     }
 
-    /**
-     * Check if the enemy is alive and attack player if true.
-     * @param player - player object
-     * @param enemy - enemy object
-     */
-    public void enemyAction(Character player, Character enemy) {
-        attack(enemy, player);
-    }
-
-    /**
-     * Switch case for logic based on user input
-     * @param action - int value user input
-     * @param round - int value for round number
-     * @return - boolean quit
-     */
     public boolean tryAction(int action, int round) {
         return switch (action) {
             case Constant.ONE -> {attackEnemySelection(player, enemies); yield false;}
@@ -85,7 +67,7 @@ public class Fight {
         }
     }
 
-    private void attack(Character attacker, Character victim) {
+    public void attack(Character attacker, Character victim) {
         String severity = determineSeverity();
         int damageDealt = determineDamage(attacker, severity);
         displayAttackDetails(attacker, victim, severity, damageDealt);
@@ -106,7 +88,6 @@ public class Fight {
     }
 
     private int determineDamage(Character attacker, String severity) {
-
         return switch (severity) {
             case "critical" -> attacker.dealDamage() * Numbers.TWO.getValue();
             case "normal" -> attacker.dealDamage();
@@ -115,13 +96,6 @@ public class Fight {
         };
     }
 
-    /**
-     * Build display based on attack severity level
-     * @param attacker - attacker Character object
-     * @param victim - victim Character object
-     * @param severity - String value severity level
-     * @param damage - int value damage dealt
-     */
     private void displayAttackDetails(Character attacker, Character victim,
                                       String severity, int damage){
         String form = switch(severity){
@@ -135,11 +109,6 @@ public class Fight {
                 form + " " + victim.getName() + " for " + damage + " HP");
     }
 
-    /**
-     * Check if the victim Character object isALive
-     * @param victim - victim Character object
-     * @return - boolean isAlive
-     */
     private boolean checkStillAlive(Character victim) {
         Consumer<Integer> setHitPoints = victim::setHitPoints;
         if (belowZero.test(victim.getHitPoints())) {
@@ -148,12 +117,6 @@ public class Fight {
         return hasHitPoints.test(victim.getHitPoints());
     }
 
-    /**
-     * Logic to select an enemy if more than one, or
-     * select the only enemy
-     * @param enemies - List of enemy objects
-     * @return - enemy object index
-     */
     private int whichEnemy(List<Character> enemies) {
         if(moreThanOneEnemy(enemies)){
             return getEnemyIndex(enemies);
@@ -162,11 +125,6 @@ public class Fight {
         }
     }
 
-    /**
-     * Logic to select an enemy from a list from given user input.
-     * @param enemies - List of enemy objects
-     * @return - an int index value for an enemy within a list
-     */
     private int getEnemyIndex(List<Character> enemies) {
         while (true) {
             Display.displayText("Select an enemy:" +
@@ -192,11 +150,6 @@ public class Fight {
         }
     }
 
-    /**
-     * Is there more than one enemy in the list
-     * @param enemies - List of enemy objects
-     * @return - boolean more than one enemy object in the list
-     */
     private boolean moreThanOneEnemy(List<Character> enemies) {
         return enemies.size() > Numbers.ONE.getValue();
     }

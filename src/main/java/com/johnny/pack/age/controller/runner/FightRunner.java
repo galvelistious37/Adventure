@@ -91,7 +91,7 @@ public class FightRunner {
         if(character instanceof Player){
             return getPlayerChoice(round);
         } else {
-            fight.enemyAction(player, character);
+            fight.attack(character, player);
         }
         if(!player.getIsAlive()){
             playerDied();

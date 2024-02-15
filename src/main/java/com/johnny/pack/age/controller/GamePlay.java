@@ -42,43 +42,20 @@ public class GamePlay {
      */
     public void playTheGame(){
         Display.displayText(Constant.WELCOME_TEXT);
-        boolean isStillPlaying = true;
-        while (isStillPlaying) {
-            isStillPlaying = goThroughPlayActions();
+        while (true) {
+            goThroughPlayActions();
         }
-        shutDown();
     }
 
-    /**
-     * Set location and enemy details based on player's location id.
-     * If enemies are in this location, run fight code block.
-     * Display available exits.
-     * @return - A boolean value of whether to keep playing
-     */
-    private boolean goThroughPlayActions() {
+    private void goThroughPlayActions() {
         // Get the Location
         Location location = getLocation(player.getLocation());
         Display.displayText(Constant.LOCATION_LABEL + location.getTerrain());
 
-        // Are enemies in this area?
         enemyCheck(location.getId());
-
-        // If player not alive, return false.
-        if (!stillAlive()) return false;
-
-        // Display exits and move
         Display.showExits(location.getExits());
         int locNumber = moveLocation(location.getId());
-
-        // Check new location for new weapons
         checkNewWeapon(locNumber);
-
-        // Return true to keep playing.
-        return true;
-    }
-
-    private boolean stillAlive() {
-        return player.getIsAlive();
     }
 
     private void enemyCheck(int locationId) {
@@ -104,8 +81,7 @@ public class GamePlay {
      * @return - A list of enemies in the given location
      */
     private List<Character> getEnemiesInLocation(int locationId){
-        return enemies
-                .stream()
+        return enemies.stream()
                 .filter(enemy -> enemy.getLocation() == locationId)
                 .collect(Collectors.toList());
     }
