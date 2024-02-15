@@ -50,9 +50,8 @@ public class Fight {
     public boolean tryAction(int action, int round) {
         return switch (action) {
             case Constant.ONE -> {attackEnemySelection(player, enemies); yield false;}
-            case Constant.TWO -> {intimidate(enemies); yield false;}
-            case Constant.THREE -> sneak(round, player);
-            case Constant.FOUR -> {Display.displayText("You run away like some kind of wuss"); yield true;}
+            case Constant.TWO -> sneak(round, player);
+            case Constant.THREE -> {Display.displayText("You run away like some kind of wuss"); yield true;}
             default ->  false;
         };
     }
@@ -73,43 +72,6 @@ public class Fight {
                 .mapToInt(e -> Dice.rollTheDie(Numbers.TWENTY.getValue()))
                 .peek(System.out::println)
                 .noneMatch(bustedSneaking::test);
-    }
-
-    /**
-     * Determine whether an intimidation attempt was successful.
-     * @param enemies - List of enemy objects
-     */
-    private void intimidate(List<Character> enemies) {
-        // select enemy from list
-        int enemyIndex = whichEnemy(enemies);
-
-        // Did you select an enemy?
-        if(enemyIndex == Numbers.NEGATIVE_ONE.getValue()){
-            // User selected to leave
-            Display.displayText("You have chosen not to " +
-                    "intimidate and have lost your turn");
-            return;
-        }
-        Character enemy = enemies.get(enemyIndex);
-        int successRoll = Dice.rollTheDie(Numbers.TWENTY.getValue());;
-        if(isIntimidated.test(successRoll)){
-            scaredAway(enemies, enemy);
-        } else {
-            failedIntimidation(enemy);
-        }
-    }
-
-    private static void failedIntimidation(Character enemy) {
-        enemy.setHitPoints(CharacterStatus.increaseHealth(enemy, Numbers.FIVE.getValue()));
-        Display.displayText("You failed at your intimidation attempt and " +
-                enemy.getName() + " is definitely not scared of you" +
-                "\n" + enemy.getName() + " gained 5 HP");
-    }
-
-    private static void scaredAway(List<Character> enemies, Character enemy) {
-        enemies.remove(enemy);
-        enemy.setLocation(LocationBuilder.getRandomLocation());
-        Display.displayText("You scared " + enemy.getName() + " so bad it ran away");
     }
 
     private void attackEnemySelection(Character player, List<Character> enemies) {

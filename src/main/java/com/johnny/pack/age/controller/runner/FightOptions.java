@@ -15,7 +15,7 @@ public class FightOptions {
             Display.getFightMenu();
             if(UserInput.getUserInstance().scannerHasNextInt()){
                 int selection =  Integer.parseInt(UserInput.getUserInstance().getScanner().nextLine());
-                if(selection > Numbers.ZERO.getValue() && selection < Numbers.FIVE.getValue()){
+                if(selection > Numbers.ZERO.getValue() && selection < Numbers.FOUR.getValue()){
                     return selection;
                 }
             }
