@@ -2,6 +2,7 @@ package com.johnny.pack.age.controller.runner;
 
 import com.johnny.pack.age.controller.GamePlay;
 import com.johnny.pack.age.controller.attack.Fight;
+import com.johnny.pack.age.controller.dice.Dice;
 import com.johnny.pack.age.controller.status.CharacterStatus;
 import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.characterfactory.character.Player;
@@ -18,11 +19,12 @@ public class FightRunner {
     private final Character player;
     private final List<Character> enemyList;
     private final Fight fight;
+    private CharacterStatus characterStatus = new CharacterStatus();
     private int round;
     private final Predicate<Boolean> isQuitting = b -> b;
 
     public static FightRunner getFightRunner(List<Character> enemyList){
-        return new FightRunner(enemyList, Player.getInstance(), new Fight(enemyList));
+        return new FightRunner(enemyList, Player.getInstance(), new Fight(enemyList, Dice.getInstance()));
     }
 
     private FightRunner(List<Character> enemies, Character player, Fight fight){
@@ -35,7 +37,7 @@ public class FightRunner {
         if(areEnemiesDead()) return;
 
         round = Numbers.ZERO.getValue();
-        CharacterStatus.setCharacterInitiatives(enemyList);
+        characterStatus.setCharacterInitiatives(enemyList);
 
         boolean quit = false;
         while(!quit){
@@ -55,13 +57,13 @@ public class FightRunner {
     }
 
     private void playerHealthBonus() {
-        player.setHitPoints(CharacterStatus.increaseHealth(player, 10));
+        player.setHitPoints(characterStatus.increaseHealth(player, 10));
         Display.displayText("Your health has increased to: " 
                 + player.getHitPoints());
     }
 
     private boolean areEnemiesDead(){
-        boolean alive = CharacterStatus.areAnyCharactersAlive(enemyList);
+        boolean alive = characterStatus.areAnyCharactersAlive(enemyList);
         if(!alive){
             Display.displayText("All enemies are dead");
         }

@@ -4,20 +4,23 @@ import com.johnny.pack.age.controller.dice.Dice;
 
 public class SimpleFactoryCharacter {
     private static final int CHARACTER_TYPES = 8;
+    private Dice dice = Dice.getInstance();
+
+    public SimpleFactoryCharacter(){}
 
     /**
-     * Call simple factory to genereate a new character type
+     * Call simple factory to generate a new character type
      * @return - CharacterFactory object of an enemy creator
      */
-    public static CharacterFactory getCharacterFactory(){
+    public CharacterFactory getCharacterFactory(){
         return getCharacterCreator();
     }
 
     /**
      * @return - A random enemy creator
      */
-    private static CharacterFactory getCharacterCreator(){
-        return switch (Dice.rollTheDie(CHARACTER_TYPES)) {
+    private CharacterFactory getCharacterCreator(){
+        return switch (dice.rollTheDie(CHARACTER_TYPES)) {
             case 1 -> new BanditCreator();
             case 2 -> new OgreCreator();
             case 3 -> new ScorpionCreator();
