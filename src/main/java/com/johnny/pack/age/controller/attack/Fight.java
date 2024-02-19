@@ -13,9 +13,10 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Fight {
-
     private final Player player = Player.getInstance();
     private List<Character> enemies;
+    private Dice dice;
+
     private final Predicate<Integer> playerQuit = i -> i == 99;
     private final Predicate<Integer> indexInRange = i -> i >= 0 && i <= enemies.size() - 1;
     private final Predicate<Character> isCharacterAlive = Character::getIsAlive;
@@ -25,8 +26,9 @@ public class Fight {
     private final Predicate<Integer> belowZero = i -> i < 0;
     private final Predicate<Integer> hasHitPoints = i -> i > 0;
 
-    public Fight(List<Character> enemies){
+    public Fight(List<Character> enemies, Dice dice){
         this.enemies = enemies;
+        this.dice = dice;
     }
 
     public boolean tryAction(int action, int round) {
@@ -51,7 +53,7 @@ public class Fight {
 
     private boolean isSneakSuccessful(List<Character> enemies) {
         return enemies.parallelStream()
-                .mapToInt(e -> Dice.rollTheDie(Numbers.TWENTY.getValue()))
+                .mapToInt(e -> dice.rollTheDie(Numbers.TWENTY.getValue()))
                 .peek(System.out::println)
                 .noneMatch(bustedSneaking::test);
     }
@@ -76,7 +78,7 @@ public class Fight {
     }
 
     private String determineSeverity() {
-        int roll = Dice.rollTheDie(Numbers.TWENTY.getValue());
+        int roll = dice.rollTheDie(Numbers.TWENTY.getValue());
         if(roll >= Numbers.EIGHTEEN.getValue()){
             return "critical";
         } else if(roll >= Numbers.SEVEN.getValue()){

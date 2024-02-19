@@ -1,5 +1,6 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
+import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
@@ -23,7 +24,7 @@ public class SuperOgre extends Character {
         this.damage = equipable.getDamage();
         this.hitPoints = 35;
         this.strength = 10;
-        this.location = 0;
+        this.location = LocationBuilder.getRandomLocation();
         this.isAlive = true;
         this.initiative = 0;
         this.name = Constant.SUPER_OGRE;

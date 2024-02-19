@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterStatus {
+    private Dice dice = Dice.getInstance();
 
     /**
      * stream through characters and find any alive
      * @return - boolean a character is alive
      */
-    public static boolean areAnyCharactersAlive(List<Character> characters) {
+    public boolean areAnyCharactersAlive(List<Character> characters) {
         return characters.stream().anyMatch(Character::getIsAlive);
     }
 
@@ -23,15 +24,15 @@ public class CharacterStatus {
     /**
      * Set the initiative value for all characters
      */
-    public static void setCharacterInitiatives(List<Character> characters) {
+    public void setCharacterInitiatives(List<Character> characters) {
         List<Character> everyone = new ArrayList<>();
         everyone.add(Player.getInstance());
         everyone.addAll(characters);
         everyone.forEach(e ->
-                e.setInitiative(Dice.rollTheDie(Numbers.TWENTY.getValue())));
+                e.setInitiative(dice.rollTheDie(Numbers.TWENTY.getValue())));
     }
 
-    public static int increaseHealth(Character character, int amount){
+    public int increaseHealth(Character character, int amount){
         return character.getHitPoints() + amount;
     }
 }
