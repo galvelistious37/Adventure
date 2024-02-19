@@ -19,7 +19,7 @@ public class Bandit extends Character {
     private String name;
     private KnifeFactory knifeFactory = new KnifeFactory();
 
-    public Bandit() {
+    private Bandit() {
         setEquipable(WeaponFactoryRunner.createEquipable(knifeFactory));
         setDamage(equipable.getDamage());
         setHitPoints(15);
