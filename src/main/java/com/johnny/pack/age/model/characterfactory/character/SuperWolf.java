@@ -24,7 +24,7 @@ public class SuperWolf extends Character {
         this.hitPoints = 12;
         this.strength = 8;
         this.damage = equipable.getDamage();
-        this.location = LocationBuilder.getRandomLocation();
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = Constant.SUPER_WOLF;
