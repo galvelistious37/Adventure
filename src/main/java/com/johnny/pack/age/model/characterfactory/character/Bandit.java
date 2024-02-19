@@ -16,11 +16,10 @@ public class Bandit extends Character {
     private int location;
     private boolean isAlive;
     private int initiative;
-    private String name;
-    private KnifeFactory knifeFactory = new KnifeFactory();
+    private final String name;
 
     private Bandit() {
-        setEquipable(WeaponFactoryRunner.createEquipable(knifeFactory));
+        setEquipable(WeaponFactoryRunner.createEquipable(new KnifeFactory()));
         setDamage(equipable.getDamage());
         setHitPoints(15);
         setStrength(6);

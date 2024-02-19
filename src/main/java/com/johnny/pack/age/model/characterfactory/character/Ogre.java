@@ -1,6 +1,5 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
@@ -17,11 +16,10 @@ public class Ogre extends Character {
     private int location;
     private boolean isAlive;
     private int initiative;
-    private String name;
-    private FistFactory fistFactory = new FistFactory();
+    private final String name;
 
     private Ogre() {
-        setEquipable(WeaponFactoryRunner.createEquipable(fistFactory));
+        setEquipable(WeaponFactoryRunner.createEquipable(new FistFactory()));
         setDamage(equipable.getDamage());
         setHitPoints(25);
         setStrength(8);
