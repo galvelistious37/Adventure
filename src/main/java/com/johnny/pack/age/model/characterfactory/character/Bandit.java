@@ -1,8 +1,6 @@
 package com.johnny.pack.age.model.characterfactory.character;
 
-import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.model.constant.Constant;
-import com.johnny.pack.age.model.constant.Numbers;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
@@ -19,15 +17,16 @@ public class Bandit extends Character {
     private boolean isAlive;
     private int initiative;
     private String name;
+    private KnifeFactory knifeFactory = new KnifeFactory();
 
-    private Bandit() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new KnifeFactory());
-        this.damage = equipable.getDamage();
-        this.hitPoints = 15;
-        this.strength = 6;
-        this.location = LocationBuilder.getRandomLocation();
-        this.isAlive = true;
-        this.initiative = 0;
+    public Bandit() {
+        setEquipable(WeaponFactoryRunner.createEquipable(knifeFactory));
+        setDamage(equipable.getDamage());
+        setHitPoints(15);
+        setStrength(6);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.BANDIT;
     }
 
@@ -77,7 +76,7 @@ public class Bandit extends Character {
 
     @Override
     public void setDamage(int damage) {
-
+        this.damage = damage;
     }
 
     @Override
@@ -118,13 +117,10 @@ public class Bandit extends Character {
     @Override
     public String toString() {
         return "Bandit{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", name='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }

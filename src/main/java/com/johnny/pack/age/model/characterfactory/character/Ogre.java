@@ -24,7 +24,7 @@ public class Ogre extends Character {
         this.damage = equipable.getDamage();
         this.hitPoints = 25;
         this.strength = 8;
-        this.location = LocationBuilder.getRandomLocation();
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = Constant.OGRE;

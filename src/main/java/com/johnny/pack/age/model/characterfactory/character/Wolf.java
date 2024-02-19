@@ -24,7 +24,7 @@ public class Wolf extends Character {
         this.hitPoints = 8;
         this.strength = 6;
         this.damage = equipable.getDamage();
-        this.location = LocationBuilder.getRandomLocation();
+        this.location = 0;
         this.isAlive = true;
         this.initiative = 0;
         this.name = Constant.WOLF;

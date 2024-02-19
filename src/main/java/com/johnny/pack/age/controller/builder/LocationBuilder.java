@@ -23,7 +23,7 @@ public class LocationBuilder {
      * Return a random location id from the list of ids.
      * @return - int location id
      */
-    public static int getRandomLocation(){
+    public int getRandomLocation(){
         Random random = new Random();
         return GameMap.gameMap.get(random.nextInt(GameMap.gameMap.size()));
     }
