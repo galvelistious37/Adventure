@@ -18,15 +18,16 @@ public class Ogre extends Character {
     private boolean isAlive;
     private int initiative;
     private String name;
+    private FistFactory fistFactory = new FistFactory();
 
     private Ogre() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
-        this.damage = equipable.getDamage();
-        this.hitPoints = 25;
-        this.strength = 8;
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
+        setEquipable(WeaponFactoryRunner.createEquipable(fistFactory));
+        setDamage(equipable.getDamage());
+        setHitPoints(25);
+        setStrength(8);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.OGRE;
     }
 
@@ -76,7 +77,7 @@ public class Ogre extends Character {
 
     @Override
     public void setDamage(int damage) {
-
+        this.damage = damage;
     }
 
     @Override
@@ -117,13 +118,10 @@ public class Ogre extends Character {
     @Override
     public String toString() {
         return "Ogre{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", name='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }
