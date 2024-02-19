@@ -1,19 +1,19 @@
-package com.johnny.pack.age.model.weapon;
+package com.johnny.pack.age.model.weaponabstractfactory.weapon;
 
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Stinger;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Teeth;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StingerTest {
+class TeethTest {
 
-    Stinger underTest;
+    Teeth underTest;
 
     @BeforeEach
     void setup(){
-        underTest = Stinger.getInstance();
+        underTest = Teeth.getInstance();
     }
 
     @AfterEach
@@ -23,13 +23,13 @@ class StingerTest {
 
     @Test
     void weaponType() {
-        String expected = "stinger";
+        String expected = "teeth";
         assertEquals(expected, underTest.weaponType());
     }
 
     @Test
     void getDamage() {
-        int expected = 7;
+        int expected = 9;
         assertEquals(expected, underTest.getDamage());
     }
 }

@@ -1,19 +1,19 @@
-package com.johnny.pack.age.model.weapon;
+package com.johnny.pack.age.model.weaponabstractfactory.weapon;
 
-import com.johnny.pack.age.model.weaponabstractfactory.weapon.Sword;
+import com.johnny.pack.age.model.weaponabstractfactory.weapon.Knife;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SwordTest {
+class KnifeTest {
 
-    Sword underTest;
+    Knife underTest;
 
     @BeforeEach
     void setup(){
-        underTest = Sword.getInstance();
+        underTest = Knife.getInstance();
     }
 
     @AfterEach
@@ -23,19 +23,19 @@ class SwordTest {
 
     @Test
     void weaponType() {
-        String expected = "sword";
+        String expected = "knife";
         assertEquals(expected, underTest.weaponType());
     }
 
     @Test
     void getDamage() {
-        int expected = 14;
+        int expected = 8;
         assertEquals(expected, underTest.getDamage());
     }
 
     @Test
     void getLocation() {
-        int expected = 5;
+        int expected = 3;
         underTest.setLocation(expected);
         assertEquals(expected, underTest.getLocation());
     }
