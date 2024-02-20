@@ -4,8 +4,6 @@ import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Fist;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
-import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
-import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.SwordFactory;
 
 public class Player extends Character {
     private final String name;
@@ -21,13 +19,13 @@ public class Player extends Character {
 
     private Player() {
         this.name = "You";
-        this.hitPoints = 100;
-        this.strength = 5;
-        this.damage = Fist.getInstance().getDamage();
-        this.location = 1;
-        this.isAlive = true;
-        this.initiative = 0;
-        this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
+        setHitPoints(100);
+        setStrength(5);
+        setDamage(Fist.getInstance().getDamage());
+        setLocation(1);
+        setIsAlive(true);
+        setInitiative(0);
+        setEquipable(WeaponFactoryRunner.createEquipable(new FistFactory()));
     }
 
     public static Player getInstance(){
@@ -111,15 +109,11 @@ public class Player extends Character {
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", damage=" + damage +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", equipable=" + equipable +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 
     @Override

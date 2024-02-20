@@ -4,6 +4,7 @@ import com.johnny.pack.age.controller.Move.Move;
 import com.johnny.pack.age.controller.builder.EnemyBuilder;
 import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.controller.runner.FightRunner;
+import com.johnny.pack.age.model.characterfactory.PlayerCreator;
 import com.johnny.pack.age.model.characterfactory.character.Character;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.location.Location;
@@ -21,7 +22,7 @@ import java.util.stream.Collectors;
 public class GamePlay {
 
     // Global Variables
-    private final Player player = Player.getInstance();
+    private final Character player = new PlayerCreator().createCharacter();
     private final List<Character> enemies = EnemyBuilder.getInstance().getAllEnemies();
 
     /**
