@@ -20,13 +20,14 @@ public class SuperScorpion extends Character {
     private String name;
 
     private SuperScorpion() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new StingerFactory());
-        this.hitPoints = 20;
-        this.strength = 10;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
+
+        setEquipable(WeaponFactoryRunner.createEquipable(new StingerFactory()));
+        setDamage(equipable.getDamage());
+        setHitPoints(20);
+        setStrength(10);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.SUPER_SCORPION;
     }
 
@@ -76,7 +77,7 @@ public class SuperScorpion extends Character {
 
     @Override
     public void setDamage(int damage) {
-
+        this.damage = damage;
     }
 
     @Override
@@ -117,13 +118,10 @@ public class SuperScorpion extends Character {
     @Override
     public String toString() {
         return "SuperScorpion{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", name='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }

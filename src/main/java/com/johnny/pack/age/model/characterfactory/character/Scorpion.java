@@ -4,6 +4,7 @@ import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.StingerFactory;
 
 /**
@@ -20,13 +21,13 @@ public class Scorpion extends Character {
     private String name;
 
     private Scorpion() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new StingerFactory());
-        this.hitPoints = 15;
-        this.strength = 8;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
+        setEquipable(WeaponFactoryRunner.createEquipable(new StingerFactory()));
+        setDamage(equipable.getDamage());
+        setHitPoints(15);
+        setStrength(8);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.SCORPION;
     }
 
@@ -76,7 +77,7 @@ public class Scorpion extends Character {
 
     @Override
     public void setDamage(int damage) {
-
+        this.damage = damage;
     }
 
     @Override
@@ -117,13 +118,10 @@ public class Scorpion extends Character {
     @Override
     public String toString() {
         return "Scorpion{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", name='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }

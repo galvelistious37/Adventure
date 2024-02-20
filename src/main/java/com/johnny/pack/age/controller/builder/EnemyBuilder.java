@@ -3,11 +3,9 @@ package com.johnny.pack.age.controller.builder;
 import com.johnny.pack.age.model.characterfactory.*;
 import com.johnny.pack.age.model.characterfactory.character.Character;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class EnemyBuilder {
     private List<Character> enemyList;
@@ -32,7 +30,7 @@ public class EnemyBuilder {
         return IntStream.rangeClosed(1, 15)
                 .mapToObj(num -> new SimpleFactoryCharacter()
                         .getCharacterFactory()
-                        .getCharacter())
+                        .createCharacter())
                 .collect(Collectors.toList());
     }
 
