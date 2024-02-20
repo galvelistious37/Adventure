@@ -77,7 +77,7 @@ public class SuperScorpion extends Character {
 
     @Override
     public void setDamage(int damage) {
-
+        this.damage = damage;
     }
 
     @Override
