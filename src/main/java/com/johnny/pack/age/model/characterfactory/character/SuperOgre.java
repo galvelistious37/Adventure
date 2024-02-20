@@ -5,6 +5,7 @@ import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.FistFactory;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.StingerFactory;
 
 /**
  * SuperOgre POJO class
@@ -20,13 +21,14 @@ public class SuperOgre extends Character {
     private String name;
 
     private SuperOgre() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new FistFactory());
-        this.damage = equipable.getDamage();
-        this.hitPoints = 35;
-        this.strength = 10;
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
+
+        setEquipable(WeaponFactoryRunner.createEquipable(new FistFactory()));
+        setDamage(equipable.getDamage());
+        setHitPoints(35);
+        setStrength(10);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.SUPER_OGRE;
     }
 
@@ -117,13 +119,10 @@ public class SuperOgre extends Character {
     @Override
     public String toString() {
         return "SuperOgre{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", name='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }

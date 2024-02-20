@@ -5,6 +5,7 @@ import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.KnifeFactory;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.StingerFactory;
 
 /**
  * SuperBandit POJO class
@@ -20,13 +21,13 @@ public class SuperBandit extends Character {
     private String name;
 
     private SuperBandit() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new KnifeFactory());
-        this.hitPoints = 20;
-        this.strength = 8;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
+        setEquipable(WeaponFactoryRunner.createEquipable(new KnifeFactory()));
+        setDamage(equipable.getDamage());
+        setHitPoints(20);
+        setStrength(8);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.SUPER_BANDIT;
     }
 
@@ -117,13 +118,10 @@ public class SuperBandit extends Character {
     @Override
     public String toString() {
         return "SuperBandit{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", name='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }

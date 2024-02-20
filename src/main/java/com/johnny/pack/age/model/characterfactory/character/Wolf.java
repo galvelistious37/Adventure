@@ -4,6 +4,7 @@ import com.johnny.pack.age.controller.builder.LocationBuilder;
 import com.johnny.pack.age.model.constant.Constant;
 import com.johnny.pack.age.model.weaponabstractfactory.WeaponFactoryRunner;
 import com.johnny.pack.age.model.weaponabstractfactory.weapon.Equipable;
+import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.StingerFactory;
 import com.johnny.pack.age.model.weaponabstractfactory.weaponfactory.TeethFactory;
 
 /**
@@ -20,13 +21,13 @@ public class Wolf extends Character {
     private String name;
 
     private Wolf() {
-        this.equipable = WeaponFactoryRunner.createEquipable(new TeethFactory());
-        this.hitPoints = 8;
-        this.strength = 6;
-        this.damage = equipable.getDamage();
-        this.location = 0;
-        this.isAlive = true;
-        this.initiative = 0;
+        setEquipable(WeaponFactoryRunner.createEquipable(new TeethFactory()));
+        setDamage(equipable.getDamage());
+        setHitPoints(8);
+        setStrength(6);
+        setLocation(0);
+        setIsAlive(true);
+        setInitiative(0);
         this.name = Constant.WOLF;
     }
 
@@ -117,14 +118,11 @@ public class Wolf extends Character {
     @Override
     public String toString() {
         return "Wolf{" +
-                "equipable=" + equipable +
-                ", hitPoints=" + hitPoints +
-                ", strength=" + strength +
-                ", location=" + location +
-                ", isAlive=" + isAlive +
-                ", initiative=" + initiative +
-                ", NAME='" + name + '\'' +
-                '}';
+                "equipable=" + getEquipable().weaponType() + ", hitPoints=" + getHitPoints() +
+                ", strength=" + getStrength() + ", location=" + getLocation() +
+                ", isAlive=" + getIsAlive() + ", initiative=" + getInitiative() +
+                ", name=" + getName() + ", damage=" + getDamage() +
+                ", dealDamage=" + dealDamage() + "}";
     }
 }
 
