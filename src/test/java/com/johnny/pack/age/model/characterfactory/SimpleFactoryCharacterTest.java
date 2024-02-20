@@ -21,14 +21,6 @@ class SimpleFactoryCharacterTest {
     @InjectMocks
     SimpleFactoryCharacter classUnderTest;
 
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
     @Description("Get BanditCreator")
     void getBanditCreator(){
@@ -44,14 +36,6 @@ class SimpleFactoryCharacterTest {
         CharacterFactory cf = classUnderTest.getCharacterFactory();
         assertEquals(cf.getClass(), OgreCreator.class);
     }
-
-//    @Test
-//    @Description("Get PlayerCreator")
-//    void getPlayerCreator(){
-//        when(mockDice.rollTheDie(8)).thenReturn(1);
-//        CharacterFactory cf = classUnderTest.getCharacterFactory();
-//        assertEquals(cf.getClass(), PlayerCreator.class);
-//    }
 
     @Test
     @Description("Get ScorpionCreator")
